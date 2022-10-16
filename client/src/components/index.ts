@@ -1,1 +1,1 @@
-export { default as HorizontalLineWithText } from './HorizontalLineWithText'
+export { default as HorizontalLineWithText } from './HorizontalLineWithText';

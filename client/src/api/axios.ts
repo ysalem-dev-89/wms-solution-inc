@@ -1,10 +1,10 @@
-import axios from 'axios'
-import config from '../config'
+import axios from 'axios';
+import config from '../config';
 
-const { apiBaseUrl } = config
-const instance = axios.create({ baseURL: apiBaseUrl, withCredentials: true })
+const { apiBaseUrl } = config;
+const instance = axios.create({ baseURL: apiBaseUrl, withCredentials: true });
 
-instance.defaults.headers.post['Content-Type'] = 'application/json'
+instance.defaults.headers.post['Content-Type'] = 'application/json';
 
 // request/response interceptors
 // instance.interceptors.request.use(config => {
@@ -16,4 +16,4 @@ instance.defaults.headers.post['Content-Type'] = 'application/json'
 //   (error) => {}
 // );
 
-export default instance
+export default instance;

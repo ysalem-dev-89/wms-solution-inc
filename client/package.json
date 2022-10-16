@@ -6,15 +6,19 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "axios": "^1.1.2",
+    "bootstrap": "^5.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
+    "react-icons": "^4.6.0",
+    "react-router-dom": "^6.4.2",
+    "react-scripts": "5.0.1",
+    "reactstrap": "^9.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "tsc-lint": "tsc --noEmit",
-    "lint": "eslint --ignore-path .gitignore --ext .tsx,.ts src/"
+    "lint": "eslint --ignore-path .gitignore --fix --ext .tsx,.ts src/"
   },
   "browserslist": {
     "production": [
