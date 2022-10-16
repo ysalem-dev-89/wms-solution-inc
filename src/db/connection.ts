@@ -2,7 +2,6 @@ import { Sequelize } from 'sequelize'
 import environment from '../config/environment'
 
 const dbUri = environment.database.uri
-console.log({ dbUri })
 const connection = new Sequelize(
   `${dbUri}${
     environment.nodeEnv === 'production'
