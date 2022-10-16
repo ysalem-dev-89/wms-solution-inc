@@ -1,30 +1,12 @@
-import {
-  DataTypes,
-  Model,
-  InferAttributes,
-  InferCreationAttributes,
-  Association,
-  NonAttribute,
-  CreationOptional
-} from 'sequelize'
+import { DataTypes, Model } from 'sequelize'
+
 import { sequelize } from '../db/connection'
-import { Book } from './BookModel'
-
-export class User extends Model<
-  InferAttributes<User, { omit: 'books' }>,
-  InferCreationAttributes<User, { omit: 'books' }>
-> {
-  declare id: CreationOptional<number>
+export class User extends Model {
+  declare id: number
   declare username: string
+  declare password: string
   declare email: string
-
-  declare createdAt: CreationOptional<Date>
-  declare updatedAt: CreationOptional<Date>
-
-  declare books?: NonAttribute<Book[]>
-  declare static associations: {
-    books: Association<User, Book>
-  }
+  declare role: string
 }
 
 User.init(
@@ -45,19 +27,17 @@ User.init(
       allowNull: false,
       unique: true
     },
-
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
+    password: {
+      type: DataTypes.STRING(128),
+      allowNull: false
+    },
+    role: {
+      type: DataTypes.STRING(128),
+      allowNull: false
+    }
   },
   {
-    tableName: 'users',
+    modelName: 'User',
     sequelize
   }
 )
-
-User.hasMany(Book, {
-  sourceKey: 'id',
-  foreignKey: 'ownerId',
-  as: 'books'
-})
-Book.belongsTo(User, { as: 'owner' })
