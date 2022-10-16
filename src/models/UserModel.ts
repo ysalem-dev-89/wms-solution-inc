@@ -1,8 +1,8 @@
-import { DataTypes, Model } from 'sequelize'
-
+import { DataTypes, Model, CreationOptional } from 'sequelize'
 import { sequelize } from '../db/connection'
+
 export class User extends Model {
-  declare id: number
+  declare id: CreationOptional<number>
   declare username: string
   declare password: string
   declare email: string
@@ -37,7 +37,7 @@ User.init(
     }
   },
   {
-    modelName: 'User',
+    modelName: 'user',
     sequelize
   }
 )
