@@ -1,12 +1,12 @@
 import { DataTypes, Model, CreationOptional } from 'sequelize'
 import { sequelize } from '../db/connection'
-
+import { role } from '../interfaces/UserInterface'
 export class User extends Model {
   declare id: CreationOptional<number>
   declare username: string
   declare password: string
   declare email: string
-  declare role: string
+  declare role: role
 }
 
 User.init(
@@ -16,7 +16,6 @@ User.init(
       autoIncrement: true,
       primaryKey: true
     },
-
     username: {
       type: DataTypes.STRING(128),
       allowNull: false,
@@ -32,7 +31,8 @@ User.init(
       allowNull: false
     },
     role: {
-      type: DataTypes.STRING(128),
+      type: DataTypes.ENUM,
+      values: Object.values(role),
       allowNull: false
     }
   },
