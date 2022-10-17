@@ -9,17 +9,16 @@ import {
 } from 'sequelize'
 import { sequelize } from '../db/connection'
 import {
-  TransactionStatus,
-  TransactionType
-} from 'interfaces/transactionInterface'
-
+  ITransactionStatus,
+  ITransactionType
+} from '../interfaces/TransactionInterface'
 export class Transaction extends Model<
   InferAttributes<Transaction>,
   InferCreationAttributes<Transaction>
 > {
   declare id: CreationOptional<number>
-  declare status: TransactionStatus
-  declare type: TransactionType
+  declare status: ITransactionStatus
+  declare type: ITransactionType
   declare issuedBy: number
   declare createdAt: CreationOptional<Date>
   declare updatedAt: CreationOptional<Date>

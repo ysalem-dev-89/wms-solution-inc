@@ -1,0 +1,802 @@
+[
+  {
+    "id": "1cafd90c-3bf6-4ef8-84bf-398430a358fc",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "Will25",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "17a153a8-d6bb-49c0-81d1-3d0cdf724255",
+    "status": "pending",
+    "type": "purchase",
+    "issuedBy": "Soledad88",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "6681dd66-7955-4038-a276-c07d6b8759c2",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Hettie.Maggio",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "02e98684-8ad6-4c58-8746-85c58bf0340c",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Vergie_Hammes",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "22245c28-0961-4f88-a8ec-09b87d33404a",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Lelia13",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "ab9ace56-0ccd-4f4e-ae15-14e37f512f41",
+    "status": "reversed",
+    "type": "purchase",
+    "issuedBy": "Joey76",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "152e43b4-c717-4b55-bad9-5e1650c52185",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Marcelo.Mann37",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "0e4c777a-8b15-407e-8fe9-9b6f6d85d6ec",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Samson_Hayes0",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "af9fa1e6-7983-479b-b43d-c41cee71b019",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Gillian_Kub98",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "40389314-37f9-4bce-83ec-7aadfe784071",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "Salma.Weber",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "daf45969-6de6-4868-8350-5e0098d9f5f5",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Josefa_Pouros28",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "716cc6df-32be-47a5-a10e-f9608111baf0",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "Maryam.Smith76",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "8a93cf53-ad7e-4e75-a0c0-d3879b7f0811",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Jaylin_Reinger",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "5ecaf4bc-1a92-4b04-a3cd-327ddfca909c",
+    "status": "reversed",
+    "type": "purchase",
+    "issuedBy": "Destiney49",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "54db3f3a-b215-4368-aab9-c42176d0d8b9",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Destiny_Koss96",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "d0d319d8-f974-4500-875a-a5e8e7ff84aa",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Leila.Maggio",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "ad572dc7-8f25-4b1b-941b-f75423090b30",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Sibyl13",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "8ca6ff4e-1db3-48a6-83f8-fd3bd9b3fc30",
+    "status": "reversed",
+    "type": "purchase",
+    "issuedBy": "Madyson.Bartoletti",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "ba744a19-a8fb-4051-bf4b-ae9bfe5eb728",
+    "status": "pending",
+    "type": "purchase",
+    "issuedBy": "Emerson89",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "75988c4e-c8db-46be-bb95-58a0b6aa4d78",
+    "status": "pending",
+    "type": "purchase",
+    "issuedBy": "Dell60",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "1d05da57-a367-46df-a40e-3116ab0cd69a",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Jazlyn.Hackett49",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "fb84c2e9-40dc-4281-b7ae-aa2baad085aa",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Landen_Nienow13",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "46dce45a-3230-457d-bfe5-ae5097846d5b",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Boris.Leuschke96",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "283f2f87-2010-4b99-b72a-323a94890e33",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "April21",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "e347a4fb-813b-40dd-a28d-941ddc91226c",
+    "status": "pending",
+    "type": "purchase",
+    "issuedBy": "Allison85",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "64ef3a97-e86d-4609-96bd-ddf4467a1a71",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "Kallie_Trantow",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "01f8819f-f7bf-44f5-bab2-7d086ad9cc71",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Victoria_Shields72",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "b974ab4e-e9d2-4af5-8ece-fff24d0e3b8f",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "Marianna.Mayert",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "36835f50-28c2-47d4-b7b0-c6c50d49c024",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Alphonso99",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "10d68b13-4be2-43ae-a9dc-9c5cfac1d6f8",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Johathan.Rosenbaum",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "d66ade8c-6927-41b2-9680-855112aae6bb",
+    "status": "reversed",
+    "type": "purchase",
+    "issuedBy": "Alexanne_Turcotte76",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "66980f88-a27d-401b-8166-0e242de17991",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Alba_Toy",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "3a9fe403-e543-4764-bead-d12e57ac4246",
+    "status": "pending",
+    "type": "purchase",
+    "issuedBy": "Obie.Renner",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "58713085-8f49-45a3-8399-e95ba1f08f1a",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "Wava_Borer61",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "58cf6ba5-79c2-4afb-bf4c-b7dd95a28529",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Geo89",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "85083436-e9db-49ad-b559-cdd9c07d2534",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Cordia.Hoppe",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "a90762aa-3a09-4c2e-ac71-120d1672dcf7",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Douglas18",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "39e28943-6770-4f91-985f-388979d151a9",
+    "status": "reversed",
+    "type": "purchase",
+    "issuedBy": "Dulce.Kuhlman16",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "c55572d2-5610-4dda-b012-5f818a7b966b",
+    "status": "reversed",
+    "type": "purchase",
+    "issuedBy": "Johanna.Pacocha29",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "2b2ed519-ef3c-4506-b1b8-2c9612bf6dfe",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Ferne_Moen",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "0016f7d8-6bc5-4f51-b123-f889d78db14d",
+    "status": "pending",
+    "type": "purchase",
+    "issuedBy": "Ericka40",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "fcd10a7c-ef36-4155-9981-d9c869aa50ef",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Hortense44",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "f37105d0-3575-4532-b375-02e1d4bba66c",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Bridget_Huel83",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "db456114-6425-4d96-8da0-635f3174cee4",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "Sandra71",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "02200a78-33b1-400d-97b4-dea49bf3912c",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Samir.Boyer",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "529095bf-64ad-4b40-99c8-834188a383ab",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Lavinia.Feil",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "8d4af9b9-95f1-43af-a225-0e9164525643",
+    "status": "reversed",
+    "type": "purchase",
+    "issuedBy": "Gonzalo_Homenick",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "1e187138-0b38-4989-885c-d2e2e71949ab",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Clemens53",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "7bcadc1f-3834-4861-95c6-0be3c697701d",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Oral94",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "bb459a84-ed89-4593-b4ad-e2a623d2b926",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Cordia_Sipes98",
+    "createdAt": "2022-10-17T20:00:22.596Z",
+    "updatedAt": "2022-10-17T20:00:22.596Z"
+  },
+  {
+    "id": "2cc259a0-e021-48e1-b518-f369b8397a40",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Ernestina42",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "ce4a73ef-1eb6-46a4-acda-6b8f8c8f91a7",
+    "status": "pending",
+    "type": "purchase",
+    "issuedBy": "Francisco69",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "c82af328-b51a-4c92-b49c-1d92973a2d76",
+    "status": "pending",
+    "type": "purchase",
+    "issuedBy": "Maximus52",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "47fe3654-faa5-4b03-aaa3-ae34e69aa051",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "Eloisa_Moore",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "648eec5e-8d8a-4323-9753-fbdbfef238c5",
+    "status": "reversed",
+    "type": "purchase",
+    "issuedBy": "Erin9",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "bea9d883-9cb4-441b-9184-9f418ab44ab8",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Stanley_Bernier99",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "d2e585ca-a5d3-46a2-bcae-fe1ede42c7b9",
+    "status": "pending",
+    "type": "purchase",
+    "issuedBy": "Marquis_Stanton67",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "0f64e119-c165-496c-90b1-13c0ebc83c8a",
+    "status": "pending",
+    "type": "purchase",
+    "issuedBy": "Monty.Shields",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "57653fbc-846d-4ee6-8ad3-c4b0e5e90e9e",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Ila.Haley",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "d037e477-489a-4e4e-9bcb-003d069fd598",
+    "status": "reversed",
+    "type": "purchase",
+    "issuedBy": "Graham_Carter24",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "5033b077-ea51-4a53-b5f0-6e0f308abf74",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Russell.Romaguera",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "8af1bb44-13d4-4526-a997-eed9e212ff19",
+    "status": "pending",
+    "type": "purchase",
+    "issuedBy": "Linnea_Will16",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "260ea7a5-ac69-4c87-9556-43e74830ec70",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "Hans56",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "17413571-1f5f-4f45-85a5-5a6a6ad53a38",
+    "status": "reversed",
+    "type": "purchase",
+    "issuedBy": "Enrique.Kertzmann25",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "1485c995-0227-41f4-96fb-5594926ffbbd",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Alfredo73",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "9044da37-b18e-40a0-97a3-212dc5d9f9d8",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Ida71",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "cb490f0c-3180-4d32-827f-0588f276ec3a",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Theo.Reichert",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "241663c9-4cb5-4983-8107-a47bce6db3ac",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Sadie.Monahan89",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "1beabc23-90d2-4470-a917-4474c5853c7f",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Raphael.Kassulke",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "33d3dadc-9a0f-4294-a6d1-30ed3729dac4",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Ken.Stamm68",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "aa1258a7-3efc-4eb6-aa17-c05d6919bc8a",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "Rhianna44",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "92bd7775-1517-4cf4-9c1c-517ad3773262",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Elliott73",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "d07e52c1-3e31-4d0c-bb62-df515aaa1f9e",
+    "status": "reversed",
+    "type": "purchase",
+    "issuedBy": "Makenna.Schowalter62",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "0b400808-8da3-41e4-be94-52cd36632256",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Herman_Gusikowski",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "0b493c8f-2634-4b4a-8e72-3a0bd4e6ee8e",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Merl.Sawayn61",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "cc4c2c03-922e-43d0-9f01-fef4579f4496",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Trycia_Dickens41",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "d87e464e-5dc6-4714-afb4-0ce2c5a6864e",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Guiseppe.Muller",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "9b850618-454f-4ec2-88c1-7b8da865f6d0",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Neoma_Herzog",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "1d40aa74-5319-469a-8e8c-a041f6f2dd07",
+    "status": "pending",
+    "type": "purchase",
+    "issuedBy": "Lourdes.Lesch",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "2fe05bc6-528f-4dd2-81b6-c6ab17340b0b",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Clinton.Pagac",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "216458b1-dee7-4f8c-8537-6c849b4abec1",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "Orrin.Kulas",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "9afc8858-86b4-4be4-8ea8-44b5a0630266",
+    "status": "reversed",
+    "type": "purchase",
+    "issuedBy": "Micheal.Hansen",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "483ab9ea-f1dd-441a-85e8-dc393e91619b",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Michaela53",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "145b012d-123e-4d8d-8497-7bfb9d2ff1f9",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "Zachery31",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "25728e96-a207-4e17-b7f2-807ede6723c8",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Jarred43",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "db02f00f-2a40-4edb-85f7-69c3cd2c069f",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Isadore93",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "a3c0cbce-7dde-4932-b3ab-16fa5e4cfc1a",
+    "status": "reversed",
+    "type": "sale",
+    "issuedBy": "Marley_Windler84",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "316032d4-ccbf-42d8-ad11-1060b61579c2",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Sherman95",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "244a3745-0ce3-4955-8276-863f6d689e08",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Devyn_Abbott",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "d2cc66f8-7b07-49e0-87f7-7ca3b86f1429",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Einar.Little",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "ea019e44-f15d-41ae-9ab1-b33787a01a52",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Rae.Toy",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "b93d3937-6235-4f58-8783-ef8a4d22ccf4",
+    "status": "pending",
+    "type": "sale",
+    "issuedBy": "Eleonore.Schiller5",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "a01201c4-cf3f-420c-9007-b7eee52b9452",
+    "status": "pending",
+    "type": "purchase",
+    "issuedBy": "Junius47",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "50c269e8-c325-47c0-9b6a-c30d334aced4",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Kirsten59",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "f92506a1-7b06-4f28-8af3-96788679c732",
+    "status": "closed",
+    "type": "purchase",
+    "issuedBy": "Tyshawn44",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "6351859e-66b2-4c66-9191-48ec176fe92b",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Rico71",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "097f08f7-96a5-4466-8e65-31ecfe740da2",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Holly_Langosh",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "de8abdf4-6a4d-4431-b2e3-d87d66c63d89",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Janelle_Thiel",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "06b2ba13-191b-432f-b65d-0efca02f6db6",
+    "status": "closed",
+    "type": "sale",
+    "issuedBy": "Arlene.Schaden",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  },
+  {
+    "id": "a6f43dad-6932-423d-af76-80a04fc07b5e",
+    "status": "reversed",
+    "type": "purchase",
+    "issuedBy": "Dakota.Pacocha76",
+    "createdAt": "2022-10-17T20:00:22.597Z",
+    "updatedAt": "2022-10-17T20:00:22.597Z"
+  }
+]

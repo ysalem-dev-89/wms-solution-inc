@@ -2,7 +2,6 @@ import express from 'express'
 import compression from 'compression'
 import cors from 'cors'
 import environment from './config/environment'
-import generateFakeData from './helpers/generateFakeData'
 class App {
   public app: express.Application
   public env: string
@@ -10,7 +9,6 @@ class App {
     this.app = express()
     this.env = environment.nodeEnv
     this.initializeMiddlewares()
-    new generateFakeData()
   }
 
   private initializeMiddlewares() {

@@ -10,7 +10,8 @@
     "dev": "cross-env NODE_ENV=development nodemon src/",
     "tsc-lint": "tsc --noEmit && cd client && npm run tsc-lint",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/ && cd client && npm run lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "faker": "ts-node-dev src/scripts/generateFakeData.ts"
   },
   "keywords": [],
   "author": "",

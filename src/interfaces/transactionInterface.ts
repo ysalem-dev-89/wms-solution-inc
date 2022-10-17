@@ -1,10 +1,10 @@
-export enum TransactionStatus {
+export enum ITransactionStatus {
   Pending = 'pending',
   Reversed = 'reversed',
   Closed = 'closed'
 }
 
-export enum TransactionType {
+export enum ITransactionType {
   Purchase = 'purchase',
   Sale = 'sale'
 }
