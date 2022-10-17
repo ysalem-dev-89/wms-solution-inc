@@ -1,7 +1,7 @@
 import { DataTypes, Model, CreationOptional } from 'sequelize';
-import { sequelize } from '../db/connection';
+import { sequelize } from '../db/Database';
 import { role } from '../interfaces/UserInterface';
-export class User extends Model {
+export default class User extends Model {
   declare id: CreationOptional<number>;
   declare username: string;
   declare password: string;
