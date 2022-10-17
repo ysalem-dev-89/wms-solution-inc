@@ -1,7 +1,7 @@
-import { Sequelize } from 'sequelize'
-import environment from '../config/environment'
+import { Sequelize } from 'sequelize';
+import environment from '../config/environment';
 
-const dbUri = environment.database.uri
+const dbUri = environment.database.uri;
 const connection = new Sequelize(
   `${dbUri}${
     environment.nodeEnv === 'production'
@@ -11,6 +11,6 @@ const connection = new Sequelize(
   {
     logging: console.log
   }
-)
+);
 
-export const sequelize = connection // connection instance (RAW queries)
+export const sequelize = connection; // connection instance (RAW queries)

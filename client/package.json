@@ -14,7 +14,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "tsc-lint": "tsc --noEmit",
-    "lint": "eslint --ignore-path .gitignore --ext .tsx,.ts src/"
+    "lint": "eslint --fix --ignore-path .gitignore --ext .tsx,.ts src/"
   },
   "browserslist": {
     "production": [
