@@ -8,14 +8,18 @@ import {
   FaCommentAlt,
   FaShoppingBag
 } from 'react-icons/fa';
+import { AiOutlineTransaction } from 'react-icons/ai';
+
+import { Nav, NavItem } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
-const Sidebar = ({}) => {
+const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+
   const menuItem = [
     {
-      path: '/',
+      path: '/dashboard',
       name: 'Dashboard',
       icon: <FaTh />
     },
@@ -32,7 +36,7 @@ const Sidebar = ({}) => {
     {
       path: '/transactions',
       name: 'Transactions',
-      icon: <FaCommentAlt />
+      icon: <AiOutlineTransaction />
     },
     {
       path: '/users',
@@ -41,82 +45,49 @@ const Sidebar = ({}) => {
     }
   ];
   return (
-    <div style={{ width: isOpen ? '250px' : '50px' }} className="sidebar">
-      <div className="top_section">
+    <aside
+      style={{ width: isOpen ? '320px' : '65px' }}
+      className="sidebar bg-bg-dark"
+    >
+      <div
+        className={`sidebar-top d-flex px-4 py-4 align-items-center ${
+          isOpen ? 'justify-content-between' : 'justify-content-center'
+        }`}
+      >
         <h1
-          style={{ display: isOpen ? 'block' : 'none' }}
-          className="logo fs-4"
+          className={`logo fs-4 text-white m-0 ${
+            isOpen ? 'd-flex' : 'd-none'
+          } gap-2 align-items-center`}
         >
+          <img src="./images/wms_logo.png" alt="wms logo" />
           WMS
         </h1>
-        <div className="bars">
+        <div className="bars d-flex text-white">
           <FaBars onClick={toggle} />
         </div>
       </div>
-      {menuItem.map((item, index) => (
-        <NavLink
-          to={item.path}
-          key={index}
-          className="link"
-          // activeclassName="active"
-        >
-          <div className="icon">{item.icon}</div>
-          <div
-            style={{ display: isOpen ? 'block' : 'none' }}
-            className="link_text"
-          >
-            {item.name}
-          </div>
-        </NavLink>
-      ))}
-    </div>
+      <Nav
+        className={`flex-column overflow-hidden mb-5 ${
+          isOpen ? 'mx-3' : 'mx-2'
+        } mt-3`}
+      >
+        {menuItem.map((item, index) => (
+          <NavItem key={index}>
+            <NavLink
+              to={item.path}
+              className="link text-white d-flex align-items-center px-3 gap-3 rounded mb-2"
+              // activeclassName="active"
+            >
+              <div className="icon">{item.icon}</div>
+              <div className={`link-text ${isOpen ? 'd-block' : 'd-none'}`}>
+                {item.name}
+              </div>
+            </NavLink>
+          </NavItem>
+        ))}
+      </Nav>
+    </aside>
   );
 };
 
 export default Sidebar;
-
-// import { NavItem, NavLink, Nav } from 'reactstrap';
-// import { Link } from 'react-router-dom';
-
-// const Sidebar = ({}) => (
-//   <div className="sidebar">
-//     <div className="sidebar-header">
-//       <span color="info" style={{ color: '#fff' }}>
-//         &times;
-//       </span>
-//       <h3>Bootstrap Sidebar</h3>
-//     </div>
-//     <div className="side-menu">
-//       <Nav vertical className="list-unstyled pb-3">
-//         <p>Dummy Heading</p>
-//         <NavItem>
-//           <NavLink tag={Link} to={'/'}>
-//             Home
-//           </NavLink>
-//         </NavItem>
-//         <NavItem>
-//           <NavLink tag={Link} to={'/products'}>
-//             Products
-//           </NavLink>
-//         </NavItem>
-//         <NavItem>
-//           <NavLink tag={Link} to={'/categories'}>
-//             Categories
-//           </NavLink>
-//         </NavItem>
-//         <NavItem>
-//           <NavLink tag={Link} to={'/transactions'}>
-//             Transactions
-//           </NavLink>
-//         </NavItem>
-//         <NavItem>
-//           <NavLink tag={Link} to={'/users'}>
-//             Users
-//           </NavLink>
-//         </NavItem>
-//       </Nav>
-//     </div>
-//   </div>
-// );
-
-// export default Sidebar;

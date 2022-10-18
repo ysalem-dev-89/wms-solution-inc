@@ -2,25 +2,20 @@
 import { Outlet } from 'react-router-dom';
 import Header from './layouts/Header';
 import Sidebar from './layouts/Sidebar';
+import './css/custom.min.css';
+import './main.css';
 
 function App() {
   return (
-    <>
-      <div className="d-flex">
-        <div>
-          <Sidebar />
-        </div>
-        <div style={{ flex: '1' }}>
-          <Header />
-          <div
-            className="page-body"
-            style={{ padding: '10px', fontSize: '30px' }}
-          >
-            <Outlet />
-          </div>
-        </div>
+    <div className="d-flex">
+      <Sidebar />
+      <div className="container-fluid px-0">
+        <Header />
+        <main className="page-body bg-bg-light">
+          <Outlet />
+        </main>
       </div>
-    </>
+    </div>
   );
 }
 

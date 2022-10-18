@@ -1,71 +1,89 @@
-*{
-  margin:0;
-  padding:0;
-  text-decoration: none;
-}
-.container{
-  display:flex;
-}
-main{
-  width: 100%;
-  padding: 20px;
-}
+
+/* ------------- Start Sidebar Style ------------------ */
 .sidebar{
-  background: #333333;
-  color: #fff;
   height: 100vh;
   width: 200px;
-  transition: all 0.5s;
+  transition: all var(--transition-1);
+  z-index: 2;
 }
-.top_section{
-  display: flex;
-  align-items:center;
-  padding:20px 15px;
+
+
+.sidebar-top{
+  height: 4.375rem;
 }
+
 .logo{
-  font-size: 30px;
+  font-size: 1.875rem;
 }
+
+.logo img {
+  width: 2.5rem;
+  display: block;
+}
+
 .bars{
-  display: flex;
-  font-size: 25px;
-  margin-left: auto;
+  font-size: 1.5rem;
 }
-.link,
-.nav-text .link{
-  display: flex;
-  color: #fff;
-  padding: 10px 15px;
-  gap: 15px;
-  transition: all 0.5s;
+
+.nav .link{
+  transition: all var(--transition-1);
   text-decoration: none;
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
+  position: relative;
 }
-.nav-text .link:not(.active):hover,
-.link:not(.active):hover{
-  background:#333333;
+
+.nav .link:hover,
+.nav .link.active{
+  background: var(--primary);
   color: #fff;
-  transition: all 0.2s;
-}
-.nav-text .link.active:hover,
-.link.active:hover {
-  color: #333333;
 }
 
-.active{
-  background:rgb(226, 225, 225);
-  color: #333333;
-  transition: all 0.2s;
-}
-.icon, .link_text{
-  font-size: 20px;
+.icon, .link-text{
+  font-size: 1rem;
 }
 
+.icon svg {
+  stroke: #fff !important;
+}
+/* ------------- End Sidebar Style ------------- */
 
-/* Header Styles */
+/* ------------- Start Header Styles --------------- */
+
 .header-content{
-  background: #333333;
-  color: #fff;
+  box-shadow: 0 0 60px 1px rgb(199 200 206 / 30%);
 }
 
-.page-title {
-  color: #fff;
+.dp-toggle, .dropdown {
+  transition: 0.4s;
 }
+
+.dp-toggle:hover,
+.dropdown.show .dp-toggle{
+  background-color: var(--border) !important;
+}
+
+.username {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--border);
+}
+
+.breadcrumb li,
+.breadcrumb li a {
+  text-decoration: none !important;
+  font-size: var(--fs-18);
+  font-weight: var(--fw-bold);
+}
+
+/* ------------- End Header Styles --------------- */
+
+
+/* ------------- Start Page body Styles --------------- */
+
+.page-body {
+  margin-top: 0.35rem;
+  padding: 2rem 2rem; 
+  min-height: calc(100% - 4.7rem);
+} 
+
