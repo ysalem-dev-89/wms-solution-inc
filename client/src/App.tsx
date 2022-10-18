@@ -1,5 +1,7 @@
+import AuthPage from './pages/AuthPage'
+
 function App() {
-  return <h1>Starter</h1>
+  return <AuthPage />
 }
 
 export default App

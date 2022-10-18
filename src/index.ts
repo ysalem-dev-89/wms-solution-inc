@@ -8,7 +8,7 @@ const server = http.createServer(app)
 
 dbConnection
   .sync()
-  .then(() =>
+  .then(() => {
     server.listen(port, () => console.log(`app is running on prot: ${port}`))
-  )
+  })
   .catch(console.log)

@@ -3,28 +3,20 @@ import {
   Model,
   InferAttributes,
   InferCreationAttributes,
-  Association,
-  NonAttribute,
   CreationOptional
 } from 'sequelize'
 import { sequelize } from '../db/connection'
-import { Book } from './BookModel'
 
 export class User extends Model<
-  InferAttributes<User, { omit: 'books' }>,
-  InferCreationAttributes<User, { omit: 'books' }>
+  InferAttributes<User>,
+  InferCreationAttributes<User>
 > {
   declare id: CreationOptional<number>
   declare username: string
   declare email: string
-
+  declare password: string
   declare createdAt: CreationOptional<Date>
   declare updatedAt: CreationOptional<Date>
-
-  declare books?: NonAttribute<Book[]>
-  declare static associations: {
-    books: Association<User, Book>
-  }
 }
 
 User.init(
@@ -40,6 +32,10 @@ User.init(
       allowNull: false,
       unique: true
     },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
     email: {
       type: DataTypes.STRING(128),
       allowNull: false,
@@ -54,10 +50,3 @@ User.init(
     sequelize
   }
 )
-
-User.hasMany(Book, {
-  sourceKey: 'id',
-  foreignKey: 'ownerId',
-  as: 'books'
-})
-Book.belongsTo(User, { as: 'owner' })
