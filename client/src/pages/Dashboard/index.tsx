@@ -1,7 +1,6 @@
-import { FC } from 'react';
 import './style.css';
 
-const Dashboard: FC = () => {
+const Dashboard = () => {
   return <div>Dashboard</div>;
 };
 

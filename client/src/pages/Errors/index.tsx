@@ -1,8 +1,7 @@
-import { FC } from 'react';
 import { useRouteError } from 'react-router-dom';
 import './style.css';
 
-const Errors: FC = () => {
+const Errors = () => {
   const error: any = useRouteError();
   console.error(error);
 

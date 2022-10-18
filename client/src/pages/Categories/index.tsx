@@ -1,7 +1,6 @@
-import { FC } from 'react';
 import './style.css';
 
-const Categories: FC = () => {
+const Categories = () => {
   return <div>Categories</div>;
 };
 

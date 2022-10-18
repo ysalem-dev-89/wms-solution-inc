@@ -1,7 +1,6 @@
-import { FC } from 'react';
 import './style.css';
 
-const Products: FC = () => {
+const Products = () => {
   return <div>Products</div>;
 };
 

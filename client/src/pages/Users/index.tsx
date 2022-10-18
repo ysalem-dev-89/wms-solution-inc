@@ -1,7 +1,6 @@
-import { FC } from 'react';
 import './style.css';
 
-const Users: FC = () => {
+const Users = () => {
   return <div>Users</div>;
 };
 

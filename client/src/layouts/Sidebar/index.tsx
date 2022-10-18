@@ -5,7 +5,6 @@ import {
   FaBars,
   FaUserAlt,
   FaRegChartBar,
-  FaCommentAlt,
   FaShoppingBag
 } from 'react-icons/fa';
 import { AiOutlineTransaction } from 'react-icons/ai';
