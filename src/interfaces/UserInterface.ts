@@ -5,3 +5,7 @@ export interface User {
   createdAt?: Date
   updatedAt?: Date
 }
+export enum role {
+  admin = 'admin',
+  customer = 'customer'
+}

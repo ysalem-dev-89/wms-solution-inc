@@ -1,22 +1,12 @@
-import {
-  DataTypes,
-  Model,
-  InferAttributes,
-  InferCreationAttributes,
-  CreationOptional
-} from 'sequelize'
+import { DataTypes, Model, CreationOptional } from 'sequelize'
 import { sequelize } from '../db/connection'
-
-export class User extends Model<
-  InferAttributes<User>,
-  InferCreationAttributes<User>
-> {
+import { role } from '../interfaces/UserInterface'
+export class User extends Model {
   declare id: CreationOptional<number>
   declare username: string
-  declare email: string
   declare password: string
-  declare createdAt: CreationOptional<Date>
-  declare updatedAt: CreationOptional<Date>
+  declare email: string
+  declare role: role
 }
 
 User.init(
@@ -26,7 +16,6 @@ User.init(
       autoIncrement: true,
       primaryKey: true
     },
-
     username: {
       type: DataTypes.STRING(128),
       allowNull: false,
@@ -41,12 +30,14 @@ User.init(
       allowNull: false,
       unique: true
     },
-
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
+    role: {
+      type: DataTypes.ENUM,
+      values: Object.values(role),
+      allowNull: false
+    }
   },
   {
-    tableName: 'users',
+    modelName: 'user',
     sequelize
   }
 )
