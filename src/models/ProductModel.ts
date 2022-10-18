@@ -5,23 +5,23 @@ import {
   InferCreationAttributes,
   CreationOptional,
   NonAttribute
-} from 'sequelize'
-import { sequelize } from '../db/connection'
-import { User } from './UserModel'
+} from 'sequelize';
+import { sequelize } from '../db/connection';
+import { User } from './UserModel';
 
 export class Product extends Model<
   InferAttributes<Product>,
   InferCreationAttributes<Product>
 > {
-  declare id: CreationOptional<number>
-  declare title: string
-  declare description: string
-  declare icon: string
-  declare price: number
-  declare discount: number
-  declare createdAt: CreationOptional<Date>
-  declare updatedAt: CreationOptional<Date>
-  declare owner?: NonAttribute<User>
+  declare id: CreationOptional<number>;
+  declare title: string;
+  declare description: string;
+  declare icon: string;
+  declare price: number;
+  declare discount: number;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+  declare owner?: NonAttribute<User>;
 }
 
 Product.init(
@@ -51,4 +51,4 @@ Product.init(
     updatedAt: DataTypes.DATE
   },
   { tableName: 'products', sequelize }
-)
+);

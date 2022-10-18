@@ -3,25 +3,23 @@ import {
   Model,
   InferAttributes,
   InferCreationAttributes,
-  Association,
-  NonAttribute,
   CreationOptional
-} from 'sequelize'
-import { sequelize } from '../db/connection'
+} from 'sequelize';
+import { sequelize } from '../db/connection';
 import {
   ITransactionStatus,
   ITransactionType
-} from '../interfaces/TransactionInterface'
+} from '../interfaces/TransactionInterface';
 export class Transaction extends Model<
   InferAttributes<Transaction>,
   InferCreationAttributes<Transaction>
 > {
-  declare id: CreationOptional<number>
-  declare status: ITransactionStatus
-  declare type: ITransactionType
-  declare issuedBy: number
-  declare createdAt: CreationOptional<Date>
-  declare updatedAt: CreationOptional<Date>
+  declare id: CreationOptional<number>;
+  declare status: ITransactionStatus;
+  declare type: ITransactionType;
+  declare issuedBy: number;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 }
 
 Transaction.init(
@@ -49,7 +47,7 @@ Transaction.init(
     updatedAt: DataTypes.DATE
   },
   {
-    tableName: 'transactions',
+    modelName: 'Transactions',
     sequelize
   }
-)
+);
