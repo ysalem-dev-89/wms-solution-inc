@@ -1,12 +1,12 @@
-import { DataTypes, Model, CreationOptional } from 'sequelize'
-import { sequelize } from '../db/connection'
-import { role } from '../interfaces/UserInterface'
+import { DataTypes, Model, CreationOptional } from 'sequelize';
+import { sequelize } from '../db/connection';
+import { role } from '../interfaces/UserInterface';
 export class User extends Model {
-  declare id: CreationOptional<number>
-  declare username: string
-  declare password: string
-  declare email: string
-  declare role: role
+  declare id: CreationOptional<number>;
+  declare username: string;
+  declare password: string;
+  declare email: string;
+  declare role: role;
 }
 
 User.init(
@@ -40,4 +40,4 @@ User.init(
     modelName: 'user',
     sequelize
   }
-)
+);

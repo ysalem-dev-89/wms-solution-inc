@@ -1,8 +1,5 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-const userRouter = Router()
+const userRouter = Router();
 
-userRouter.get('user')
-userRouter.post('user')
-
-export default userRouter
+export default userRouter;

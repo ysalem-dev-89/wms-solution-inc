@@ -1,4 +1,5 @@
-import * as yup from 'yup'
+import * as yup from 'yup';
+
 const authSchema = yup.object().shape({
   username: yup.string().min(3).max(15).nullable(false).required(),
   password: yup
@@ -10,5 +11,5 @@ const authSchema = yup.object().shape({
       'Your password must contains at least one number and one special character'
     )
     .required()
-})
-export default authSchema
+});
+export default authSchema;

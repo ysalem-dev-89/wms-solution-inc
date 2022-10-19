@@ -1,43 +1,72 @@
-import { useState } from 'react'
-import AuthButton from '../../components/AuthButton'
-import UsernameInputField from '../../components/UserNameInputField'
-import PasswordInputField from '../../components/PasswordInputField'
-import './styles.css'
-import signInApi from '../../api/auth'
+import { useForm } from 'react-hook-form';
+import './styles.css';
+import signInApi from '../../api/auth';
+import { useState } from 'react';
+import { Credential } from '../../interfaces/CredentialInterface';
 
 function AuthPage() {
-  const [password, setPassword] = useState('')
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPassword(e.target.value)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      username: '',
+      password: ''
+    }
+  });
 
-  const [username, setusername] = useState('')
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setusername(e.target.value)
+  const [error, setError] = useState('');
 
-  const signIn = () => {
-    signInApi({ username, password })
-  }
-
+  const signIn = (data: Credential) => {
+    signInApi(data)
+      .then(result => {
+        if (result.data.error) {
+          setError(result.data.error);
+        } else {
+          setError('');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
   return (
     <div className="auth-page">
-      <form className="form-container">
-        <img
-          className="icon"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIssP9pU6X4eKEFUGvyiGfqHSuHsqXO9v64Q&usqp=CAU"
-          alt="Icon"
-        />
-        <UsernameInputField
-          username={username}
-          handleUsernameChange={handleUsernameChange}
-        />
-        <PasswordInputField
-          password={password}
-          handlePasswordChange={handlePasswordChange}
-        />
-        <AuthButton signIn={signIn} />
+      <form
+        className="form-container"
+        onSubmit={handleSubmit(data => {
+          signIn(data);
+        })}
+      >
+        <div className="input-container">
+          <p className="input-label">User name:</p>
+          <input
+            className="user-name"
+            {...register('username', {
+              required: true
+            })}
+            placeholder="username"
+          />
+        </div>
+        {errors.username && <p className="error">This field is required</p>}
+        <div className="input-container">
+          <p className="input-label">Password</p>
+          <input
+            {...register('password', {
+              required: true
+            })}
+            placeholder="password"
+            className="user-name"
+            type="password"
+          />
+        </div>
+        {errors.password && <p className="error">This field is required</p>}
+        {error && <p className="error">{error}</p>}
+        <input className="button" type="submit" />
       </form>
     </div>
-  )
+  );
 }
 
-export default AuthPage
+export default AuthPage;

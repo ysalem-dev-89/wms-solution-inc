@@ -1,36 +1,30 @@
-import config from '../config/environment'
-import { User } from '../interfaces/UserInterface'
-import jwt from 'jsonwebtoken'
+import config from '../config/environment';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
-export class TokenGen {
-  payload: User
-  constructor(payload: User) {
-    this.payload = payload
-  }
-
-  create() {
+export class AuthHelper {
+  generateToken(payload: string) {
     return new Promise((resolve, reject) => {
       jwt.sign(
-        this.payload,
-        config.secretKey as string,
-        { algorithm: 'HS256', expiresIn: '8h' },
+        { id: payload },
+        config.secretKey,
+        { expiresIn: '8h' },
         (error, token) => {
-          return error ? reject(error) : resolve(token)
+          return error ? reject(error) : resolve(token);
         }
-      )
-    })
+      );
+    });
   }
 
-  verify(token: string) {
+  verifyToken(token: string) {
     return new Promise((resolve, reject) => {
-      jwt.verify(
-        token,
-        config.secretKey as string,
-        { algorithms: ['HS256'] },
-        (error, decoded) => {
-          return error ? reject(error) : resolve(decoded)
-        }
-      )
-    })
+      jwt.verify(token, config.secretKey, (error, decoded) => {
+        return error ? reject(error) : resolve(decoded);
+      });
+    });
+  }
+
+  checkPassword(password: string, userPassword: string) {
+    return bcrypt.compare(password, userPassword);
   }
 }

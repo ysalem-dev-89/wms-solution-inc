@@ -1,68 +1,61 @@
-import { Request, Response } from 'express'
-import bcrypt from 'bcrypt'
-import { createUserQuery, getUserQuery } from '../queries/UserQuery'
-import authSchema from '../validation/userValidation'
-import { TokenGen } from '../helpers/AuthHelper'
-import { Validator } from '../validation/validator'
+import { Request, Response } from 'express';
+import { UserQuery } from '../queries/UserQuery';
+import authSchema from '../validation/userValidation';
+import { AuthHelper } from '../helpers/AuthHelper';
+import { validator } from '../validation/validator';
 
-// export const createUser = () => {createUserQuery}
+export const login = async (req: Request, res: Response) => {
+  const authHelper = new AuthHelper();
 
-export const login = (req: Request, res: Response) => {
-  const tokenGen = new TokenGen({
-    id: -1,
-    username: 'default',
-    email: 'default'
-  })
+  const { password, username } = req.body;
 
-  const { password, username } = req.body
+  const userQuery = new UserQuery();
 
-  const validator = new Validator(authSchema, req.body)
+  try {
+    const { error } = await validator({ schema: authSchema, data: req.body });
 
-  validator
-    .isValid()
-    .then(valid => {
-      if (valid) return getUserQuery(username)
-      throw new Error('Invalid credentials')
-    })
-    .then(user => {
-      if (user) {
-        tokenGen.payload = {
+    if (error) throw new Error(error);
+
+    const user = await userQuery.getUser({
+      filter: { username },
+      attributes: ['id', 'username', 'email', 'createdAt', 'password']
+    });
+
+    if (!user) throw new Error('Invalid credentials');
+
+    const correctPassword = await authHelper.checkPassword(
+      password,
+      user.password
+    );
+
+    if (!correctPassword) throw new Error('Invalid credentials');
+
+    const token = await authHelper.generateToken(user.id.toString());
+
+    res
+      .status(200)
+      .cookie('token', token)
+      .json({
+        status: 200,
+        message: 'Success',
+        user: {
           id: user.id,
           username: user.username,
           email: user.email,
-          createdAt: user.createdAt,
-          updatedAt: user.updatedAt
+          role: user.role
         }
-        return bcrypt.compare(password, user.password)
-      }
-      throw new Error('Invalid credentials')
-    })
-    .then(same => {
-      if (same) {
-        return tokenGen.create()
-      }
-      throw new Error('Invalid credentials')
-    })
-    .then(token => {
-      res
-        .status(200)
-        .cookie('token', token)
-        .json({
-          statusCode: 200,
-          message: 'success',
-          user: {
-            id: tokenGen.payload.id,
-            username: tokenGen.payload.username,
-            email: tokenGen.payload.email,
-            createdAt: tokenGen.payload.createdAt,
-            updatedAt: tokenGen.payload.updatedAt
-          }
-        })
-    })
-    .catch(error => {
+      });
+  } catch (error) {
+    if (error instanceof Error) {
       res.json({
         statusCode: 400,
         error: error.message
-      })
-    })
-}
+      });
+    } else {
+      res.json({
+        statusCode: 400,
+        error: error
+      });
+    }
+  }
+};
