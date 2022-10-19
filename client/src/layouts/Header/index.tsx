@@ -1,15 +1,11 @@
 import '../style.css';
-import { AiOutlineUser } from 'react-icons/ai';
 import {
-  Nav,
   Navbar,
   NavbarBrand,
   NavbarText,
-  NavItem,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem,
   Button,
   Breadcrumb,
   BreadcrumbItem
