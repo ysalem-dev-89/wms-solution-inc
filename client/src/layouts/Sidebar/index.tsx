@@ -13,7 +13,7 @@ import { Nav, NavItem } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
 
   const menuItem = [

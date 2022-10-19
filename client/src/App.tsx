@@ -1,22 +1,11 @@
-// import { RouterProvider } from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
-import Header from './layouts/Header';
-import Sidebar from './layouts/Sidebar';
+import { useRoutes } from 'react-router-dom';
 import './css/custom.min.css';
 import './main.css';
+import themeRoutes from './routes';
 
 function App() {
-  return (
-    <div className="d-flex">
-      <Sidebar />
-      <div className="container-fluid px-0">
-        <Header />
-        <main className="page-body bg-bg-light">
-          <Outlet />
-        </main>
-      </div>
-    </div>
-  );
+  const routing = useRoutes(themeRoutes);
+  return <>{routing}</>;
 }
 
 export default App;

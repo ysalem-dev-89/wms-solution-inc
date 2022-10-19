@@ -1,5 +1,3 @@
-import { createBrowserRouter } from 'react-router-dom';
-import App from '../App';
 import Dashboard from '../pages/Dashboard';
 import Login from '../pages/Login';
 import Categories from '../pages/Categories';
@@ -8,11 +6,12 @@ import Users from '../pages/Users';
 import Profile from '../pages/Profile';
 import Transactions from '../pages/Transactions';
 import Error from '../pages/Errors';
+import ThemeLayout from '../ThemeLayout';
 
-const router = createBrowserRouter([
+const themeRoutes = [
   {
     path: '/',
-    element: <App />,
+    element: <ThemeLayout />,
     errorElement: <Error />,
     children: [
       { index: true, element: <Dashboard /> },
@@ -25,6 +24,6 @@ const router = createBrowserRouter([
       { path: '/transactions', element: <Transactions /> }
     ]
   }
-]);
+];
 
-export default router;
+export default themeRoutes;
