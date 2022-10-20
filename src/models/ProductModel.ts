@@ -6,10 +6,10 @@ import {
   CreationOptional,
   NonAttribute
 } from 'sequelize';
-import { sequelize } from '../db/connection';
-import { User } from './UserModel';
+import { sequelize } from '../db/Database';
+import User from './UserModel';
 
-export class Product extends Model<
+export default class Product extends Model<
   InferAttributes<Product>,
   InferCreationAttributes<Product>
 > {
