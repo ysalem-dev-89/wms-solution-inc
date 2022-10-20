@@ -9,7 +9,7 @@ import { sequelize } from '../db/Database';
 import {
   TransactionStatus,
   TransactionType
-} from 'interfaces/transactionInterface';
+} from '../interfaces/transactionInterface';
 
 export default class Transaction extends Model<
   InferAttributes<Transaction>,
@@ -45,7 +45,7 @@ Transaction.init(
     updatedAt: DataTypes.DATE
   },
   {
-    tableName: 'transactions',
+    modelName: 'Transactions',
     sequelize
   }
 );

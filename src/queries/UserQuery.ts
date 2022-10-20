@@ -1,5 +1,5 @@
 import { SearchUser } from '../interfaces/SearchUserInterface';
-import { User } from '../models/UserModel';
+import User from '../models/UserModel';
 
 export class UserQuery {
   getUser = ({ filter, attributes }: SearchUser) =>
