@@ -1,0 +1,20 @@
+.input-container{
+    width: 80%;
+}
+.input-label{
+    margin: 12px;
+    text-transform: capitalize;
+    font-weight: bolder;
+    font-size: 16px;
+}
+.input-label::after{
+    content: "*";
+    color: red;
+    font-weight: bolder;
+}
+.password{
+    padding: 12px 3%;
+    width: 100%;
+    border: 1px solid #A1AEB7;
+    border-radius: 8px;
+}

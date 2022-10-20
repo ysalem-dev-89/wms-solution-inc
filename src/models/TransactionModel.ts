@@ -5,20 +5,20 @@ import {
   InferCreationAttributes,
   CreationOptional
 } from 'sequelize';
-import { sequelize } from '../db/connection';
+import { sequelize } from '../db/Database';
 import {
   TransactionStatus,
   TransactionType
 } from '../interfaces/transactionInterface';
 
-export class Transaction extends Model<
+export default class Transaction extends Model<
   InferAttributes<Transaction>,
   InferCreationAttributes<Transaction>
 > {
   declare id: CreationOptional<number>;
   declare status: TransactionStatus;
   declare type: TransactionType;
-  declare issuedBy: number;
+
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -40,10 +40,7 @@ Transaction.init(
       values: ['purchase', 'sale'],
       allowNull: false
     },
-    issuedBy: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
+
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   },

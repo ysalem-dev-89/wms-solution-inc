@@ -6,14 +6,15 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const { DATABASE_URL, PORT, NODE_ENV } = process.env;
+const { DATABASE_URL, PORT, NODE_ENV, SECRET_KEY } = process.env;
 
 const config = {
   database: {
     uri: DATABASE_URL
   },
   port: PORT || 3000,
-  nodeEnv: NODE_ENV || 'development'
+  nodeEnv: NODE_ENV || 'development',
+  secretKey: SECRET_KEY || ''
 };
 
 export default config;
