@@ -128,4 +128,4 @@ dist
 .pnp.*
 
 # Fake data
-# src/scripts/output
+src/scripts/output

@@ -1,5 +1,11 @@
+import { useRoutes } from 'react-router-dom';
+import './css/custom.min.css';
+import './main.css';
+import themeRoutes from './routes';
+
 function App() {
-  return <h1>Starter</h1>;
+  const routing = useRoutes(themeRoutes);
+  return <>{routing}</>;
 }
 
 export default App;

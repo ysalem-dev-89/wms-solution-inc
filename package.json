@@ -11,7 +11,7 @@
     "tsc-lint": "tsc --noEmit && cd client && npm run tsc-lint",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/ && cd client && npm run lint",
     "prepare": "husky install",
-    "faker": "ts-node-dev src/scripts/generateFakeData.ts"
+    "generate-data": "ts-node-dev src/scripts/generateData.ts"
   },
   "keywords": [],
   "author": "",
@@ -42,6 +42,7 @@
     "express": "^4.18.1",
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.25.0"
+    "sequelize": "^6.25.0",
+    "yup": "^0.32.11"
   }
 }

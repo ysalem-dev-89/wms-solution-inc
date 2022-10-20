@@ -1,0 +1,34 @@
+
+// Theme Colors
+/********************/
+$primary: #4b49ac;
+$info: #248afd;;
+$danger: #ff4747;
+$success: #57b657;
+$warning: #ffc100;
+$dark: #282f3a;
+$light: #f6faff;
+$secondary: #a3a4a5;
+
+
+
+// import the functions and the variables
+@import '../../node_modules/bootstrap/scss/_functions';
+@import '../../node_modules/bootstrap/scss/_variables';
+
+$custom-theme-colors: (
+  'black': #212529,
+  'blue': #0d6efd,
+  'border-focus': #86b7fe,
+  'border': #ced4da,
+  'bg-dark': #232227,
+  'bg-light': #F5F7FF,
+  'primary-light': rgba(75, 73, 172, 0.6),
+  'grey-400': #76838f,
+  'grey-300': #ccc,
+);
+
+$theme-colors: map-merge($custom-theme-colors, $theme-colors );
+
+// import bootstrap
+@import '../../node_modules/bootstrap/scss/bootstrap';
