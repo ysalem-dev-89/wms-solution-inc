@@ -1,34 +1,46 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { UserQuery } from '../queries/UserQuery';
 import authSchema from '../validation/userValidation';
 import { AuthHelper } from '../helpers/AuthHelper';
 import { validator } from '../validation/validator';
+import GenericError from '../helpers/GenericError';
 
-export const login = async (req: Request, res: Response) => {
-  const authHelper = new AuthHelper();
+const userQuery = new UserQuery();
+const authHelper = new AuthHelper();
 
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { password, username } = req.body;
-
-  const userQuery = new UserQuery();
 
   try {
     const { error } = await validator({ schema: authSchema, data: req.body });
 
-    if (error) throw new Error(error);
+    if (error) throw new GenericError(error, 400);
 
     const user = await userQuery.getUser({
       filter: { username },
-      attributes: ['id', 'username', 'email', 'createdAt', 'password']
+      attributes: [
+        'id',
+        'username',
+        'email',
+        'password',
+        'role',
+        'createdAt',
+        'updatedAt'
+      ]
     });
 
-    if (!user) throw new Error('Invalid credentials');
+    if (!user) throw new GenericError('Invalid credentials', 400);
 
     const correctPassword = await authHelper.checkPassword(
       password,
       user.password
     );
 
-    if (!correctPassword) throw new Error('Invalid credentials');
+    if (!correctPassword) throw new GenericError('Invalid credentials', 400);
 
     const token = await authHelper.generateToken(user.id.toString());
 
@@ -45,17 +57,8 @@ export const login = async (req: Request, res: Response) => {
           role: user.role
         }
       });
-  } catch (error) {
-    if (error instanceof Error) {
-      res.json({
-        statusCode: 400,
-        error: error.message
-      });
-    } else {
-      res.json({
-        statusCode: 400,
-        error: error
-      });
-    }
+  } catch (error: unknown) {
+    const exception = error as GenericError;
+    next(exception);
   }
 };

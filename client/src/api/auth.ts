@@ -1,6 +1,4 @@
 import { Credential } from '../interfaces/CredentialInterface';
-import instance from './axios';
+import axios from './axios';
 
-const signInApi = (data: Credential) => instance.post('/signin', data);
-
-export default signInApi;
+export const signInApi = (data: Credential) => axios.post('/signin', data);
