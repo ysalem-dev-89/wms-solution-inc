@@ -46,13 +46,16 @@
 .icon svg {
   stroke: #fff !important;
 }
+
+.navbar-text {
+  padding: 0.25rem 0;
+}
 /* ------------- End Sidebar Style ------------- */
 
 /* ------------- Start Header Styles --------------- */
 
 .header-content{
-  box-shadow: 0 0 60px 1px rgb(199 200 206 / 30%);
-  box-shadow: 0px 5px 21px -5px rgb(205, 209, 225, 25%);
+  border-bottom: 1px solid var(--border);
 }
 
 .dp-toggle, .dropdown {
@@ -83,7 +86,6 @@
 /* ------------- Start Page body Styles --------------- */
 
 .page-body {
-  margin-top: 0.15rem;
   padding: 2rem 2rem; 
   min-height: calc(100% - 4.7rem);
 } 
