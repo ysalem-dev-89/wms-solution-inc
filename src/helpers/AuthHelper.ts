@@ -20,13 +20,14 @@ export default class AuthHelper {
     });
   }
 
-  static verifyToken(token: string) {
+  static verifyToken(token: string): Promise<{ id: number }> {
     return new Promise((resolve, reject) => {
       jwt.verify(token, config.jwt.secretKey, (error, decoded) => {
         if (error) {
           reject(error);
         } else {
-          resolve(decoded);
+          const decodedJWT = decoded as { id: number };
+          resolve(decodedJWT);
         }
       });
     });

@@ -2,8 +2,9 @@ import { Router } from 'express';
 import ProductController from '../controllers/ProductController';
 import AuthMiddleware from '../middlewares/AuthMiddleware';
 
-const productRouter = Router();
+const router = Router();
 
-productRouter.put('/products/:id', ProductController.updateProduct);
+router.put('/:id', ProductController.updateProduct);
 
-export default productRouter;
+export default router;
+

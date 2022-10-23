@@ -12,10 +12,11 @@ export default class AuthMiddleware {
   ) => {
     try {
       const { token } = req.cookies;
-      if (!token) throw new GenericError('Unauthorized', 401);
+      if (!token) throw new GenericError('Unauthenticated', 401);
 
-      const { id }: any = await AuthHelper.verifyToken(token);
-      if (!id) throw new GenericError('Unauthorized', 401);
+      const { id } = await AuthHelper.verifyToken(token);
+      if (!id) throw new GenericError('Unauthenticated', 401);
+
 
       const user = await UserQuery.getUser({
         filter: { id },
@@ -24,7 +25,7 @@ export default class AuthMiddleware {
 
       if (!user) throw new GenericError('Internal Server Error', 500);
 
-      req.user = {
+      res.locals.user = {
         id: user.id,
         username: user.username,
         email: user.email,

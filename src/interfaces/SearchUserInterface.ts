@@ -1,6 +1,6 @@
 export interface SearchUser {
   filter: {
-    id?: string;
+    id?: number;
     username?: string;
     email?: string;
   };

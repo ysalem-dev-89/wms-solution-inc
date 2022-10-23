@@ -4,11 +4,11 @@ import ProductInterface from 'interfaces/ProductInterface';
 export default class ProductQuery {
   static update = async (product: ProductInterface) => {
     const { id, title, description, icon, price, discount } = product;
-    return await Product.update(
+    return Product.update(
       { title, description, icon, price, discount },
       {
         where: {
-          id: id
+          id
         },
         returning: true
       }

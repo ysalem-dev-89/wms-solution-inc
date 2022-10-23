@@ -2,8 +2,8 @@ import { useRouteError } from 'react-router-dom';
 import './style.css';
 
 const Errors = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const error: any = useRouteError();
-  console.error(error);
 
   return (
     <div id="error-page">

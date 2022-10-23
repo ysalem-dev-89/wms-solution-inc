@@ -59,17 +59,17 @@ export default class AuthController {
     }
   };
 
-  static checkLogin = async (
+  static authenticateWithToken = async (
     req: LoginControllerRequest,
     res: Response,
     next: NextFunction
   ) => {
     try {
       const { token } = req.cookies;
-      if (!token) throw new GenericError('Unauthorized', 401);
+      if (!token) throw new GenericError('Unauthenticated', 401);
 
-      const { id }: any = await AuthHelper.verifyToken(token);
-      if (!id) throw new GenericError('Unauthorized', 401);
+      const { id } = await AuthHelper.verifyToken(token);
+      if (!id) throw new GenericError('Unauthenticated', 401);
 
       const user = await UserQuery.getUser({
         filter: { id },

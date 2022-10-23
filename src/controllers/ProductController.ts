@@ -1,19 +1,19 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import GenericError from '../helpers/GenericError';
 import ProductQuery from 'queries/ProductQuery';
-
+import { ProductRequest } from 'interfaces/ProductRequest';
 export default class ProductController {
   static updateProduct = async (
-    req: Request,
+    req: ProductRequest,
     res: Response,
     next: NextFunction
   ) => {
-    const id: number = parseInt(req.params.id as string);
-    const { title, description, icon, price, discount } = req.body;
-
     try {
+      const { id } = req.params;
+      const { title, description, icon, price, discount } = req.body;
+
       const updatedProducts = await ProductQuery.update({
-        id,
+        id: Number(id),
         title,
         description,
         icon,
@@ -21,7 +21,7 @@ export default class ProductController {
         discount
       });
 
-      if (!updatedProducts) throw new GenericError('Product is not found', 400);
+      if (!updatedProducts) throw new GenericError('Not Found', 404);
 
       res.json({
         status: 200,
