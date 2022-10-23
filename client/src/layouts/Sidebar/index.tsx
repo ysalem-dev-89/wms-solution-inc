@@ -8,6 +8,7 @@ import {
   FaShoppingBag
 } from 'react-icons/fa';
 import { AiOutlineTransaction } from 'react-icons/ai';
+import Logo from '../../assets/images/wms_logo.png';
 
 import { Nav, NavItem } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
@@ -58,7 +59,7 @@ const Sidebar = () => {
             isOpen ? 'd-flex' : 'd-none'
           } gap-2 align-items-center`}
         >
-          <img src="./images/wms_logo.png" alt="wms logo" />
+          <img src={Logo} alt="wms logo" />
           WMS
         </h1>
         <div className="bars d-flex text-white">
@@ -75,7 +76,6 @@ const Sidebar = () => {
             <NavLink
               to={item.path}
               className="link text-white d-flex align-items-center px-3 gap-3 rounded mb-2"
-              // activeclassName="active"
             >
               <div className="icon">{item.icon}</div>
               <div className={`link-text ${isOpen ? 'd-block' : 'd-none'}`}>

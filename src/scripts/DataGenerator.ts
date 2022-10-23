@@ -50,7 +50,9 @@ export default class DataGenerator {
         status: faker.helpers.objectValue(TransactionStatus),
         type,
         issuedBy:
-          type === 'sale' ? faker.datatype.number({ min: 2, max: 100 }) : 1,
+          type === TransactionType.Sale
+            ? faker.datatype.number({ min: 2, max: 100 })
+            : 1,
         createdAt: new Date(), //TODO get dates ranged, for analytics
         updatedAt: new Date()
       };

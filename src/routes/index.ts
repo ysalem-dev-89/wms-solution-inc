@@ -5,8 +5,8 @@ import userRouter from './UserRoute';
 
 const router = Router();
 
-router.use(authRouter);
-router.use(userRouter);
+router.use('/auth', authRouter);
+router.use('/users', userRouter);
 
 router.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
   const exception = err as GenericError;

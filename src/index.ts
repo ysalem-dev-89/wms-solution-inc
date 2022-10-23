@@ -1,8 +1,9 @@
 import http from 'http';
 import app from './app';
 import { sequelize as dbConnection } from './db/connection';
+import environment from './config/environment';
 
-const port = 4000;
+const port = environment.port;
 
 const server = http.createServer(app);
 

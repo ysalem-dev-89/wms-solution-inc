@@ -1,30 +1,38 @@
-import config from '../config/environment';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import config from '../config/environment';
 
-export class AuthHelper {
-  generateToken(payload: string) {
+export default class AuthHelper {
+  static generateToken(id: string) {
     return new Promise((resolve, reject) => {
       jwt.sign(
-        { id: payload },
-        config.secretKey,
+        { id },
+        config.jwt.secretKey,
         { expiresIn: '8h' },
         (error, token) => {
-          return error ? reject(error) : resolve(token);
+          if (error) {
+            reject(error);
+          } else {
+            resolve(token);
+          }
         }
       );
     });
   }
 
-  verifyToken(token: string) {
+  static verifyToken(token: string) {
     return new Promise((resolve, reject) => {
-      jwt.verify(token, config.secretKey, (error, decoded) => {
-        return error ? reject(error) : resolve(decoded);
+      jwt.verify(token, config.jwt.secretKey, (error, decoded) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(decoded);
+        }
       });
     });
   }
 
-  checkPassword(password: string, userPassword: string) {
-    return bcrypt.compare(password, userPassword);
+  static checkPassword(password: string, hashedPassword: string) {
+    return bcrypt.compare(password, hashedPassword);
   }
 }

@@ -21,20 +21,20 @@ function AuthPage() {
 
   const signIn = async (data: Credential) => {
     try {
-      const response = await authApi.signInApi(data);
+      const _response = await authApi.signInApi(data);
       // TODO: redirect to dashboard
     } catch (error: unknown) {
       const exception = error as AxiosError;
       if (exception.response) {
         if (exception.response.status === 400) {
-          setError('The username or password is incorrect');
+          setError('Please double check your password and email.');
         } else {
-          setError('Something went wrong');
+          setError('Something went wrong, please try again later.');
         }
       } else if (exception.request) {
-        setError('Something went wrong, please try again later');
+        setError('Something went wrong, please try again later.');
       } else {
-        setError('Something went wrong');
+        setError('Something went wrong, please try again later.');
       }
     }
   };

@@ -19,7 +19,7 @@ class App {
     this.app.use(compression());
     this.app.use(
       cors({
-        origin: 'http://localhost:3000',
+        origin: environment.client.origin,
         credentials: true // access-control-allow-credentials:true
       })
     );
