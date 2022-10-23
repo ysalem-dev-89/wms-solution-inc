@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import fs from 'fs';
 import { join } from 'path';
 import { User, Role } from '../interfaces/UserInterface';
-import { Product } from '../interfaces/ProductInterface';
+import ProductInterface from '../interfaces/ProductInterface';
 import {
   Transaction,
   TransactionStatus,
@@ -29,7 +29,7 @@ export default class DataGenerator {
     }));
   }
 
-  static generateProducts(): Product[] {
+  static generateProducts(): ProductInterface[] {
     return [...Array(this.PRODUCTS_COUNT)].map((_, i) => ({
       id: i + 1,
       title: faker.commerce.productName(),
@@ -89,7 +89,9 @@ export default class DataGenerator {
         flag: 'r'
       });
       if (fileName === 'products.json') {
-        return JSON.parse(data).map((item: Product): number => item.id);
+        return JSON.parse(data).map(
+          (item: ProductInterface): number => item.id
+        );
       }
       return JSON.parse(data).map((item: Transaction): number => item.id);
     } catch (error) {

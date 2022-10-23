@@ -1,5 +1,5 @@
 const constants = {
-  APP_NAME: '' // TODO: just a template, remove it later
+  secret_key: 'SECRET_KEY' || '' // TODO: just a template, remove it later
 };
 
 export default constants;

@@ -1,10 +1,10 @@
 import { Response, NextFunction } from 'express';
+import { LoginControllerRequest } from '../interfaces/AuthInterface';
 import UserQuery from '../queries/UserQuery';
 import authSchema from '../validation/userValidation';
 import AuthHelper from '../helpers/AuthHelper';
 import { validator } from '../validation/validator';
 import GenericError from '../helpers/GenericError';
-import { LoginControllerRequest } from '../interfaces/AuthInterface';
 
 export default class AuthController {
   static login = async (
@@ -56,6 +56,40 @@ export default class AuthController {
     } catch (error: unknown) {
       const exception = error as GenericError;
       next(exception);
+    }
+  };
+
+  static checkLogin = async (
+    req: LoginControllerRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { token } = req.cookies;
+      if (!token) throw new GenericError('Unauthorized', 401);
+
+      const { id }: any = await AuthHelper.verifyToken(token);
+      if (!id) throw new GenericError('Unauthorized', 401);
+
+      const user = await UserQuery.getUser({
+        filter: { id },
+        attributes: ['id', 'username', 'email', 'password', 'role']
+      });
+
+      if (!user) throw new GenericError('Internal Server Error', 500);
+
+      res.status(200).json({
+        statusCode: 200,
+        message: 'success',
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role
+        }
+      });
+    } catch (error) {
+      next(error);
     }
   };
 }
