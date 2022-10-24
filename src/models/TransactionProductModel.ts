@@ -29,7 +29,7 @@ TransactionProduct.init(
     }
   },
   {
-    modelName: 'transactionProduct',
+    modelName: 'TransactionProduct',
     sequelize
   }
 );
