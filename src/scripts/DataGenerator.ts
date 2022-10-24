@@ -7,7 +7,7 @@ import {
   Transaction,
   TransactionStatus,
   TransactionType
-} from '../interfaces/transactionInterface';
+} from '../interfaces/TransactionInterface';
 import { TransactionProduct } from 'interfaces/TransactionProductInterface';
 
 export default class DataGenerator {

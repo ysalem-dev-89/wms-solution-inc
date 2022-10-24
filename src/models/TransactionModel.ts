@@ -5,20 +5,15 @@ import {
   InferCreationAttributes,
   CreationOptional
 } from 'sequelize';
-import { sequelize } from '../db/Database';
-import {
-  TransactionStatus,
-  TransactionType
-} from '../interfaces/transactionInterface';
+import { TransactionType } from '../interfaces/TransactionInterface';
+import { sequelize } from '../db/connection';
 
 export default class Transaction extends Model<
   InferAttributes<Transaction>,
   InferCreationAttributes<Transaction>
 > {
   declare id: CreationOptional<number>;
-  declare status: TransactionStatus;
   declare type: TransactionType;
-
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -30,22 +25,16 @@ Transaction.init(
       autoIncrement: true,
       primaryKey: true
     },
-    status: {
-      type: DataTypes.ENUM,
-      values: ['pending', 'reversed', 'closed'],
-      allowNull: false
-    },
     type: {
       type: DataTypes.ENUM,
-      values: ['purchase', 'sale'],
+      values: Object.values(TransactionType),
       allowNull: false
     },
-
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   },
   {
-    modelName: 'Transactions',
+    modelName: 'Transaction',
     sequelize
   }
 );

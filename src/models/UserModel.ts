@@ -1,6 +1,7 @@
 import { DataTypes, Model, CreationOptional } from 'sequelize';
 import { sequelize } from '../db/connection';
 import { Role } from '../interfaces/UserInterface';
+import Transaction from './TransactionModel';
 
 export default class User extends Model {
   declare id: CreationOptional<number>;
@@ -22,14 +23,14 @@ User.init(
       allowNull: false,
       unique: true
     },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
     email: {
       type: DataTypes.STRING(128),
       allowNull: false,
       unique: true
+    },
+    password: {
+      type: DataTypes.STRING(128),
+      allowNull: false
     },
     role: {
       type: DataTypes.ENUM,
@@ -38,7 +39,14 @@ User.init(
     }
   },
   {
-    modelName: 'user',
+    modelName: 'User',
     sequelize
   }
 );
+
+User.hasMany(Transaction, {
+  foreignKey: 'issuedBy'
+});
+Transaction.belongsTo(User, {
+  foreignKey: 'issuedBy'
+});

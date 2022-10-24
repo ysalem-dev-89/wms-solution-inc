@@ -3,11 +3,11 @@ import {
   Model,
   InferAttributes,
   InferCreationAttributes,
-  CreationOptional,
-  NonAttribute
+  CreationOptional
 } from 'sequelize';
-import { sequelize } from '../db/Database';
-import User from './UserModel';
+import Transaction from './TransactionModel';
+import TransactionProduct from './TransactionProductModel';
+import { sequelize } from '../db/connection';
 
 export default class Product extends Model<
   InferAttributes<Product>,
@@ -21,7 +21,6 @@ export default class Product extends Model<
   declare discount: number;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
-  declare owner?: NonAttribute<User>;
 }
 
 Product.init(
@@ -50,5 +49,7 @@ Product.init(
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   },
-  { tableName: 'products', sequelize }
+  { modelName: 'Product', sequelize }
 );
+
+Product.belongsToMany(Transaction, { through: TransactionProduct });
