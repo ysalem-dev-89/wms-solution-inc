@@ -14,4 +14,8 @@ export default class ProductQuery {
       }
     );
   };
+
+  static deleteProduct = async (id: number): Promise<number> => {
+    return Product.destroy({ where: { id } });
+  };
 }
