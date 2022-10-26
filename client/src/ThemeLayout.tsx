@@ -7,7 +7,7 @@ const ThemeLayout = () => (
     <Sidebar />
     <div className="container-fluid px-0">
       <Header />
-      <main className="page-body bg-bg-light">
+      <main className="page-body bg-bg-light overflow-auto">
         <Outlet />
       </main>
     </div>

@@ -87,6 +87,8 @@
 
 .page-body {
   padding: 2rem 2rem; 
-  min-height: calc(100% - 4.7rem);
+  height: calc(100vh - 4rem);
+  overflow-y: auto;
+  /* height: fit-content; */
 } 
 

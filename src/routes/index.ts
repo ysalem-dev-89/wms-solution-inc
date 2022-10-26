@@ -3,12 +3,14 @@ import GenericError from '../helpers/GenericError';
 import authRouter from './AuthRoute';
 import userRouter from './UserRoute';
 import productRouter from './ProductRoute';
+import categoryRouter from './CategoryRoute';
 
 const router = Router();
 
 router.use('/auth', authRouter);
 router.use('/users', userRouter);
 router.use('/products', productRouter);
+router.use('/categories', categoryRouter);
 
 router.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
   const exception = err as GenericError;

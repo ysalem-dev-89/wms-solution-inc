@@ -20,11 +20,11 @@
     justify-content: space-evenly;
     align-items: center;
 }
-.icon{
+.auth-page .icon{
     width: 50px;
     height: 50px;
 }
-.button{
+.auth-page .button{
     background-color: #6571FF;
     color: white;
     height: 40px;

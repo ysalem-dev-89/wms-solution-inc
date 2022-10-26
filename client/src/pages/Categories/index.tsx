@@ -1,7 +1,74 @@
+import { Button } from 'reactstrap';
 import './style.css';
+import { useForm } from 'react-hook-form';
+import { GoSearch } from 'react-icons/go';
+import { CategoryTable } from '../../components/CategoryTable';
+import { useState } from 'react';
+import CategoryInterface from '../../interfaces/CategoryInterface';
+import CategoryModal from '../../components/CategoryModal';
+import { CategorySearch } from '../../interfaces/FormData';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Categories = () => {
-  return <div>Categories</div>;
+  const { register, handleSubmit } = useForm<CategorySearch>();
+
+  const [search, setSearch] = useState<string>('');
+  const onSubmit = handleSubmit(data => {
+    setSearch(data.search);
+  });
+
+  const [modal, setModal] = useState<boolean>(false);
+  const [category, setCategory] = useState<CategoryInterface | null>(null);
+  const [isSucceed, setIsSucceed] = useState<boolean>(false);
+
+  const handleAddClick = () => {
+    setCategory(null);
+    setModal(true);
+  };
+
+  return (
+    <section className="data-table-section bg-white p-4">
+      <header>
+        <h3 className="h6 fw-bold mb-5">Categories</h3>
+        <div className="d-flex justify-content-between mb-3 align-items-center">
+          <form onSubmit={onSubmit}>
+            <div className="search-input">
+              <GoSearch />
+              <input
+                type="search"
+                {...register('search')}
+                className="p-2 border border-border outline-none rounded"
+                placeholder="Search"
+              />
+            </div>
+          </form>
+          <div className="right ms-auto">
+            <div>
+              <Button color="primary" onClick={e => handleAddClick()}>
+                Add Category
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <CategoryTable
+        setCategory={setCategory}
+        setModal={setModal}
+        isSucceed={isSucceed}
+        setIsSucceed={setIsSucceed}
+        search={search}
+      />
+      <CategoryModal
+        category={category}
+        modal={modal}
+        setModal={setModal}
+        isSucceed={isSucceed}
+        setIsSucceed={setIsSucceed}
+      />
+      <ToastContainer />
+    </section>
+  );
 };
 
 export default Categories;
