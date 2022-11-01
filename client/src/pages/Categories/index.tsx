@@ -3,12 +3,13 @@ import './style.css';
 import { useForm } from 'react-hook-form';
 import { GoSearch } from 'react-icons/go';
 import { CategoryTable } from '../../components/CategoryTable';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import CategoryInterface from '../../interfaces/CategoryInterface';
 import CategoryModal from '../../components/CategoryModal';
 import { CategorySearch } from '../../interfaces/FormData';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { PageContext } from '../../contexts/PageContext';
 
 const Categories = () => {
   const { register, handleSubmit } = useForm<CategorySearch>();
@@ -21,6 +22,12 @@ const Categories = () => {
   const [modal, setModal] = useState<boolean>(false);
   const [category, setCategory] = useState<CategoryInterface | null>(null);
   const [isSucceed, setIsSucceed] = useState<boolean>(false);
+
+  const { pages, setPages } = useContext(PageContext);
+
+  useEffect(() => {
+    setPages([{ title: 'Categories', link: 'categories' }]);
+  }, []);
 
   const handleAddClick = () => {
     setCategory(null);

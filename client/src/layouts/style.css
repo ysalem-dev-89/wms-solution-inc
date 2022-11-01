@@ -76,7 +76,7 @@
 .breadcrumb li,
 .breadcrumb li a {
   text-decoration: none !important;
-  font-size: var(--fs-18);
+  font-size: var(--fs-16);
   font-weight: var(--fw-bold);
 }
 

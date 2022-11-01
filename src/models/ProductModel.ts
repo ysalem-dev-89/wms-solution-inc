@@ -3,9 +3,9 @@ import {
   Model,
   InferAttributes,
   InferCreationAttributes,
-  CreationOptional
+  CreationOptional,
+  HasManyAddAssociationMixin
 } from 'sequelize';
-import Transaction from './TransactionModel';
 import TransactionProduct from './TransactionProductModel';
 import { sequelize } from '../db/connection';
 
@@ -21,6 +21,11 @@ export default class Product extends Model<
   declare discount: number;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
+
+  declare addTransactionProduct: HasManyAddAssociationMixin<
+    TransactionProduct,
+    TransactionProduct['id']
+  >;
 }
 
 Product.init(
@@ -52,4 +57,10 @@ Product.init(
   { modelName: 'Product', sequelize }
 );
 
-Product.belongsToMany(Transaction, { through: TransactionProduct });
+TransactionProduct.belongsTo(Product, {
+  foreignKey: 'ProductId'
+});
+
+Product.hasMany(TransactionProduct, {
+  foreignKey: 'ProductId'
+});

@@ -10,11 +10,13 @@ import {
   Breadcrumb,
   BreadcrumbItem
 } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { PageContext } from '../../contexts/PageContext';
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { pages, setPages } = useContext(PageContext);
 
   const toggle = () => setDropdownOpen(!dropdownOpen);
 
@@ -24,13 +26,28 @@ const Header = () => {
         <Navbar light expand="md" className="py-0">
           <NavbarBrand href="/">
             {' '}
-            <Breadcrumb listClassName="mb-0">
+            <Breadcrumb listClassName="mb-0 fs-5">
               <BreadcrumbItem className="text-decoration-none">
-                <a href="#">Home</a>
+                <Link to="/">Home</Link>
               </BreadcrumbItem>
-              <BreadcrumbItem className="text-decoration-none" active>
-                Dashboard
-              </BreadcrumbItem>
+              {pages.map((item, index, arr) =>
+                index < arr.length - 1 ? (
+                  <BreadcrumbItem
+                    key={item.link}
+                    className="text-decoration-none"
+                  >
+                    <Link to={item.link}>{item.title}</Link>
+                  </BreadcrumbItem>
+                ) : (
+                  <BreadcrumbItem
+                    key={item.link}
+                    className="text-decoration-none"
+                    active
+                  >
+                    {item.title}
+                  </BreadcrumbItem>
+                )
+              )}
             </Breadcrumb>
           </NavbarBrand>
           <NavbarText className="nav-text d-flex">

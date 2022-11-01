@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 import { sequelize } from '../db/connection';
 import Product from '../models/ProductModel';
 export default class CategoryQuery {
-  static create = async (name: string) => {
+  static createNewCategory = async (name: string) => {
     return Category.create(
       { name },
       {
@@ -12,7 +12,7 @@ export default class CategoryQuery {
       }
     );
   };
-  static update = async (category: CategoryInterface) => {
+  static updateOneCategory = async (category: CategoryInterface) => {
     const { id, name } = category;
     return Category.update(
       { name },
@@ -25,7 +25,7 @@ export default class CategoryQuery {
     );
   };
 
-  static delete = async (id: string) => {
+  static deleteOneCategory = async (id: string) => {
     return Category.destroy({
       where: {
         id
@@ -33,11 +33,7 @@ export default class CategoryQuery {
     });
   };
 
-  static getCount = async () => {
-    return Category.count();
-  };
-
-  static search = async ({
+  static getCategories = async ({
     name,
     limit,
     offset
@@ -46,8 +42,7 @@ export default class CategoryQuery {
     limit: number;
     offset: number;
   }) => {
-    console.log(name, offset, limit);
-    return Category.findAll({
+    return Category.findAndCountAll({
       where: sequelize.where(sequelize.fn('lower', sequelize.col('name')), {
         [Op.like]: `%${name.toLowerCase()}%`
       }),
@@ -67,6 +62,7 @@ export default class CategoryQuery {
           duplicating: false
         }
       ],
+      order: [['id', 'DESC']],
       group: ['name', 'Category.id', 'Category.createdAt'],
       raw: true,
       limit,

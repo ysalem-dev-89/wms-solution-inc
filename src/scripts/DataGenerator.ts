@@ -6,7 +6,7 @@ import {
   TransactionStatus,
   TransactionType
 } from '../interfaces/TransactionInterface';
-import TransactionProduct from '../interfaces/TransactionProductInterface';
+import { TransactionProduct } from '../interfaces/TransactionProductInterface';
 
 export default class DataGenerator {
   static USERS_COUNT = 10;
@@ -33,17 +33,17 @@ export default class DataGenerator {
   static createTP(
     transactionId: number,
     productId: number,
-    status: string,
+    status: TransactionStatus,
     unitPrice: number,
     quantity: number,
     createdAt: Date,
     updatedAt: Date
   ): TransactionProduct {
     return {
-      transactionId,
-      productId,
-      status,
+      TransactionId: transactionId,
+      ProductId: productId,
       unitPrice,
+      status,
       quantity,
       createdAt,
       updatedAt
@@ -182,7 +182,7 @@ export default class DataGenerator {
         if (tp.updatedAt < tempSalesTP[i].saleCreatedAt) {
           if (maxQuantity - randQuantity <= 0) {
             const newTempSale = this.createTempSale(
-              tp.productId,
+              tp.ProductId,
               maxQuantity,
               tp.unitPrice,
               tempSalesTP[i].saleCreatedAt
@@ -195,7 +195,7 @@ export default class DataGenerator {
             }
             maxQuantity -= randQuantity;
             const newTempSale = this.createTempSale(
-              tp.productId,
+              tp.ProductId,
               randQuantity,
               tp.unitPrice,
               tempSalesTP[i].saleCreatedAt

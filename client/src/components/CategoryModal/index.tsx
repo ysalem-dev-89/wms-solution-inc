@@ -32,12 +32,12 @@ export default function CategoryModal(props: {
 
       let result = null;
       if (props.category) {
-        result = await Category.update({
+        result = await Category.updateOneCategory({
           id: Number(props.category?.id),
           name: data.category
         });
       } else {
-        result = await Category.create(data.category);
+        result = await Category.createNewCategory(data.category);
       }
       if (result && result.data.message == 'Success') {
         props.setIsSucceed(true);

@@ -1,4 +1,9 @@
-import { DataTypes, Model, CreationOptional } from 'sequelize';
+import {
+  DataTypes,
+  Model,
+  CreationOptional,
+  HasManyAddAssociationMixin
+} from 'sequelize';
 import { sequelize } from '../db/connection';
 import { Role } from '../interfaces/UserInterface';
 import Transaction from './TransactionModel';
@@ -9,6 +14,10 @@ export default class User extends Model {
   declare password: string;
   declare email: string;
   declare role: Role;
+  declare addTransaction: HasManyAddAssociationMixin<
+    Transaction,
+    Transaction['id']
+  >;
 }
 
 User.init(

@@ -95,4 +95,46 @@ export default class ProductController {
       next(error);
     }
   };
+  static getOneProduct = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { id } = req.params;
+      const product = await ProductQuery.getOneProduct({
+        id: Number(id)
+      });
+
+      res.json({
+        status: 200,
+        message: 'Success',
+        product: product
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  static getProductsByTitle = async (
+    req: ProductRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { title = '' } = req.query;
+      const products = await ProductQuery.getProductsByTitle({
+        title
+      });
+
+      res.json({
+        status: 200,
+        message: 'Success',
+        totalCount: products.length,
+        items: products
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

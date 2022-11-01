@@ -3,9 +3,9 @@ import CategoryController from '../controllers/CategoryController';
 
 const router = Router();
 
-router.post('/', CategoryController.create);
-router.put('/:id', CategoryController.update);
-router.delete('/:id', CategoryController.delete);
-router.get('/', CategoryController.search);
+router.post('/', CategoryController.createNewCategory);
+router.put('/:id', CategoryController.updateOneCategory);
+router.delete('/:id', CategoryController.deleteOneCategory);
+router.get('/', CategoryController.getCategories);
 
 export default router;

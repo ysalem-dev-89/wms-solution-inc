@@ -1,0 +1,63 @@
+.data-table-section{
+  border-radius: 2rem;
+}
+
+input:disabled {
+  background-color: transparent !important;
+}
+
+.search-input {
+  position: relative;
+}
+
+.search-input svg {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.search-input input {
+  padding-left: 2.5rem !important;
+  outline: none;
+}
+
+.search-input .list-group {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.transaction-inputs form {
+  width: 100%;
+  padding: 0;
+}
+
+.transaction-details .search-input {
+  margin-bottom: 2rem;
+}
+
+.search-input .dropdown-menu {
+  top: 99% !important;
+  width: 100%;
+  padding: 0 !important;
+  border-radius: 0;
+
+}
+
+.search-input .dropdown-item-text{
+  padding: 0 !important;
+}
+
+.search-input .list-group-item {
+  padding: 0.7rem 1.2rem;
+  border-bottom: 0.5px solid var(--border);
+  margin: 0 !important;
+}
+
+.search-input .list-group-item:hover {
+  background-color: var(--primary);
+  color: #fff;
+}

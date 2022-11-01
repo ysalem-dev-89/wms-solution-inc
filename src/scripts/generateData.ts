@@ -4,23 +4,23 @@ import crypto from 'crypto';
 import { Parser } from 'json2csv';
 import DataGenerator from './DataGenerator';
 import { Transaction } from '../interfaces/TransactionInterface';
-import TransactionProduct from '../interfaces/TransactionProductInterface';
+import { TransactionProduct } from '../interfaces/TransactionProductInterface';
 
 const createHash = (str: string): string => {
   return crypto.createHash('sha256').update(str).digest('hex');
 };
 
 const eliminateDuplicates = (
-  arr: { productId: number; transactionId: number }[]
+  arr: { ProductId: number; TransactionId: number }[]
 ) => {
   const hashSet = new Set();
   const uniqueArray = [] as unknown as {
-    productId: number;
-    transactionId: number;
+    ProductId: number;
+    TransactionId: number;
   }[];
 
   arr.forEach(obj => {
-    const hash = createHash(`${obj.productId}-${obj.transactionId}`);
+    const hash = createHash(`${obj.ProductId}-${obj.TransactionId}`);
 
     if (!hashSet.has(hash)) {
       uniqueArray.push(obj);

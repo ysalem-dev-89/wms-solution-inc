@@ -8,7 +8,7 @@ const port = environment.port;
 const server = http.createServer(app);
 
 dbConnection
-  .sync({ force: environment.nodeEnv === 'development' }) // TODO: remove it and update the populate db script
+  .sync(/*{ force: environment.nodeEnv === 'development' }*/) // TODO: remove it and update the populate db script
   .then(() => {
     server.listen(port, () => console.log(`app is running on prot: ${port}`));
   })

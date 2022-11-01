@@ -16,71 +16,71 @@ const Products = [
     description: 'desc1',
     icon: '*******',
     price: 6,
-    discount: 12,
-    categoryId: 1
+    discount: 0.15,
+    categoryId: 6
   },
   {
     title: 'product2',
     description: 'desc2',
     icon: '////////',
     price: 20,
-    discount: 3,
-    categoryId: 1
+    discount: 0.03,
+    categoryId: 6
   },
   {
     title: 'product3',
     description: 'desc3',
     icon: '----------',
     price: 14,
-    discount: 9,
-    categoryId: 2
+    discount: 0.09,
+    categoryId: 6
   },
   {
-    title: 'product1',
-    description: 'desc1',
+    title: 'product4',
+    description: 'desc4',
     icon: '*******',
     price: 6,
-    discount: 12,
-    categoryId: 2
+    discount: 0.02,
+    categoryId: 4
   },
   {
-    title: 'product2',
+    title: 'product5',
     description: 'desc2',
     icon: '////////',
     price: 20,
-    discount: 3,
+    discount: 0.03,
     categoryId: 2
   },
   {
-    title: 'product3',
+    title: 'product6',
     description: 'desc3',
     icon: '----------',
     price: 14,
-    discount: 9,
-    categoryId: 1
+    discount: 0.09,
+    categoryId: 5
   },
   {
-    title: 'product1',
+    title: 'product7',
     description: 'desc1',
     icon: '*******',
-    price: 6,
-    discount: 12,
-    categoryId: 1
+    price: 60,
+    discount: 0.12,
+    categoryId: 4
   },
   {
-    title: 'product2',
+    title: 'product8',
     description: 'desc2',
     icon: '////////',
-    price: 20,
-    discount: 3,
+    price: 450,
+    discount: 0.33,
     categoryId: 3
   },
   {
-    title: 'product3',
+    title: 'product9',
     description: 'desc3',
     icon: '----------',
-    price: 14,
-    discount: 9,
+    price: 200,
+    discount: 0.23,
     categoryId: 3
   }
 ];
@@ -119,11 +119,21 @@ const categories = [
 ];
 
 const transactions = [
-  { type: TransactionType.Purchase },
-  { type: TransactionType.Purchase },
-  { type: TransactionType.Sale },
-  { type: TransactionType.Sale },
-  { type: TransactionType.Sale }
+  { type: TransactionType.Purchase, issuedBy: 1 },
+  { type: TransactionType.Purchase, issuedBy: 2 },
+  { type: TransactionType.Sale, issuedBy: 3 },
+  { type: TransactionType.Sale, issuedBy: 1 },
+  { type: TransactionType.Sale, issuedBy: 1 },
+  { type: TransactionType.Purchase, issuedBy: 2 },
+  { type: TransactionType.Purchase, issuedBy: 2 },
+  { type: TransactionType.Sale, issuedBy: 2 },
+  { type: TransactionType.Sale, issuedBy: 3 },
+  { type: TransactionType.Sale, issuedBy: 1 },
+  { type: TransactionType.Purchase, issuedBy: 2 },
+  { type: TransactionType.Purchase, issuedBy: 2 },
+  { type: TransactionType.Sale, issuedBy: 2 },
+  { type: TransactionType.Sale, issuedBy: 3 },
+  { type: TransactionType.Sale, issuedBy: 2 }
 ];
 
 const transactionProduct = [
@@ -197,6 +207,18 @@ const populateDB = async (): Promise<void> => {
       password: '123456',
       email: 'admin@homtail.com',
       role: Role.admin
+    },
+    {
+      username: 'customer1',
+      password: '123456',
+      email: 'employee1@homtail.com',
+      role: Role.customer
+    },
+    {
+      username: 'customer2',
+      password: '123456',
+      email: 'employee2@homtail.com',
+      role: Role.customer
     }
   ]);
   await Category.bulkCreate(categories);

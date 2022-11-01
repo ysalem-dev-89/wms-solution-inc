@@ -138,11 +138,11 @@ th, td {
 
 th:first-of-type {
   border-top-left-radius: 5px;
-  border: none !important;
+  /* border: none !important; */
 }
 th:last-of-type {
   border-top-right-radius: 5px;
-  border: none !important;
+  /* border: none !important; */
 }
 tr:last-of-type td:first-of-type {
   border-bottom-left-radius: 5px;
