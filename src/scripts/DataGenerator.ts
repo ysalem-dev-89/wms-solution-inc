@@ -75,7 +75,7 @@ export default class DataGenerator {
   }
 
   static generateProducts(): Omit<Product, 'id'>[] {
-    return [...Array(this.PRODUCTS_COUNT)].map((_, i) => ({
+    return [...Array(this.PRODUCTS_COUNT)].map((_, _i) => ({
       title: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
       icon: faker.internet.avatar(),

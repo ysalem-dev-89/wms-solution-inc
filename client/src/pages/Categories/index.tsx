@@ -1,20 +1,20 @@
 import { Button } from 'reactstrap';
-import './style.css';
 import { useForm } from 'react-hook-form';
 import { GoSearch } from 'react-icons/go';
-import { CategoryTable } from '../../components/CategoryTable';
+import { ToastContainer } from 'react-toastify';
 import { useContext, useEffect, useState } from 'react';
+import { CategorySearch } from '../../interfaces/FormData';
+import { CategoryTable } from '../../components/CategoryTable';
 import CategoryInterface from '../../interfaces/CategoryInterface';
 import CategoryModal from '../../components/CategoryModal';
-import { CategorySearch } from '../../interfaces/FormData';
-import { ToastContainer } from 'react-toastify';
+import './style.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { PageContext } from '../../contexts/PageContext';
 
 const Categories = () => {
   const { register, handleSubmit } = useForm<CategorySearch>();
-
   const [search, setSearch] = useState<string>('');
+
   const onSubmit = handleSubmit(data => {
     setSearch(data.search);
   });
@@ -23,7 +23,7 @@ const Categories = () => {
   const [category, setCategory] = useState<CategoryInterface | null>(null);
   const [isSucceed, setIsSucceed] = useState<boolean>(false);
 
-  const { pages, setPages } = useContext(PageContext);
+  const { setPages } = useContext(PageContext);
 
   useEffect(() => {
     setPages([{ title: 'Categories', link: 'categories' }]);
@@ -52,7 +52,7 @@ const Categories = () => {
           </form>
           <div className="right ms-auto">
             <div>
-              <Button color="primary" onClick={e => handleAddClick()}>
+              <Button color="primary" onClick={_e => handleAddClick()}>
                 Add Category
               </Button>
             </div>

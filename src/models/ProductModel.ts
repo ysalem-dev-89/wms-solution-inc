@@ -1,18 +1,13 @@
 import {
   DataTypes,
   Model,
-  InferAttributes,
-  InferCreationAttributes,
   CreationOptional,
   HasManyAddAssociationMixin
 } from 'sequelize';
 import TransactionProduct from './TransactionProductModel';
 import { sequelize } from '../db/connection';
 
-export default class Product extends Model<
-  InferAttributes<Product>,
-  InferCreationAttributes<Product>
-> {
+export default class Product extends Model {
   declare id: CreationOptional<number>;
   declare title: string;
   declare description: string;

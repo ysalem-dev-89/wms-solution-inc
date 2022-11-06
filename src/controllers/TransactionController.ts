@@ -1,9 +1,8 @@
 import { Response, NextFunction } from 'express';
+import { ValidationError } from 'sequelize';
 import TransactionQuery from '../queries/TransactionQuery';
 import { TransactionRequest } from '../interfaces/TransactionRequest';
 import GenericError from '../helpers/GenericError';
-import { Transaction, ValidationError } from 'sequelize';
-import User from '../models/UserModel';
 
 export default class TransactionController {
   static createNewTransaction = async (

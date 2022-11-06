@@ -104,14 +104,14 @@ export const CategoryTable = (props: {
                   <td>
                     <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
                       <button
-                        onClick={e => {
+                        onClick={_e => {
                           handleView(category.id, category.name);
                         }}
                       >
                         <FiEdit2 className="text-blue" /> Edit
                       </button>
                       <button
-                        onClick={e => {
+                        onClick={_e => {
                           handleRemove(category.id);
                         }}
                       >

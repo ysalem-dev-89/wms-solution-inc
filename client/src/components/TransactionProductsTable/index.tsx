@@ -25,7 +25,7 @@ export const TransactionProductsTable = (props: {
   modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [error, setError] = useState<string>('');
+  const [error] = useState<string>('');
   const { register } = useForm();
 
   const changeQuantityValue = (
@@ -90,7 +90,7 @@ export const TransactionProductsTable = (props: {
                     <div className="quantity-content d-flex justify-content-center align-items-center">
                       <Button
                         color="primary"
-                        onClick={e => {
+                        onClick={_e => {
                           changeQuantityValue(
                             transactionProduct.Product.id || -1,
                             Number(transactionProduct.quantity) - 1,
@@ -117,7 +117,7 @@ export const TransactionProductsTable = (props: {
 
                       <Button
                         color="primary"
-                        onClick={e => {
+                        onClick={_e => {
                           changeQuantityValue(
                             transactionProduct.Product.id || -1,
                             Number(transactionProduct.quantity) + 1,
@@ -140,11 +140,11 @@ export const TransactionProductsTable = (props: {
                   </td>
                   <td>
                     <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
-                      <button onClick={e => handleEdit(transactionProduct)}>
+                      <button onClick={_e => handleEdit(transactionProduct)}>
                         <FiEdit2 className="text-blue" /> Edit
                       </button>
                       <button
-                        onClick={e => {
+                        onClick={_e => {
                           handleRemove(transactionProduct);
                         }}
                       >

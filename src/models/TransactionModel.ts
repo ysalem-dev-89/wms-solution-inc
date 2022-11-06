@@ -10,10 +10,7 @@ import { TransactionType } from '../interfaces/TransactionInterface';
 import { sequelize } from '../db/connection';
 import TransactionProduct from './TransactionProductModel';
 
-export default class Transaction extends Model<
-  InferAttributes<Transaction>,
-  InferCreationAttributes<Transaction>
-> {
+export default class Transaction extends Model {
   declare id: CreationOptional<number>;
   declare type: TransactionType;
   declare createdAt: CreationOptional<Date>;

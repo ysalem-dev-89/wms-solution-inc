@@ -18,20 +18,19 @@ export const TablePagination = (props: {
       <PaginationItem>
         <PaginationLink
           first
-          onClick={e => {
+          onClick={_e => {
             props.setCurrentPage(1);
           }}
         />
       </PaginationItem>
       {pageNumbers.map(pageNumber => {
-        console.log(pageNumber);
         return (
           <PaginationItem
             key={pageNumber}
             className={pageNumber == props.currentPage ? 'active' : ''}
           >
             <PaginationLink
-              onClick={e => {
+              onClick={_e => {
                 props.setCurrentPage(pageNumber);
               }}
             >
@@ -43,7 +42,7 @@ export const TablePagination = (props: {
       <PaginationItem>
         <PaginationLink
           last
-          onClick={e => {
+          onClick={_e => {
             props.setCurrentPage(props.numOfPages);
           }}
         />

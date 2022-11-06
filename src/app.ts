@@ -1,9 +1,9 @@
 import express from 'express';
 import compression from 'compression';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import environment from './config/environment';
 import router from './routes';
-import cookieParser from 'cookie-parser';
 
 class App {
   public app: express.Application;
@@ -24,6 +24,7 @@ class App {
       })
     );
     this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cookieParser());
     this.app.use('/api/v1/', router);
   }

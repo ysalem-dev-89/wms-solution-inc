@@ -204,7 +204,7 @@ const populateDB = async (): Promise<void> => {
   await User.bulkCreate([
     {
       username: 'admin',
-      password: '123456',
+      password: '$2a$12$R34l5gjz4FICkMyJtdlPouHVhprTio7jh8J3E7v3g/9h9D69UrPVG', // @#12Aaerdf
       email: 'admin@homtail.com',
       role: Role.admin
     },

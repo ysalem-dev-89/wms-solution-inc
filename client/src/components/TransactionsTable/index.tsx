@@ -104,7 +104,7 @@ export const TransactionsTable = (props: {
                   <td>
                     <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
                       <button
-                        onClick={e => {
+                        onClick={_e => {
                           navigate(`edit/${transaction.id}`);
                         }}
                       >

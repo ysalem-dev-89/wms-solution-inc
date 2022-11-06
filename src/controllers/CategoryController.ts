@@ -22,7 +22,7 @@ export default class CategoryController {
       });
     } catch (error) {
       const exception = error as ValidationError;
-      const validationError = exception?.errors[0]?.message;
+      const validationError = exception.errors[0].message;
 
       if (validationError) {
         next(new GenericError(validationError, 400));
@@ -55,7 +55,7 @@ export default class CategoryController {
       });
     } catch (error) {
       const exception = error as ValidationError;
-      const validationError = exception?.errors[0]?.message;
+      const validationError = exception.errors[0].message;
 
       if (validationError) {
         next(new GenericError(validationError, 400));

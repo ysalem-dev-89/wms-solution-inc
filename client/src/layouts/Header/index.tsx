@@ -1,34 +1,76 @@
-import '../style.css';
 import {
-  Navbar,
-  NavbarBrand,
-  NavbarText,
   Dropdown,
+  NavbarText,
   DropdownToggle,
   DropdownMenu,
   Button,
   Breadcrumb,
   BreadcrumbItem
 } from 'reactstrap';
-import { Link, NavLink } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { NavLink, Link, redirect } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { useState, useContext } from 'react';
 import { PageContext } from '../../contexts/PageContext';
+import { authApi } from '../../api';
+import Logo from '../../assets/images/wms_logo.png';
+import useAuth from '../../hooks/useAuth';
+import { dispatch } from '../../interfaces/authprovider';
+import '../style.css';
+
+const logout = async (dispatch?: dispatch) => {
+  try {
+    await authApi.logOut();
+
+    dispatch?.({
+      type: 'LOGOUT'
+    });
+
+    redirect('/');
+  } catch (error: unknown) {}
+};
 
 const Header = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { pages, setPages } = useContext(PageContext);
+  const { handleSubmit } = useForm<any>();
+  const { pages } = useContext(PageContext);
 
+  const { auth, dispatch } = useAuth();
+
+  const { user } = auth;
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(!dropdownOpen);
 
   return (
     <header>
       <div className="header-content bg-white py-0 container-fluid">
-        <Navbar light expand="md" className="py-0">
-          <NavbarBrand href="/">
-            {' '}
-            <Breadcrumb listClassName="mb-0 fs-5">
+        <nav
+          className={`navbar navbar-expand-lg d-flex flex-row${
+            auth?.loggedIn ? '-reverse' : ''
+          } justify-content-between p-1`}
+        >
+          {auth?.loggedIn ? (
+            ''
+          ) : (
+            <Breadcrumb listClassName="mb-0 p-2">
               <BreadcrumbItem className="text-decoration-none">
-                <Link to="/">Home</Link>
+                <NavLink
+                  to="login"
+                  style={({ isActive }) =>
+                    isActive ? undefined : { color: 'rgb(126, 123, 121)' }
+                  }
+                >
+                  LogIn
+                </NavLink>
+              </BreadcrumbItem>
+              <BreadcrumbItem className="text-decoration-none">
+                <NavLink
+                  to="about"
+                  style={({ isActive }) =>
+                    isActive ? undefined : { color: 'rgb(126, 123, 121)' }
+                  }
+                >
+                  About Us
+                </NavLink>
               </BreadcrumbItem>
               {pages.map((item, index, arr) =>
                 index < arr.length - 1 ? (
@@ -49,50 +91,58 @@ const Header = () => {
                 )
               )}
             </Breadcrumb>
-          </NavbarBrand>
-          <NavbarText className="nav-text d-flex">
-            <div className="d-flex rounded">
-              <Dropdown
-                isOpen={dropdownOpen}
-                toggle={toggle}
-                className="rounded"
-              >
-                <DropdownToggle
-                  caret={false}
-                  className="dp-toggle bg-white border-0 rounded"
+          )}
+          {auth?.loggedIn ? (
+            <NavbarText className="nav-text d-flex">
+              <div className="d-flex rounded">
+                <Dropdown
+                  isOpen={dropdownOpen}
+                  toggle={toggle}
+                  className="rounded"
                 >
-                  <span className="username d-flex justify-content-center align-items-center text-white bg-primary rounded-circle">
-                    AU
-                  </span>
-                </DropdownToggle>
-                <DropdownMenu>
-                  <div className="rounded px-3 py-2">
-                    <div className="d-flex gap-3 align-items-center">
-                      <div>
-                        <span className="p-4 bg-border rounded-circle text-black">
-                          AU
-                        </span>
+                  <DropdownToggle
+                    caret={false}
+                    className="dp-toggle bg-white border-0 rounded"
+                  >
+                    <span className="username d-flex justify-content-center align-items-center text-white bg-primary rounded-circle">
+                      AU
+                    </span>
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <div className="rounded px-3 py-2">
+                      <div className="d-flex gap-3 align-items-center">
+                        <div>
+                          <span className="p-4 bg-border rounded-circle text-black">
+                            AU
+                          </span>
+                        </div>
+                        <div className="flex-grow-1">
+                          <p className="mb-1">{user?.email}</p>
+                          <p className="mb-2">{user?.username}</p>
+                        </div>
                       </div>
-                      <div className="flex-grow-1">
-                        <p className="mb-1">Username</p>
-                        <p className="mb-2">email@example.com</p>
-                      </div>
-                    </div>
-                    <hr />
-                    <Button color="danger">
-                      <NavLink
-                        to="/login"
-                        className="text-white d-block text-decoration-none"
+                      <hr />
+                      <form
+                        onSubmit={handleSubmit(() => {
+                          logout(dispatch);
+                        })}
                       >
-                        Logout
-                      </NavLink>
-                    </Button>{' '}
-                  </div>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          </NavbarText>
-        </Navbar>
+                        <Button color="danger">Logout</Button>{' '}
+                      </form>
+                    </div>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+            </NavbarText>
+          ) : (
+            <img
+              src={Logo}
+              alt=""
+              className="navbar-brand"
+              style={{ width: '2.5rem', display: 'block' }}
+            />
+          )}
+        </nav>
       </div>
     </header>
   );
