@@ -44,9 +44,9 @@ User.init(
   }
 );
 
-User.hasMany(Transaction, {
-  foreignKey: 'issuedBy'
-});
-Transaction.belongsTo(User, {
-  foreignKey: 'issuedBy'
-});
+// User.hasMany(Transaction, {
+//   foreignKey: 'issuedBy'
+// });
+// Transaction.belongsTo(User, {
+//   foreignKey: 'issuedBy'
+// });

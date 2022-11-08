@@ -2,7 +2,8 @@ import { sequelize } from './connection';
 import Product from '../models/ProductModel';
 import User from '../models/UserModel';
 import Transaction from '../models/TransactionModel';
-import ProductTransaction from '../models/TransactionProductModel';
+import TransactionProduct from '../models/TransactionProductModel';
+import Category from '../models/CategoryModel';
 
 export { sequelize };
 export default class Database {
@@ -24,8 +25,33 @@ export default class Database {
     Transaction.belongsTo(User, {
       foreignKey: 'issuedBy'
     });
-    Product.belongsToMany(Transaction, { through: ProductTransaction });
-    Transaction.belongsToMany(Product, { through: ProductTransaction });
+
+    Category.hasMany(Product, {
+      foreignKey: 'categoryId'
+    });
+    Product.belongsTo(Category, {
+      foreignKey: 'categoryId'
+    });
+
+    Product.hasMany(TransactionProduct, {
+      foreignKey: 'productId'
+    });
+    TransactionProduct.belongsTo(Product, {
+      foreignKey: 'productId'
+    });
+
+    Transaction.hasMany(TransactionProduct, {
+      onDelete: 'CASCADE',
+      foreignKey: 'transactionId'
+    });
+    TransactionProduct.belongsTo(Transaction, {
+      onDelete: 'CASCADE',
+      foreignKey: 'transactionId'
+    });
+
+    // Product.belongsToMany(Transaction, { through: TransactionProduct });
+    // Transaction.belongsToMany(Product, { through: TransactionProduct });
+
     try {
       await sequelize.sync({ force: true });
     } catch (error) {

@@ -1,0 +1,59 @@
+.chart {
+    margin-top: 30px;
+    position: relative;
+    padding-top: 50px;
+    flex:1;
+}
+
+.chart .dropdown {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.chart .dropdown .dropdown-item {
+    font-size: 12px !important;
+}
+
+.chart .dropdown button {
+    font-size: 14px !important;
+}
+
+.card-group {
+    gap: 20px;
+}
+
+.card {
+    text-align: center;
+    border-radius: 5px !important;
+    box-shadow: 2px 5px 4px rgba(0,0,0, 0.04);
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border: none;
+}
+
+.total-purchases{
+background-color: rgba(255, 99, 132, .7) !important
+}
+.total-sales{
+background-color: rgba(53, 235, 108, 0.6) !important
+}
+.total-revenues{
+background-color: rgba(224, 180, 47, 0.7) !important
+}
+
+.top-selling{
+    /* width: 300px !important; */
+    /* aspect-ratio: 1/1; */
+    /* height: 300px !important; */
+    /* width: 50% */
+    /* border: 1px solid green;
+    min-width: 20px !important;
+    height: 300px !important;
+    display: none; */
+}
+
+canvas {
+    display: none;
+}
+

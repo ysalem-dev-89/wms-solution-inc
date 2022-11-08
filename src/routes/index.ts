@@ -4,6 +4,7 @@ import authRouter from './AuthRoute';
 import userRouter from './UserRoute';
 import productRouter from './ProductRoute';
 import categoryRouter from './CategoryRoute';
+import analyticsRouter from './analyticsRoute';
 
 const router = Router();
 
@@ -11,6 +12,7 @@ router.use('/auth', authRouter);
 router.use('/users', userRouter);
 router.use('/products', productRouter);
 router.use('/categories', categoryRouter);
+router.use('/analytics', analyticsRouter);
 
 router.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
   const exception = err as GenericError;

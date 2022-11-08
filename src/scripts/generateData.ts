@@ -21,7 +21,8 @@ const eliminateDuplicates = (
 
   arr.forEach(obj => {
     const hash = createHash(`${obj.productId}-${obj.transactionId}`);
-
+    // const str = `${obj.productId}-${obj.transactionId}`;
+    // const hash = crypto.createHash('sha256').update(str).digest('hex');
     if (!hashSet.has(hash)) {
       uniqueArray.push(obj);
       hashSet.add(hash);
@@ -44,11 +45,18 @@ const outputData = (fileName: string, data: string, fields: string[]): void => {
 
 const users = JSON.stringify(DataGenerator.generateUsers(), null, 2);
 const products = JSON.stringify(DataGenerator.generateProducts(), null, 2);
-const transactionsObj = DataGenerator.generateTransactions(1, 0, 50) as {
+const categories = JSON.stringify(DataGenerator.generateCategories(), null, 2);
+
+const transactionsObj = DataGenerator.generateTransactions(1, 0, 200) as {
   transactions: Transaction[];
   transactionsProducts: TransactionProduct[];
 };
 const transactions = JSON.stringify(transactionsObj.transactions, null, 2);
+// const transactionsProducts = JSON.stringify(
+//   transactionsObj.transactionsProducts,
+//   null,
+//   2
+// );
 const transactionsProducts = JSON.stringify(
   eliminateDuplicates(transactionsObj.transactionsProducts),
   null,
@@ -69,9 +77,11 @@ outputData('products.csv', products, [
   'icon',
   'price',
   'discount',
+  'categoryId',
   'createdAt',
   'updatedAt'
 ]);
+outputData('categories.csv', categories, ['name', 'createdAt', 'updatedAt']);
 outputData('transactions.csv', transactions, [
   'type',
   'issuedBy',
@@ -87,14 +97,3 @@ outputData('transactionsProducts.csv', transactionsProducts, [
   'createdAt',
   'updatedAt'
 ]);
-
-[
-  {
-    id: 1,
-    name: 1
-  },
-  {
-    id: 2,
-    name: 1
-  }
-];

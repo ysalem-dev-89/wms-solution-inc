@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { User, Role } from '../interfaces/UserInterface';
 import Product from '../interfaces/ProductInterface';
+import Category from '../interfaces/CategoryInterface';
 import {
   Transaction,
   TransactionStatus,
@@ -10,27 +11,47 @@ import TransactionProduct from '../interfaces/TransactionProductInterface';
 
 export default class DataGenerator {
   static USERS_COUNT = 10;
-  static PRODUCTS_COUNT = 1000;
-  static transactions: Omit<Transaction, 'id'>[] = [];
+  static PRODUCTS_COUNT = 100;
+  static CATEGORIES_COUNT = 15;
+  static transactions: Transaction[] = [];
   static transactionsProducts: TransactionProduct[] = [];
+  static categories: string[] = [
+    '1-Snacks',
+    '2-Meats',
+    '3-Chocolates',
+    '4-Milk/Cheeses',
+    '5-Frozen Meats',
+    '6-Drinks',
+    '7-Books',
+    '8-Movies',
+    '9-Electronic',
+    '10-BluRay',
+    '11-DVD',
+    '12-Games',
+    '13-PC',
+    '14-XBox',
+    '15-Music'
+  ];
 
   static incrementDateByDay = (date: Date, days: number) => {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
   };
 
   static createTransaction(
+    id: number,
     type: TransactionType,
     date: Date
-  ): Omit<Transaction, 'id'> {
+  ): Transaction {
     return {
+      id,
       type,
-      issuedBy: 1,
+      issuedBy: 1, // TODO ROLES??
       createdAt: date,
       updatedAt: date
     };
   }
 
-  static createTP(
+  static createTransactionProduct(
     transactionId: number,
     productId: number,
     status: string,
@@ -81,25 +102,36 @@ export default class DataGenerator {
       icon: faker.internet.avatar(),
       price: Number(faker.commerce.price(20, 2000)),
       discount: Number(faker.commerce.price(0, 100)) / 100,
+      categoryId: faker.datatype.number({ min: 1, max: this.CATEGORIES_COUNT }),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }));
+  }
+
+  static generateCategories(): Omit<Category, 'id'>[] {
+    return this.categories.map((cat: string) => ({
+      name: cat,
       createdAt: new Date(),
       updatedAt: new Date()
     }));
   }
 
   static generateTransactions(id: number, counter: number, limit: number) {
+    // console.log('REC START: ', id, counter, limit);
     if (counter >= limit) {
       return;
     }
 
     const createdAt = faker.date.between(
-      '2020-01-01T00:00:00.000Z',
-      '2022-01-01T00:00:00.000Z'
+      '2015-01-01T00:00:00.000Z',
+      '2022-11-31T00:00:00.000Z'
     );
-    const newPurchaseT = this.createTransaction(
+    const newPurchaseTransaction = this.createTransaction(
+      id,
       TransactionType.Purchase,
       createdAt
     );
-    this.transactions.push(newPurchaseT);
+    this.transactions.push(newPurchaseTransaction);
 
     const nextID = +this.generateTransactionsProducts(createdAt, +id);
     counter++;
@@ -112,7 +144,7 @@ export default class DataGenerator {
 
   static generateTransactionsProducts(createdAt: Date, transactionId: number) {
     //! ==================== PURCHASES TP ====================
-    const randomPatch = faker.datatype.number({ min: 1, max: 5 });
+    const randomPatch = faker.datatype.number({ min: 1, max: 10 });
     const productsIds = [...Array(this.PRODUCTS_COUNT)].map((_, i) => i + 1);
     const shuffProdsIds = faker.helpers
       .shuffle(productsIds)
@@ -126,8 +158,9 @@ export default class DataGenerator {
           ? createdAt
           : this.incrementDateByDay(createdAt, randomDays);
       const quantity = Number(faker.commerce.price(1, 10)) * 100;
-      const unitPrice = Number(faker.commerce.price(5, 50));
-      const newPurchaseTP = this.createTP(
+      const unitPrice = Number(faker.commerce.price(2, 10));
+
+      const newPurchaseTP = this.createTransactionProduct(
         transactionId,
         productId,
         status,
@@ -140,7 +173,7 @@ export default class DataGenerator {
       return newPurchaseTP;
     });
     //! ==================== SALES TP ====================
-    // distribute those (closed) purchases into diff sales (ranged in 3 months)
+    // distribute (closed) purchases into diff sales (ranged in 3 months)
     const tempSalesTP: any = {};
     const closedTPs = purchasesTP.filter(
       tp => tp.status === TransactionStatus.Closed
@@ -150,14 +183,14 @@ export default class DataGenerator {
     const maxClose = new Date(Math.max(...dates));
     let counterID = transactionId + 1;
 
-    // distribute upto 10 sales TP per each purchase TP day.
+    // distribute upto 20 sales TP per each purchase TP day.
     for (
       let startTime = this.incrementDateByDay(minClose, 1);
       startTime <= this.incrementDateByDay(maxClose, 60);
-
+      startTime = this.incrementDateByDay(startTime, 1)
     ) {
-      const randomLength = faker.datatype.number({ min: 1, max: 10 });
-      for (let i = 0; i < randomLength; i++) {
+      const randomLength = faker.datatype.number({ min: 1, max: 20 });
+      [...Array(randomLength)].forEach(() => {
         const saleCreatedAt = faker.date.between(
           startTime,
           this.incrementDateByDay(startTime, 1)
@@ -167,8 +200,7 @@ export default class DataGenerator {
           products: []
         };
         counterID++;
-      }
-      startTime = this.incrementDateByDay(startTime, 1);
+      });
     }
     // fill products array within each transaction(id).
     for (const tp of closedTPs) {
@@ -218,6 +250,7 @@ export default class DataGenerator {
     // create new sale transaction and new sales tp.
     for (const id in formattedSalesTP) {
       const newSaleT = this.createTransaction(
+        +id,
         TransactionType.Sale,
         formattedSalesTP[id].saleCreatedAt
       );
@@ -230,12 +263,12 @@ export default class DataGenerator {
             ? tp.createdAt
             : this.incrementDateByDay(tp.createdAt, randomDays);
 
-        const newSaleTP = this.createTP(
-          +id,
+        const newSaleTP = this.createTransactionProduct(
+          Number(id),
           tp.productId,
           status,
           tp.quantity,
-          +tp.unitPrice * 1.5,
+          Number(tp.unitPrice) * 1.25,
           tp.createdAt,
           saleUpdatedAt
         );
@@ -244,6 +277,10 @@ export default class DataGenerator {
     }
 
     // return next transaction id to start over.
-    return transactionId + 1;
+    const idsArr = Object.keys(formattedSalesTP);
+    const nextId = idsArr.length
+      ? Number(idsArr[idsArr.length - 1]) + 1
+      : transactionId + 1;
+    return nextId;
   }
 }
