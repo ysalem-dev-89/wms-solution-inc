@@ -25,7 +25,7 @@ export const TransactionsTable = (props: {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(10);
+  const [itemsPerPage] = useState<number>(100);
   const [numOfPages, setNumOfPages] = useState<number>(0);
   const navigate = useNavigate();
 

@@ -1,5 +1,5 @@
 import { TransactionStatus } from './Enums';
-import ProductInterface from './ProductInterface';
+import { ProductInterface } from './ProductInterface';
 
 export interface TransactionProductInterface {
   id?: number;

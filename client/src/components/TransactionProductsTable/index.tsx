@@ -129,7 +129,9 @@ export const TransactionProductsTable = (props: {
                       </Button>
                     </div>
                   </td>
-                  <td>{transactionProduct.Product.discount * 100.0}%</td>
+                  <td>
+                    {(transactionProduct.Product.discount * 100.0).toFixed(2)}%
+                  </td>
                   <td>
                     $
                     {calculateTotalPrice({

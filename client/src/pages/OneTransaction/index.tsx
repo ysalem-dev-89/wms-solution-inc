@@ -32,7 +32,7 @@ import ErrorHandler from '../../helpers/ErrorHandler';
 import TransactionProductModal from '../../components/TransactionProductModal';
 import { TransactionData } from '../../interfaces/FormData';
 import * as Product from '../../api/product';
-import ProductInterface from '../../interfaces/ProductInterface';
+import { ProductInterface } from '../../interfaces/ProductInterface';
 import * as TransactionProducts from '../../helpers/transactionProducts';
 import { TransactionType } from '../../interfaces/Enums';
 import { PageContext } from '../../contexts/PageContext';
@@ -287,7 +287,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
                       href="#"
                       tag="a"
                       onClick={e =>
-                        handleProductSelect(product.id || 0, product)
+                        handleProductSelect(Number(product.id) || 0, product)
                       }
                     >
                       <div className="d-flex justify-content-between">

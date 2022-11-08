@@ -113,7 +113,7 @@ const Invoice = () => {
                       <td className="text-left">{item.Product.title}</td>
                       <td>{item.quantity}</td>
                       <td>${item.unitPrice}</td>
-                      <td>${item.Product.discount * 100}%</td>
+                      <td>${(item.Product.discount * 100).toFixed(2)}%</td>
                       <td>
                         $
                         {calculateTotalPrice({
@@ -129,7 +129,7 @@ const Invoice = () => {
             </div>
           </div>
           <div className="container-fluid mt-5 w-100">
-            <h4 className="text-right mb-5">
+            <h4 className="text-right mb-5 text-end">
               Total : $
               {transactionProducts
                 ?.reduce(
@@ -146,7 +146,7 @@ const Invoice = () => {
             </h4>
             <hr />
           </div>
-          <div className="container-fluid w-100">
+          <div className="container-fluid w-100 d-flex justify-content-end">
             <a
               href="#"
               className="btn btn-danger float-right mt-4 ms-2 text-white"

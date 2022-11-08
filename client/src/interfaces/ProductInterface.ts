@@ -1,9 +1,15 @@
-export default interface ProductInterface {
+export interface ProductInterface {
   id?: number;
   title: string;
-  description: string;
-  icon: string;
   price: number;
+  icon: string;
   discount: number;
+  inStock?: number;
+  createdAt: number;
   categoryId: number;
+  actions: {
+    open: void;
+    edit: void;
+    delete: void;
+  };
 }

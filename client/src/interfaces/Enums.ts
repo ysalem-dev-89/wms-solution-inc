@@ -8,3 +8,14 @@ export enum TransactionStatus {
   Closed = 'closed',
   Reversed = 'reversed'
 }
+
+export enum ApiStatus {
+  Loading = 'loading',
+  Success = 'Success',
+  Failed = 'failed'
+}
+
+export enum UserMessages {
+  FetchFailed = 'Failed getting data',
+  EmptyData = 'There is no data to show'
+}
