@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   Button,
@@ -26,10 +27,12 @@ export const ModalEdit = ({
   update: CallableFunction;
   modal: boolean;
 }) => {
-  const { control, handleSubmit } = useForm<ProductInterface>();
-
+  const { control, handleSubmit, reset } = useForm<ProductInterface>();
   const onSubmit: SubmitHandler<ProductInterface> = updatedProduct =>
     update(product.id, updatedProduct);
+  useEffect(() => {
+    reset(product);
+  }, [product]);
 
   return (
     <Modal

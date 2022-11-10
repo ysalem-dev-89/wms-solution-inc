@@ -1,4 +1,5 @@
 import {
+  Button,
   Input,
   Label,
   Offcanvas,
@@ -8,6 +9,7 @@ import {
 import './styles.css';
 
 export const FilterCanvas = ({
+  filterOnChange,
   minPrice,
   maxPrice,
   minDiscount,
@@ -19,6 +21,7 @@ export const FilterCanvas = ({
   show,
   toggle
 }: {
+  filterOnChange: VoidFunction;
   minPrice: number;
   maxPrice: number;
   minDiscount: number;
@@ -39,21 +42,27 @@ export const FilterCanvas = ({
           <Label>
             Min. price
             <Input
-              type="range"
+              type="number"
               min="0"
-              max="10"
+              max={10000}
               value={minPrice}
-              onChange={event => setMinPrice(event.target.value)}
+              onChange={event => {
+                setMinPrice(event.target.value);
+                filterOnChange();
+              }}
             />
           </Label>
           <Label>
             Max. price
             <Input
-              type="range"
+              type="number"
               min="0"
-              max="10"
+              max={10000}
               value={maxPrice}
-              onChange={event => setMaxPrice(event.target.value)}
+              onChange={event => {
+                setMaxPrice(event.target.value);
+                filterOnChange();
+              }}
             />
           </Label>
         </fieldset>
@@ -66,7 +75,10 @@ export const FilterCanvas = ({
               min="0"
               max="100"
               value={minDiscount}
-              onChange={event => setMinDiscount(event.target.value)}
+              onChange={event => {
+                setMinDiscount(event.target.value);
+                filterOnChange();
+              }}
             />
           </label>
           <label>
@@ -76,7 +88,10 @@ export const FilterCanvas = ({
               min="0"
               max="100"
               value={maxDiscount}
-              onChange={event => setMaxDiscount(event.target.value)}
+              onChange={event => {
+                setMaxDiscount(event.target.value);
+                filterOnChange();
+              }}
             />
           </label>
         </fieldset>
