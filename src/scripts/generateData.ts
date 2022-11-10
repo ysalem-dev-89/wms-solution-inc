@@ -43,8 +43,8 @@ const outputData = (fileName: string, data: string, fields: string[]): void => {
 };
 
 const users = JSON.stringify(DataGenerator.generateUsers(), null, 2);
-const products = JSON.stringify(DataGenerator.generateProducts(), null, 2);
-const transactionsObj = DataGenerator.generateTransactions(1, 0, 50) as {
+const categories = JSON.stringify(DataGenerator.generateCategories(), null, 2);
+const transactionsObj = DataGenerator.generateTransactions(1, 0, 1000) as {
   transactions: Transaction[];
   transactionsProducts: TransactionProduct[];
 };
@@ -54,6 +54,7 @@ const transactionsProducts = JSON.stringify(
   null,
   2
 );
+const products = JSON.stringify(DataGenerator.generateProducts(), null, 2);
 
 outputData('users.csv', users, [
   'username',
@@ -63,15 +64,7 @@ outputData('users.csv', users, [
   'createdAt',
   'updatedAt'
 ]);
-outputData('products.csv', products, [
-  'title',
-  'description',
-  'icon',
-  'price',
-  'discount',
-  'createdAt',
-  'updatedAt'
-]);
+outputData('categories.csv', categories, ['name', 'createdAt', 'updatedAt']);
 outputData('transactions.csv', transactions, [
   'type',
   'issuedBy',
@@ -79,22 +72,21 @@ outputData('transactions.csv', transactions, [
   'updatedAt'
 ]);
 outputData('transactionsProducts.csv', transactionsProducts, [
-  'productId',
-  'transactionId',
+  'ProductId',
+  'TransactionId',
   'status',
   'unitPrice',
   'quantity',
   'createdAt',
   'updatedAt'
 ]);
-
-[
-  {
-    id: 1,
-    name: 1
-  },
-  {
-    id: 2,
-    name: 1
-  }
-];
+outputData('products.csv', products, [
+  'title',
+  'description',
+  'icon',
+  'price',
+  'discount',
+  'categoryId',
+  'createdAt',
+  'updatedAt'
+]);

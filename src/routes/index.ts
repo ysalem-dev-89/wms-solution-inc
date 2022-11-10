@@ -3,6 +3,7 @@ import GenericError from '../helpers/GenericError';
 import authRouter from './AuthRoute';
 import productRouter from './ProductRoute';
 import categoryRouter from './CategoryRoute';
+import analyticsRouter from './analyticsRoute';
 import transactionRouter from './TransactionRoute';
 
 const router = Router();
@@ -10,6 +11,7 @@ const router = Router();
 router.use('/auth', authRouter);
 router.use('/products', productRouter);
 router.use('/categories', categoryRouter);
+router.use('/analytics', analyticsRouter);
 router.use('/transactions', transactionRouter);
 
 router.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {

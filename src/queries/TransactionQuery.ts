@@ -34,7 +34,6 @@ export default class TransactionQuery {
   static updateOneTransaction = async ({
     id,
     type,
-    issuedBy,
     transactionProducts
   }: {
     id: number;

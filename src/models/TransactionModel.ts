@@ -1,8 +1,6 @@
 import {
   DataTypes,
   Model,
-  InferAttributes,
-  InferCreationAttributes,
   CreationOptional,
   HasManyCreateAssociationMixin
 } from 'sequelize';
@@ -42,11 +40,11 @@ Transaction.init(
   }
 );
 
-TransactionProduct.belongsTo(Transaction, {
+Transaction.hasMany(TransactionProduct, {
   onDelete: 'CASCADE',
   foreignKey: 'TransactionId'
 });
-Transaction.hasMany(TransactionProduct, {
+TransactionProduct.belongsTo(Transaction, {
   onDelete: 'CASCADE',
   foreignKey: 'TransactionId'
 });

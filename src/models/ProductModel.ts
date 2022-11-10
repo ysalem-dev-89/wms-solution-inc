@@ -52,10 +52,9 @@ Product.init(
   { modelName: 'Product', sequelize }
 );
 
-TransactionProduct.belongsTo(Product, {
+Product.hasMany(TransactionProduct, {
   foreignKey: 'ProductId'
 });
-
-Product.hasMany(TransactionProduct, {
+TransactionProduct.belongsTo(Product, {
   foreignKey: 'ProductId'
 });

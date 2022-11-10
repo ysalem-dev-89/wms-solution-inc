@@ -1,14 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
-import {
-  Button,
-  Offcanvas,
-  OffcanvasBody,
-  OffcanvasHeader,
-  Spinner,
-  Table
-} from 'reactstrap';
+import { Button, Spinner, Table } from 'reactstrap';
 import {
   getAllProductsAPI,
   updateProductAPI,
@@ -81,7 +74,7 @@ const fetchData = async (
 };
 
 const Products = () => {
-  const [itemsPerPage] = useState<number>(100);
+  const [itemsPerPage] = useState<number>(20);
   const [apiStatus, setApiStatus] = useState(ApiStatus.Loading);
   const [toggleFilterCanvas, setToggleFilterCanvas] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);

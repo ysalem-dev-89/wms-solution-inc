@@ -29,7 +29,6 @@ export default class AuthController {
           'updatedAt'
         ]
       });
-
       if (!user) throw new GenericError('Invalid credentials', 400);
       const correctPassword = await AuthHelper.checkPassword(
         password,
