@@ -19,13 +19,7 @@ const config = {
   client: {
     origin: ORIGIN || 'http://localhost:3000'
   },
-  ssl:
-    NODE_ENV === 'production'
-      ? {
-          require: true,
-          rejectUnauthorized: false
-        }
-      : false
+  ssl: false
 };
 
 export default config;
