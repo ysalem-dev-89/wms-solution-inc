@@ -4,6 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import environment from './config/environment';
 import router from './routes';
+import { join } from 'path';
 
 class App {
   public app: express.Application;
@@ -23,6 +24,12 @@ class App {
         credentials: true // access-control-allow-credentials:true
       })
     );
+    if (environment.nodeEnv === 'production') {
+      this.app.use(join(__dirname, '..', 'client', 'build'));
+      this.app.get('*', (req, res) => {
+        res.sendFile(join(__dirname, '..', 'client', 'build', 'index.html'));
+      });
+    }
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cookieParser());

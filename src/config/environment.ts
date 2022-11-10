@@ -7,7 +7,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const { DATABASE_URL, PORT, NODE_ENV, SECRET_KEY, ORIGIN } = process.env;
-
 const config = {
   database: {
     uri: DATABASE_URL
@@ -19,7 +18,14 @@ const config = {
   },
   client: {
     origin: ORIGIN || 'http://localhost:3000'
-  }
+  },
+  ssl:
+    NODE_ENV === 'production'
+      ? {
+          require: true,
+          rejectUnauthorized: false
+        }
+      : false
 };
 
 export default config;
