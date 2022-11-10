@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { faker } from '@faker-js/faker';
 import { User, Role } from '../interfaces/UserInterface';
 import Product from '../interfaces/ProductInterface';

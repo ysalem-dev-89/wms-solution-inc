@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useReducer } from 'react';
 import { obj, action } from '../interfaces/authprovider';
 

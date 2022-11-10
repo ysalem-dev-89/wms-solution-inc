@@ -1,14 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
-import {
-  Button,
-  Offcanvas,
-  OffcanvasBody,
-  OffcanvasHeader,
-  Spinner,
-  Table
-} from 'reactstrap';
+import { Button, Spinner, Table } from 'reactstrap';
 import {
   getAllProductsAPI,
   updateProductAPI,

@@ -26,7 +26,7 @@ const getPath = (fileName: string) => {
         .then(() => csvtojson().fromFile(getPath('transactionsProducts.csv')))
         .then(json => TransactionProduct.bulkCreate(json));
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log('Build Database Failed', error);
   }
 })();

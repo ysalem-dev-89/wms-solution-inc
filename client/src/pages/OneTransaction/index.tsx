@@ -56,7 +56,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
 
   const transType = watch('type');
 
-  const { pages, setPages } = useContext(PageContext);
+  const { setPages } = useContext(PageContext);
 
   const [products, setProducts] = useState<ProductInterface[]>([]);
 
@@ -286,7 +286,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
                       active
                       href="#"
                       tag="a"
-                      onClick={e =>
+                      onClick={() =>
                         handleProductSelect(Number(product.id) || 0, product)
                       }
                     >
@@ -373,7 +373,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
           <button
             className="px-4 py-2 btn btn-outline-primary d-flex align-items-center gap-1"
             color="primary"
-            onClick={e => {
+            onClick={() => {
               navigate('invoice');
             }}
           >
@@ -388,7 +388,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         <Button
           className="px-4 py-2 ms-auto"
           color="primary"
-          onClick={e => {
+          onClick={() => {
             handleSave();
           }}
         >
@@ -397,7 +397,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         <Button
           className="px-4 py-2 text-white"
           color="danger"
-          onClick={e => navigate(-1)}
+          onClick={() => navigate(-1)}
         >
           Cancel
         </Button>

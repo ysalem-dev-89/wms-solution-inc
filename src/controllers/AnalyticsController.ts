@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { sequelize } from '../db/connection';
 import { Response, Request, NextFunction } from 'express';
 import { IMonthlyData } from '../interfaces/AnalyticsInterface';
@@ -127,8 +128,8 @@ export default class AnalyticsController {
       };
 
       const topSelling = await getData();
-      const products: string[] = topSelling[0].map((p: string) => p.product);
-      const sales: number[] = topSelling[0].map((s: string) => +s.sales);
+      const products: string[] = topSelling[0].map((p: any) => p.product);
+      const sales: string[] = topSelling[0].map((s: any) => +s.sales);
 
       res.json({
         status: 200,
@@ -205,7 +206,7 @@ export default class AnalyticsController {
           ) <= 100
           order by inStock asc
           offset ${offset}
-          limit 10;
+          limit '${limit}';
           `
         );
       };
@@ -214,16 +215,10 @@ export default class AnalyticsController {
       const inStock = await getData({ limit, offset });
 
       console.log('inStock: ', inStock[0]);
-
-      // const products: string[] = inStock[0].map((p: string) => p.product);
-      // const quantity: number[] = inStock[0].map((s: string) => +s.instock);
-
       res.json({
         status: 200,
         message: 'Success',
         inStock: inStock[0]
-        // products,
-        // quantity
       });
     } catch (error) {
       next(error);

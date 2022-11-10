@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import './style.css';
 import { useState, useEffect } from 'react';
 import * as analyticsApi from '../../api/analytics';
@@ -30,7 +31,7 @@ const StockAlertTable = () => {
         setTotalItems(77);
         setIsLoading(false);
       }
-    } catch (error: unknown) {
+    } catch (error: any) {
       const exception = error as AxiosError;
       ErrorHandler.handleRequestError(exception, setError);
       setIsLoading(false);

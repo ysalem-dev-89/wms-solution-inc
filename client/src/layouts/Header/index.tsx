@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Dropdown,
   NavbarText,
@@ -26,7 +27,7 @@ const logout = async (dispatch?: dispatch) => {
     });
 
     redirect('/');
-  } catch (error: unknown) {}
+  } catch (error: any) {}
 };
 
 const Header = () => {

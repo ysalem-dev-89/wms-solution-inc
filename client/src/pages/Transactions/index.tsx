@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useEffect, useState } from 'react';
 import { Button, ButtonGroup } from 'reactstrap';
 import { useForm } from 'react-hook-form';
@@ -22,9 +23,7 @@ const Transactions = () => {
   const [type, setType] = useState<string>('all');
 
   const [search, setSearch] = useState<string>('');
-  const [transaction, setTransaction] = useState<TransactionInterface | null>(
-    null
-  );
+  const [setTransaction] = useState<TransactionInterface | any>(null);
   const [isSucceed, setIsSucceed] = useState<boolean>(false);
   const onSubmit = handleSubmit(data => {
     setSearch(data.search);
@@ -80,7 +79,7 @@ const Transactions = () => {
             <div>
               <Button
                 color="primary"
-                onClick={e => {
+                onClick={() => {
                   navigate('add');
                 }}
               >

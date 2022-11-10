@@ -18,7 +18,7 @@ const Invoice = () => {
   const [transaction, setTransaction] = useState<TransactionInterface | null>(
     null
   );
-  const { pages, setPages } = useContext(PageContext);
+  const { setPages } = useContext(PageContext);
 
   const [transactionProducts, setTransactionProducts] = useState<
     TransactionProductInterface[]
@@ -150,7 +150,7 @@ const Invoice = () => {
             <a
               href="#"
               className="btn btn-danger float-right mt-4 ms-2 text-white"
-              onClick={e => {
+              onClick={() => {
                 navigate(-1);
               }}
             >
@@ -159,7 +159,7 @@ const Invoice = () => {
             <a
               href="#"
               className="btn btn-primary float-right mt-4 ms-2"
-              onClick={e => {
+              onClick={() => {
                 window.print();
               }}
             >
