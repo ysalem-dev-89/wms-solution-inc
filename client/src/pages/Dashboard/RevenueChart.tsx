@@ -26,18 +26,17 @@ ChartJS.register(
 );
 
 const RevenueChart = () => {
+  const LAUNCHED_YEAR = 2018;
+  const CURRENT_YEAR = new Date().getFullYear();
+  const YEARS_COUNT = CURRENT_YEAR - (LAUNCHED_YEAR - 1);
+  const years = [...Array(YEARS_COUNT)].map((_, i) => CURRENT_YEAR - i);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const [year, setYear] = useState<number>(2022);
-  const [years, setYears] = useState<number[]>([]);
+  const [year, setYear] = useState<number>(CURRENT_YEAR);
   const [purchases, setPurchases] = useState<number[]>([]);
   const [sales, setSales] = useState<number[]>([]);
   const [revenues, setRevenues] = useState<number[]>([]);
-
-  const LAUNCHED_YEAR = 2015;
-  const CURRENT_YEAR = new Date().getFullYear();
-  const YEARS_COUNT = CURRENT_YEAR - (LAUNCHED_YEAR - 1);
-  setYears([...Array(YEARS_COUNT)].map((_, i) => CURRENT_YEAR - i));
 
   const displayRevenueChart = async () => {
     try {

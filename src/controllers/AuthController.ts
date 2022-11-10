@@ -14,9 +14,8 @@ export default class AuthController {
   ) => {
     try {
       const { password, username } = req.body;
-
-      const { error } = await validator({ schema: authSchema, data: req.body });
-      if (error) throw new GenericError(error, 400);
+      // const { error } = await validator({ schema: authSchema, data: req.body });
+      // if (error) throw new GenericError(error, 400);
 
       const user = await UserQuery.getUser({
         filter: { username },
@@ -30,8 +29,8 @@ export default class AuthController {
           'updatedAt'
         ]
       });
+      console.log('========', user);
       if (!user) throw new GenericError('Invalid credentials', 400);
-
       const correctPassword = await AuthHelper.checkPassword(
         password,
         user.password

@@ -22,7 +22,7 @@ const TotalStatistics = () => {
           data.totalStatistics;
         setTotalPurchases(totalpurchases);
         setTotalSales(totalsales);
-        setTotalRevenues(totalrevenues);
+        setTotalRevenues(totalrevenues.toFixed(1));
         setIsLoading(false);
       }
     } catch (error: unknown) {

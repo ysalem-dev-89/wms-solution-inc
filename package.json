@@ -6,14 +6,13 @@
   "scripts": {
     "init": "npm i && npm run prepare && cd client && npm i",
     "build": "tsc",
-    "build-DB": "ts-node src/db/build.ts",
-    "start": "npm run build && cross-env NODE_ENV=production node dist/",
+    "build-db": "ts-node src/db/build.ts",
+    "start": "cross-env NODE_ENV=production node dist/",
     "dev": "cross-env NODE_ENV=development nodemon src/",
     "tsc-lint": "tsc --noEmit && cd client && npm run tsc-lint",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/ && cd client && npm run lint",
     "prepare": "husky install",
-    "generate-data": "ts-node-dev src/scripts/generateData.ts",
-    "sami": "ts-node src/scripts/DataGenerator.ts"
+    "generate-data": "ts-node-dev src/scripts/generateData.ts"
   },
   "keywords": [],
   "author": "",
@@ -42,6 +41,7 @@
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
     "bcrypt": "^5.1.0",
+    "child_process": "^1.0.2",
     "compression": "^1.7.4",
     "convert-csv-to-json": "^1.3.3",
     "cookie-parser": "^1.4.6",

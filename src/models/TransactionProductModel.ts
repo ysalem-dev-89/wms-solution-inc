@@ -25,7 +25,7 @@ TransactionProduct.init(
       type: DataTypes.INTEGER
     },
     unitPrice: {
-      type: DataTypes.INTEGER
+      type: DataTypes.DECIMAL
     }
   },
   {

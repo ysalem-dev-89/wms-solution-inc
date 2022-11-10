@@ -34,7 +34,7 @@ export default class AnalyticsController {
               else 0 end) as sales
             from "TransactionProducts" tp
             inner join "Transactions" t
-            on tp."transactionid" = t."id"
+            on tp."TransactionId" = t."id"
             where status = 'closed'
               and extract(year from tp."updatedAt") = ${year}
             group by(y), (m)
@@ -78,7 +78,7 @@ export default class AnalyticsController {
                 ELSE 0 END) AS totalSales
             from "TransactionProducts" tp
             inner join "Transactions" t
-            on tp."transactionid" = t."id"
+            on tp."TransactionId" = t."id"
             where status = 'closed';
           `
         );
@@ -112,13 +112,13 @@ export default class AnalyticsController {
           `
           select
           title as product,
-          sum(NULLIF("quantity", 0)) as sales
+          sum("quantity") as sales
           from "TransactionProducts" tp
           inner join "Transactions" t
-          on tp."transactionid" = t."id"
+          on tp."TransactionId" = t."id"
           inner join "Products" p 
-          on tp."productid" = p."id"
-          where type = 'sale' and status = 'closed'
+          on tp."ProductId" = p."id"
+          where type = 'sale'
           group by (product)
           order by sales desc 
           limit 5;
@@ -147,6 +147,9 @@ export default class AnalyticsController {
     next: NextFunction
   ) => {
     try {
+      // const getCount = sequelize.query(`
+      // select count()
+      // `)
       const getData = async ({
         limit,
         offset
@@ -172,49 +175,45 @@ export default class AnalyticsController {
             sum(case when type = 'purchase'
             and status = 'closed'
             and extract(month from tp."updatedAt")
-            between extract(month from now() - interval '2 months')
+            between extract(month from now() - interval '4 months')
             and extract(month from now())
             then "quantity" else 0 END)
           - sum(case when type = 'sale'
-            and status = 'closed'  or status = 'pending'
             and extract(month from tp."updatedAt")
-            between extract(month from now() - interval '1 months')
+            between extract(month from now() - interval '4 months')
             and extract(month from now())
             then "quantity" else 0 END)
           ) as inStock
           from"TransactionProducts" tp
           inner join "Transactions" t
-          on tp."transactionid" = t."id"
+          on tp."TransactionId" = t."id"
           inner join "Products" p
-          on tp."productid" = p."id"
+          on tp."ProductId" = p."id"
           group by (product)
           having (
             sum(case when type = 'purchase'
             and status = 'closed'
             and extract(month from tp."updatedAt")
-            between extract(month from now() - interval '2 months')
+            between extract(month from now() - interval '4 months')
             and extract(month from now())
             then "quantity" else 0 END)
           - sum(case when type = 'sale'
-            and status = 'closed'  or status = 'pending'
             and extract(month from tp."updatedAt")
-            between extract(month from now() - interval '1 months')
+            between extract(month from now() - interval '4 months')
             and extract(month from now())
             then "quantity" else 0 END)
-          ) < 0
+          ) <= 100
           order by inStock asc
           offset ${offset}
           limit 10;
           `
         );
       };
-      // const getCount = async (): Promise<any> => {
-      //   return sequelize.query(`
-      //   select count()
-      //   `)
-      // };
+
       const { limit, offset } = req.query;
       const inStock = await getData({ limit, offset });
+
+      console.log('inStock: ', inStock[0]);
 
       // const products: string[] = inStock[0].map((p: string) => p.product);
       // const quantity: number[] = inStock[0].map((s: string) => +s.instock);

@@ -7,7 +7,6 @@ export default class ErrorHandler {
   ): void {
     if (exception.response) {
       if (exception.response.status === 400 && exception.response.data) {
-        console.log(exception.response.data);
         const data = exception.response.data as {
           statusCode: number;
           error: string;

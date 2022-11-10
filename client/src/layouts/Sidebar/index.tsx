@@ -11,7 +11,7 @@ import { AiOutlineTransaction } from 'react-icons/ai';
 import Logo from '../../assets/images/wms_logo.png';
 
 import { Nav, NavItem } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -54,14 +54,16 @@ const Sidebar = () => {
           isOpen ? 'justify-content-between' : 'justify-content-center'
         }`}
       >
-        <h1
-          className={`logo fs-4 text-white m-0 ${
-            isOpen ? 'd-flex' : 'd-none'
-          } gap-2 align-items-center`}
-        >
-          <img src={Logo} alt="wms logo" />
-          WMS
-        </h1>
+        <Link to="" className="text-decoration-none">
+          <h1
+            className={`logo fs-4 text-white m-0 ${
+              isOpen ? 'd-flex' : 'd-none'
+            } gap-2 align-items-center`}
+          >
+            <img src={Logo} alt="wms logo" />
+            WMS
+          </h1>
+        </Link>
         <div className="bars d-flex text-white">
           <FaBars onClick={toggle} />
         </div>

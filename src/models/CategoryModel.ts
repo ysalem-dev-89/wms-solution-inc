@@ -30,9 +30,9 @@ Category.init(
   }
 );
 
-// Category.hasMany(Product, {
-//   foreignKey: 'categoryId'
-// });
-// Product.belongsTo(Category, {
-//   foreignKey: 'categoryId'
-// });
+Category.hasMany(Product, {
+  foreignKey: 'categoryId'
+});
+Product.belongsTo(Category, {
+  foreignKey: 'categoryId'
+});

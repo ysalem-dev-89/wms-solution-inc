@@ -4,25 +4,24 @@ import crypto from 'crypto';
 import { Parser } from 'json2csv';
 import DataGenerator from './DataGenerator';
 import { Transaction } from '../interfaces/TransactionInterface';
-import TransactionProduct from '../interfaces/TransactionProductInterface';
+import { TransactionProduct } from '../interfaces/TransactionProductInterface';
 
 const createHash = (str: string): string => {
   return crypto.createHash('sha256').update(str).digest('hex');
 };
 
 const eliminateDuplicates = (
-  arr: { productId: number; transactionId: number }[]
+  arr: { ProductId: number; TransactionId: number }[]
 ) => {
   const hashSet = new Set();
   const uniqueArray = [] as unknown as {
-    productId: number;
-    transactionId: number;
+    ProductId: number;
+    TransactionId: number;
   }[];
 
   arr.forEach(obj => {
-    const hash = createHash(`${obj.productId}-${obj.transactionId}`);
-    // const str = `${obj.productId}-${obj.transactionId}`;
-    // const hash = crypto.createHash('sha256').update(str).digest('hex');
+    const hash = createHash(`${obj.ProductId}-${obj.TransactionId}`);
+
     if (!hashSet.has(hash)) {
       uniqueArray.push(obj);
       hashSet.add(hash);
@@ -44,40 +43,24 @@ const outputData = (fileName: string, data: string, fields: string[]): void => {
 };
 
 const users = JSON.stringify(DataGenerator.generateUsers(), null, 2);
-const products = JSON.stringify(DataGenerator.generateProducts(), null, 2);
 const categories = JSON.stringify(DataGenerator.generateCategories(), null, 2);
-
-const transactionsObj = DataGenerator.generateTransactions(1, 0, 200) as {
+const transactionsObj = DataGenerator.generateTransactions(1, 0, 1000) as {
   transactions: Transaction[];
   transactionsProducts: TransactionProduct[];
 };
 const transactions = JSON.stringify(transactionsObj.transactions, null, 2);
-// const transactionsProducts = JSON.stringify(
-//   transactionsObj.transactionsProducts,
-//   null,
-//   2
-// );
 const transactionsProducts = JSON.stringify(
   eliminateDuplicates(transactionsObj.transactionsProducts),
   null,
   2
 );
+const products = JSON.stringify(DataGenerator.generateProducts(), null, 2);
 
 outputData('users.csv', users, [
   'username',
   'password',
   'email',
   'role',
-  'createdAt',
-  'updatedAt'
-]);
-outputData('products.csv', products, [
-  'title',
-  'description',
-  'icon',
-  'price',
-  'discount',
-  'categoryId',
   'createdAt',
   'updatedAt'
 ]);
@@ -89,11 +72,21 @@ outputData('transactions.csv', transactions, [
   'updatedAt'
 ]);
 outputData('transactionsProducts.csv', transactionsProducts, [
-  'productId',
-  'transactionId',
+  'ProductId',
+  'TransactionId',
   'status',
   'unitPrice',
   'quantity',
+  'createdAt',
+  'updatedAt'
+]);
+outputData('products.csv', products, [
+  'title',
+  'description',
+  'icon',
+  'price',
+  'discount',
+  'categoryId',
   'createdAt',
   'updatedAt'
 ]);

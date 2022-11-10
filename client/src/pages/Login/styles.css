@@ -1,29 +1,26 @@
-*{
-    padding: 0px;
-    margin: 0px;
-}
 .auth-page{
-    width: 100vw;
-    height: 100vh;
-    background-color: #F8F9FA;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .form-container{
-    width: 70%;
-    height: 70%;
+    width: 730px;
+    height: 440px;
     background-color: white;
     border-radius: 43px;
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: column;
     justify-content: space-evenly;
     align-items: center;
+    
 }
+
 .auth-page .icon{
     width: 50px;
     height: 50px;
 }
+
 .auth-page .button{
     background-color: #6571FF;
     color: white;
@@ -36,23 +33,27 @@
 .input-container{
     width: 80%;
 }
+
 .input-label{
     text-transform: capitalize;
     font-weight: bolder;
     font-size: 16px;
-    margin: 12px;
+    
 }
+
 .input-label::after{
     content: "*";
     color: red;
     font-weight: bolder;
 }
+
 .user-name{
     padding: 12px 3%;
     width: 100%;
     border: 1px solid #A1AEB7;
     border-radius: 8px;
 }
+
 .error {
     color: #bf1650;
     align-self: flex-start;

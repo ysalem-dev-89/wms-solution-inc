@@ -5,7 +5,7 @@ import { CategoryRequest } from '../interfaces/CategoryRequest';
 import CategoryQuery from '../queries/CategoryQuery';
 
 export default class CategoryController {
-  static create = async (
+  static createNewCategory = async (
     req: CategoryRequest,
     res: Response,
     next: NextFunction
@@ -13,7 +13,7 @@ export default class CategoryController {
     try {
       const { name } = req.body;
 
-      const category = await CategoryQuery.create(name);
+      const category = await CategoryQuery.createNewCategory(name);
 
       res.json({
         status: 201,
@@ -22,7 +22,7 @@ export default class CategoryController {
       });
     } catch (error) {
       const exception = error as ValidationError;
-      const validationError = exception?.errors[0]?.message;
+      const validationError = exception.errors[0].message;
 
       if (validationError) {
         next(new GenericError(validationError, 400));
@@ -32,7 +32,7 @@ export default class CategoryController {
     }
   };
 
-  static update = async (
+  static updateOneCategory = async (
     req: CategoryRequest,
     res: Response,
     next: NextFunction
@@ -41,7 +41,7 @@ export default class CategoryController {
       const { id } = req.params;
       const { name } = req.body;
 
-      const category = await CategoryQuery.update({
+      const category = await CategoryQuery.updateOneCategory({
         id: Number(id),
         name
       });
@@ -55,7 +55,7 @@ export default class CategoryController {
       });
     } catch (error) {
       const exception = error as ValidationError;
-      const validationError = exception?.errors[0]?.message;
+      const validationError = exception.errors[0].message;
 
       if (validationError) {
         next(new GenericError(validationError, 400));
@@ -65,7 +65,7 @@ export default class CategoryController {
     }
   };
 
-  static delete = async (
+  static deleteOneCategory = async (
     req: CategoryRequest,
     res: Response,
     next: NextFunction
@@ -73,7 +73,7 @@ export default class CategoryController {
     try {
       const { id } = req.params;
 
-      await CategoryQuery.delete(id);
+      await CategoryQuery.deleteOneCategory(id);
 
       res.sendStatus(204);
     } catch (error) {
@@ -81,25 +81,24 @@ export default class CategoryController {
     }
   };
 
-  static search = async (
+  static getCategories = async (
     req: CategoryRequest,
     res: Response,
     next: NextFunction
   ) => {
     try {
       const { name = '', offset = '0', limit = '20' } = req.query;
-      const categories = await CategoryQuery.search({
+      const categories = await CategoryQuery.getCategories({
         name,
         limit: Number(limit),
         offset: Number(offset)
       });
-      const count = await CategoryQuery.getCount();
 
       res.json({
         status: 200,
         message: 'Success',
-        totalCount: count,
-        items: categories
+        totalCount: categories.count.length,
+        items: categories.rows
       });
     } catch (error) {
       next(error);

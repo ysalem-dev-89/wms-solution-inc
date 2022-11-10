@@ -1,21 +1,22 @@
 import {
   DataTypes,
   Model,
-  InferAttributes,
-  InferCreationAttributes,
-  CreationOptional
+  CreationOptional,
+  HasManyCreateAssociationMixin
 } from 'sequelize';
 import { TransactionType } from '../interfaces/TransactionInterface';
 import { sequelize } from '../db/connection';
+import TransactionProduct from './TransactionProductModel';
 
-export default class Transaction extends Model<
-  InferAttributes<Transaction>,
-  InferCreationAttributes<Transaction>
-> {
+export default class Transaction extends Model {
   declare id: CreationOptional<number>;
   declare type: TransactionType;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
+  declare createTransactionProduct: HasManyCreateAssociationMixin<
+    TransactionProduct,
+    TransactionProduct['id']
+  >;
 }
 
 Transaction.init(
@@ -38,3 +39,12 @@ Transaction.init(
     sequelize
   }
 );
+
+Transaction.hasMany(TransactionProduct, {
+  onDelete: 'CASCADE',
+  foreignKey: 'TransactionId'
+});
+TransactionProduct.belongsTo(Transaction, {
+  onDelete: 'CASCADE',
+  foreignKey: 'TransactionId'
+});

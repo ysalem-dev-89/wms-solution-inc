@@ -1,17 +1,38 @@
-import { useRouteError } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './style.css';
 
 const Errors = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const error: any = useRouteError();
-
   return (
-    <div id="error-page">
-      <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>
-        <i>{error.statusText || error.message}</i>
-      </p>
+    <div className="content-wrapper d-flex align-items-center justify-content-center text-center error-page bg-blue">
+      <div className="row flex-grow">
+        <div className="col-lg-7 mx-auto text-white">
+          <div className="row align-items-center d-flex flex-row">
+            <div className="col-lg-6 text-lg-right pr-lg-4">
+              <h1 className="display-1 mb-0">404</h1>
+            </div>
+            <div className="col-lg-6 error-page-divider text-lg-left pl-lg-4">
+              <h2>SORRY!</h2>
+              <h3 className="font-weight-light">
+                The page you’re looking for was not found.
+              </h3>
+            </div>
+          </div>
+          <div className="row mt-5">
+            <div className="col-12 text-center mt-xl-2">
+              <Link className="text-white font-weight-medium" to="/">
+                Back to home
+              </Link>
+            </div>
+          </div>
+          <div className="row mt-5">
+            <div className="col-12 mt-xl-2">
+              <p className="text-white font-weight-medium text-center">
+                Copyright © 2022 All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

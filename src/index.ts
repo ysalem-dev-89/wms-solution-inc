@@ -8,10 +8,8 @@ const port = environment.port;
 const server = http.createServer(app);
 
 dbConnection
-  .sync({ force: false }) // TODO: remove it and update the populate db script
+  .sync()
   .then(() => {
     server.listen(port, () => console.log(`app is running on prot: ${port}`));
   })
   .catch(console.log);
-
-// environment.nodeEnv === 'development'

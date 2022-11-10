@@ -1,5 +1,7 @@
 import Product from '../models/ProductModel';
-import ProductInterface from 'interfaces/ProductInterface';
+import ProductInterface from '../interfaces/ProductInterface';
+import { sequelize } from '../db/connection';
+import { Op } from 'sequelize';
 export default class ProductQuery {
   static update = async (product: ProductInterface) => {
     const { id, title, description, icon, price, discount } = product;
@@ -15,6 +17,19 @@ export default class ProductQuery {
   };
 
   static deleteProduct = async (id: number): Promise<number> => {
-    return Product.destroy({ where: { id } });
+    return Product.destroy({
+      where: {
+        id
+      }
+    });
   };
+
+  static getOneProduct = ({ id }: { id: number }) => Product.findByPk(id);
+
+  static getProductsByTitle = ({ title }: { title: string }) =>
+    Product.findAll({
+      where: sequelize.where(sequelize.fn('lower', sequelize.col('title')), {
+        [Op.like]: `%${title.toLowerCase()}%`
+      })
+    });
 }

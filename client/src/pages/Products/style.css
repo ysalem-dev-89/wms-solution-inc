@@ -1,0 +1,50 @@
+.product-page-body{
+    display: flex;
+    flex-flow: column nowrap;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+}
+
+thead{
+    background-color: var(--primary);
+}
+
+th{
+    text-align: center;
+    color: white;
+}
+._search-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+._search-box{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    width: 40%;
+    border: 1px solid ;
+    border-radius: 8px;
+    background-color: white;
+    padding: 0px 8px;
+    margin: 16px 0px;
+}
+._search-box > input{
+    width: 100%;
+    padding: 8px;
+    margin-left: 8px;
+    border: none;
+    outline: none;
+}
+
+._search-icon{
+    cursor: pointer;
+}
+._load-products{
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}

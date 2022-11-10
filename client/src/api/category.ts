@@ -1,6 +1,6 @@
 import axios from './axios';
 
-export const search = ({
+export const getCategories = ({
   name,
   limit,
   offset
@@ -12,14 +12,20 @@ export const search = ({
   return axios.get(`categories?name=${name}&limit=${limit}&offset=${offset}`);
 };
 
-export const create = (name: string) => {
+export const createNewCategory = (name: string) => {
   return axios.post(`/categories`, { name });
 };
 
-export const update = ({ id, name }: { id: number; name: string }) => {
+export const updateOneCategory = ({
+  id,
+  name
+}: {
+  id: number;
+  name: string;
+}) => {
   return axios.put(`/categories/${id}`, { name });
 };
 
-export const remove = (id: number) => {
+export const deleteOneCategory = (id: number) => {
   return axios.delete(`/categories/${id}`);
 };

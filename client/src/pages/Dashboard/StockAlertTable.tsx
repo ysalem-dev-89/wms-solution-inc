@@ -1,5 +1,4 @@
 import './style.css';
-import React from 'react';
 import { useState, useEffect } from 'react';
 import * as analyticsApi from '../../api/analytics';
 import { AxiosError } from 'axios';
@@ -69,7 +68,7 @@ const StockAlertTable = () => {
         </Table>
       )}
       <TablePagination
-        pagesCount={Math.ceil(totalItems / limit)}
+        numOfPages={Math.ceil(totalItems / limit)}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />

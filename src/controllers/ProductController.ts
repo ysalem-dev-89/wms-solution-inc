@@ -42,23 +42,25 @@ export default class ProductController {
     next: NextFunction
   ) => {
     try {
+      const { limit, offset } = req.query;
       const products = await sequelize.query(
         `select p.id,
                 p.price,
                 p.title,
+                p.discount,
                 p.icon,
                 p.description,
                 coalesce(
                     (
                         (
-                            select SUM(t.quantity)
+                            select SUM(tp.quantity)
                             from "TransactionProducts" as tp
                                 join "Transactions" as t on t.id = tp."TransactionId"
                             where tp.status = 'closed'
                                 and t.type = 'purchase'
                                 and tp."ProductId" = p.id
                         ) - (
-                            select SUM(t.quantity)
+                            select SUM(tp.quantity)
                             from "TransactionProducts" as tp
                                 join "Transactions" as t on t.id = tp."TransactionId"
                             where tp.status = 'closed'
@@ -68,12 +70,19 @@ export default class ProductController {
                     ),
                     0
                 ) as "inStock"
-            from "Products" as p;`,
+            from "Products" as p LIMIT $1 OFFSET $2;`,
+        {
+          bind: [limit, offset],
+          type: QueryTypes.SELECT
+        }
+      );
+      const totalCount = await sequelize.query(
+        `SELECT COUNT(*) FROM "Products"`,
         {
           type: QueryTypes.SELECT
         }
       );
-      res.json(products);
+      res.json({ products, totalCount });
     } catch (error) {
       next(error);
     }
@@ -87,9 +96,48 @@ export default class ProductController {
     try {
       const { id } = req.params;
       await ProductQuery.deleteProduct(Number(id));
+      res.sendStatus(204);
+    } catch (error) {
+      next(error);
+    }
+  };
+  static getOneProduct = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { id } = req.params;
+      const product = await ProductQuery.getOneProduct({
+        id: Number(id)
+      });
+
       res.json({
-        status: 204,
-        message: 'Success'
+        status: 200,
+        message: 'Success',
+        product: product
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  static getProductsByTitle = async (
+    req: ProductRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { title = '' } = req.query;
+      const products = await ProductQuery.getProductsByTitle({
+        title
+      });
+
+      res.json({
+        status: 200,
+        message: 'Success',
+        totalCount: products.length,
+        items: products
       });
     } catch (error) {
       next(error);
