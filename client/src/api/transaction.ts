@@ -10,7 +10,11 @@ export const createNewTransaction = ({
   issuedBy: number;
   transactionProducts: TransactionProductInterface[];
 }) => {
-  return axios.post(`transactions`, { type, issuedBy, transactionProducts });
+  return axios.post(`/api/v1/transactions`, {
+    type,
+    issuedBy,
+    transactionProducts
+  });
 };
 
 export const updateOneTransaction = ({
@@ -24,7 +28,7 @@ export const updateOneTransaction = ({
   issuedBy: number;
   transactionProducts: TransactionProductInterface[];
 }) => {
-  return axios.put(`transactions/${id}`, {
+  return axios.put(`/api/v1/transactions/${id}`, {
     type,
     issuedBy,
     transactionProducts
@@ -32,11 +36,11 @@ export const updateOneTransaction = ({
 };
 
 export const deleteOneTransaction = (id: number) => {
-  return axios.delete(`/transactions/${id}`);
+  return axios.delete(`/api/v1/transactions/${id}`);
 };
 
 export const getOneTransaction = ({ id }: { id: number }) => {
-  return axios.get(`transactions/${id}`);
+  return axios.get(`/api/v1/transactions/${id}`);
 };
 
 export const getTransactions = ({
@@ -51,6 +55,6 @@ export const getTransactions = ({
   offset: number;
 }) => {
   return axios.get(
-    `transactions?search=${search}&type=${type}&limit=${limit}&offset=${offset}`
+    `/api/v1/transactions?search=${search}&type=${type}&limit=${limit}&offset=${offset}`
   );
 };

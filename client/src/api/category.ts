@@ -9,11 +9,13 @@ export const getCategories = ({
   limit: number;
   offset: number;
 }) => {
-  return axios.get(`categories?name=${name}&limit=${limit}&offset=${offset}`);
+  return axios.get(
+    `/api/v1/categories?name=${name}&limit=${limit}&offset=${offset}`
+  );
 };
 
 export const createNewCategory = (name: string) => {
-  return axios.post(`/categories`, { name });
+  return axios.post(`/api/v1/categories`, { name });
 };
 
 export const updateOneCategory = ({
@@ -23,9 +25,9 @@ export const updateOneCategory = ({
   id: number;
   name: string;
 }) => {
-  return axios.put(`/categories/${id}`, { name });
+  return axios.put(`/api/v1/categories/${id}`, { name });
 };
 
 export const deleteOneCategory = (id: number) => {
-  return axios.delete(`/categories/${id}`);
+  return axios.delete(`/api/v1/categories/${id}`);
 };

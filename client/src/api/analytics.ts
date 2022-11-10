@@ -1,15 +1,15 @@
 import axios from './axios';
 
 export const monthlyRevenue = (year: number) => {
-  return axios.get(`/analytics/revenue/${year}`);
+  return axios.get(`/api/v1/analytics/revenue/${year}`);
 };
 
 export const totalStatistics = () => {
-  return axios.get(`/analytics/total`);
+  return axios.get(`/api/v1/analytics/total`);
 };
 
 export const topSelling = () => {
-  return axios.get(`/analytics/topselling`);
+  return axios.get(`/api/v1/analytics/topselling`);
 };
 
 export const stockAlert = ({
