@@ -17,27 +17,6 @@ import './style.css';
 import { FilterCanvas } from '../../components/FilterCanvas';
 import { PageContext } from '../../contexts/PageContext';
 
-const productSearch = (
-  productList: ProductInterface[],
-  query: string,
-  minPrice: number,
-  maxPrice: number,
-  minDiscount: number,
-  maxDiscount: number
-) => {
-  return productList.filter(product => {
-    if (query)
-      return (
-        product.title.toLowerCase().includes(query.toLowerCase()) &&
-        product.price >= minPrice &&
-        product.price <= maxPrice &&
-        product.discount * 100 >= minDiscount &&
-        product.discount * 100 <= maxDiscount
-      );
-    else return true;
-  });
-};
-
 const fetchData = async (
   itemsPerPage: number,
   currentPage: number,
@@ -84,7 +63,7 @@ const Products = () => {
   const [minPriceFilter, setMinPriceFilter] = useState(0);
   const [maxPriceFilter, setMaxPriceFilter] = useState(10000);
   const [minDiscountFilter, setMinDiscountFilter] = useState(0);
-  const [maxDiscountFilter, setMaxDiscountFilter] = useState(1);
+  const [maxDiscountFilter, setMaxDiscountFilter] = useState(100);
   const [products, setProducts] = useState([] as ProductInterface[]);
   const [filteredProducts, setFilteredProducts] = useState(
     [] as ProductInterface[]
@@ -126,6 +105,28 @@ const Products = () => {
         progress: undefined
       });
     }
+  };
+
+  const productSearch = () => {
+    setFilteredProducts(
+      products.filter(product => {
+        if (searchQuery)
+          return (
+            product.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+            product.price >= minPriceFilter &&
+            product.price <= maxPriceFilter &&
+            product.discount >= minDiscountFilter / 100 &&
+            product.discount <= maxDiscountFilter / 100
+          );
+        else
+          return (
+            product.price >= minPriceFilter &&
+            product.price <= maxPriceFilter &&
+            product.discount >= minDiscountFilter / 100 &&
+            product.discount <= maxDiscountFilter / 100
+          );
+      })
+    );
   };
 
   const deleteProduct = async () => {
@@ -216,6 +217,7 @@ const Products = () => {
             update={update}
           />
           <FilterCanvas
+            filterOnChange={productSearch}
             show={toggleFilterCanvas}
             toggle={toggleCanvas}
             minDiscount={minDiscountFilter}
@@ -236,20 +238,15 @@ const Products = () => {
                 value={searchQuery}
                 onChange={event => {
                   setSearchQuery(event.target.value);
-                  setFilteredProducts(
-                    productSearch(
-                      products,
-                      searchQuery,
-                      minPriceFilter,
-                      maxPriceFilter,
-                      minDiscountFilter,
-                      maxDiscountFilter
-                    )
-                  );
+                  productSearch();
                 }}
               />
             </div>
-            <Button color="primary" onClick={toggleCanvas}>
+            <Button
+              className="_filter-btn"
+              color="primary"
+              onClick={toggleCanvas}
+            >
               Filter
             </Button>
           </div>

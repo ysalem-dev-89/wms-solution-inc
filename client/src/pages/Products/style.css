@@ -48,3 +48,7 @@ th{
     justify-content: center;
     align-items: center;
 }
+._filter-btn{
+    align-self: center;
+    max-height: 40px;
+}

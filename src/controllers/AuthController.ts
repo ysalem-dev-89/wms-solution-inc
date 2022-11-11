@@ -51,6 +51,7 @@ export default class AuthController {
             role: user.role
           }
         });
+      console.log('*******', token);
     } catch (error: unknown) {
       const exception = error as GenericError;
       next(exception);
