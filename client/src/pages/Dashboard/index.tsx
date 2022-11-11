@@ -1,19 +1,20 @@
 import './style.css';
-import TotalStatistics from './TotalStatistics';
-import RevenueChart from './RevenueChart';
-import TopSelling from './TopSelling';
-import StockAlertTable from './StockAlertTable';
+import { useContext, useEffect } from 'react';
+import { PageContext } from '../../contexts/PageContext';
+import { LoadingContextProvider } from '../../contexts/LoadingContext';
+import Layout from './Layout';
 
 const Dashboard = () => {
+  const { setPages } = useContext(PageContext);
+
+  useEffect(() => {
+    setPages([{ title: 'Dashboard', link: '' }]);
+  }, []);
+
   return (
-    <>
-      <TotalStatistics />
-      {/* <div className="d-flex align-items-center gap-2"> */}
-      <RevenueChart />
-      <TopSelling />
-      {/* </div> */}
-      <StockAlertTable />
-    </>
+    <LoadingContextProvider>
+      <Layout />
+    </LoadingContextProvider>
   );
 };
 

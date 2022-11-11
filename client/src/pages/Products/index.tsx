@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import { Button, Spinner, Table } from 'reactstrap';
@@ -15,6 +15,7 @@ import { ProductInterface } from '../../interfaces/ProductInterface';
 import { ApiStatus, UserMessages } from '../../interfaces/Enums';
 import './style.css';
 import { FilterCanvas } from '../../components/FilterCanvas';
+import { PageContext } from '../../contexts/PageContext';
 
 const productSearch = (
   productList: ProductInterface[],
@@ -88,6 +89,8 @@ const Products = () => {
   const [filteredProducts, setFilteredProducts] = useState(
     [] as ProductInterface[]
   );
+  const { setPages } = useContext(PageContext);
+
   const [{ editMode, productId }, setEditMode] = useState({
     editMode: false,
     productId: -1
@@ -179,6 +182,13 @@ const Products = () => {
       setTotalItems
     );
   }, [updateTable, currentPage]);
+
+  useEffect(() => {
+    setPages([
+      { title: 'Dashboard', link: '' },
+      { title: 'Products', link: 'products' }
+    ]);
+  }, []);
 
   return (
     <div className="product-page-body">

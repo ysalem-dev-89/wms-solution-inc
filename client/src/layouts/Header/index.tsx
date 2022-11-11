@@ -45,54 +45,56 @@ const Header = () => {
     <header>
       <div className="header-content bg-white py-0 container-fluid">
         <nav
-          className={`navbar navbar-expand-lg d-flex flex-row${
-            auth?.loggedIn ? '-reverse' : ''
-          } justify-content-between p-1`}
+          className={`navbar navbar-expand-lg d-flex justify-content-between p-1`}
         >
-          {auth?.loggedIn ? (
-            ''
-          ) : (
-            <Breadcrumb listClassName="mb-0 p-2">
-              <BreadcrumbItem className="text-decoration-none">
-                <NavLink
-                  to="login"
-                  style={({ isActive }) =>
-                    isActive ? undefined : { color: 'rgb(126, 123, 121)' }
-                  }
-                >
-                  LogIn
-                </NavLink>
-              </BreadcrumbItem>
-              <BreadcrumbItem className="text-decoration-none">
-                <NavLink
-                  to="about"
-                  style={({ isActive }) =>
-                    isActive ? undefined : { color: 'rgb(126, 123, 121)' }
-                  }
-                >
-                  About Us
-                </NavLink>
-              </BreadcrumbItem>
-              {pages.map((item, index, arr) =>
-                index < arr.length - 1 ? (
-                  <BreadcrumbItem
-                    key={item.link}
-                    className="text-decoration-none"
+          <Breadcrumb listClassName="mb-0 p-2">
+            {!auth?.loggedIn ? (
+              <>
+                <BreadcrumbItem className="text-decoration-none">
+                  <NavLink
+                    to="login"
+                    style={({ isActive }) =>
+                      isActive ? undefined : { color: 'rgb(126, 123, 121)' }
+                    }
                   >
-                    <Link to={item.link}>{item.title}</Link>
-                  </BreadcrumbItem>
-                ) : (
-                  <BreadcrumbItem
-                    key={item.link}
-                    className="text-decoration-none"
-                    active
+                    LogIn
+                  </NavLink>
+                </BreadcrumbItem>
+                <BreadcrumbItem className="text-decoration-none">
+                  <NavLink
+                    to="about"
+                    style={({ isActive }) =>
+                      isActive ? undefined : { color: 'rgb(126, 123, 121)' }
+                    }
                   >
-                    {item.title}
-                  </BreadcrumbItem>
-                )
-              )}
-            </Breadcrumb>
-          )}
+                    About Us
+                  </NavLink>
+                </BreadcrumbItem>
+              </>
+            ) : (
+              <>
+                {pages.map((item, index, arr) =>
+                  index < arr.length - 1 ? (
+                    <BreadcrumbItem
+                      key={item.link}
+                      className="text-decoration-none"
+                    >
+                      <Link to={item.link}>{item.title}</Link>
+                    </BreadcrumbItem>
+                  ) : (
+                    <BreadcrumbItem
+                      key={item.link}
+                      className="text-decoration-none"
+                      active
+                    >
+                      {item.title}
+                    </BreadcrumbItem>
+                  )
+                )}
+              </>
+            )}
+          </Breadcrumb>
+
           {auth?.loggedIn ? (
             <NavbarText className="nav-text d-flex">
               <div className="d-flex rounded">

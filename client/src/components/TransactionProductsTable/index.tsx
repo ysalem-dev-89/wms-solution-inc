@@ -85,7 +85,7 @@ export const TransactionProductsTable = (props: {
                   <td>{transactionProduct.id}</td>
                   <td>{transactionProduct.Product.title}</td>
                   <td>{transactionProduct.status}</td>
-                  <td>${transactionProduct.unitPrice.toFixed(2)}</td>
+                  <td>${transactionProduct.unitPrice}</td>
                   <td>
                     <div className="quantity-content d-flex justify-content-center align-items-center">
                       <Button

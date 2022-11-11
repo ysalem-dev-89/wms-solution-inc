@@ -1,26 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import './style.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import * as analyticsApi from '../../api/analytics';
 import { AxiosError } from 'axios';
 import ErrorHandler from '../../helpers/ErrorHandler';
-import Loader from './Loader';
 import { Table } from 'reactstrap';
 import { TablePagination } from '../../components/TablePagination';
+import { LoadingContext } from '../../contexts/LoadingContext';
 
 const StockAlertTable = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [stockAlert, setStockAlert] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [limit] = useState<number>(10);
   const [totalItems, setTotalItems] = useState<number>(77);
+  const { setLoadingValue } = useContext(LoadingContext);
 
   const displayStockAlertTable = async () => {
     try {
-      setIsLoading(true);
+      // setLoadingValue(3, true);
       const offset = limit * (currentPage - 1);
-      console.log('offset: ', offset);
       const { data } = await analyticsApi.stockAlert({
         limit,
         offset
@@ -29,12 +28,12 @@ const StockAlertTable = () => {
         const { inStock } = data;
         setStockAlert(inStock);
         setTotalItems(77);
-        setIsLoading(false);
+        // setLoadingValue(3, false);
       }
     } catch (error: any) {
       const exception = error as AxiosError;
       ErrorHandler.handleRequestError(exception, setError);
-      setIsLoading(false);
+      setLoadingValue(3, false);
     }
   };
 
@@ -44,12 +43,13 @@ const StockAlertTable = () => {
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
+      {error ? (
         <div className="text-danger">{error}</div>
       ) : (
         <Table hover>
+          <caption>
+            <h3 className="chart-title">Stock Alert Table</h3>
+          </caption>
           <thead>
             <tr>
               <th>#</th>

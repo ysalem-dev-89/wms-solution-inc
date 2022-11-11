@@ -16,7 +16,10 @@ const Transactions = () => {
   const { setPages } = useContext(PageContext);
 
   useEffect(() => {
-    setPages([{ title: 'Transactions', link: 'transactions' }]);
+    setPages([
+      { title: 'Dashboard', link: '' },
+      { title: 'Transactions', link: 'transactions' }
+    ]);
   }, []);
 
   const { register, handleSubmit } = useForm();

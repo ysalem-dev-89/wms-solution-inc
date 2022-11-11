@@ -119,6 +119,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
     }
 
     setPages([
+      { title: 'Dashboard', link: '' },
       { title: 'Transactions', link: 'transactions' },
       {
         title:

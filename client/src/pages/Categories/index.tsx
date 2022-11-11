@@ -26,7 +26,10 @@ const Categories = () => {
   const { setPages } = useContext(PageContext);
 
   useEffect(() => {
-    setPages([{ title: 'Categories', link: 'categories' }]);
+    setPages([
+      { title: 'Dashboard', link: '' },
+      { title: 'Categories', link: 'categories' }
+    ]);
   }, []);
 
   const handleAddClick = () => {

@@ -5,6 +5,7 @@ import './assets/styles/custom.min.css';
 import useAuth from './hooks/useAuth';
 import './main.css';
 import Routes from './routes';
+import { Spinner } from 'reactstrap';
 
 function App() {
   const { auth, dispatch } = useAuth();
@@ -31,7 +32,11 @@ function App() {
   return auth.checkedToken ? (
     <RouterProvider router={routing} />
   ) : (
-    <div>Loading</div>
+    <div className={`loading-center d-flex gap-2`}>
+      <Spinner color="primary" type="grow">
+        Loading...
+      </Spinner>
+    </div>
   );
 }
 

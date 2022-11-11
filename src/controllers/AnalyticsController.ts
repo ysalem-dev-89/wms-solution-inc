@@ -206,7 +206,7 @@ export default class AnalyticsController {
           ) <= 100
           order by inStock asc
           offset ${offset}
-          limit '${limit}';
+          limit ${limit};
           `
         );
       };
