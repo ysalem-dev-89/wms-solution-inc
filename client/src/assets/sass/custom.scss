@@ -12,8 +12,8 @@ $secondary: #a3a4a5;
 
 
 // import the functions and the variables
-@import '../../node_modules/bootstrap/scss/_functions';
-@import '../../node_modules/bootstrap/scss/_variables';
+@import '../../../node_modules/bootstrap/scss/_functions';
+@import '../../../node_modules/bootstrap/scss/_variables';
 
 $custom-theme-colors: (
   'black': #212529,
