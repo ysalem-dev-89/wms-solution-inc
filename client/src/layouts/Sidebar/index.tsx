@@ -17,7 +17,7 @@ import useAuth from '../../hooks/useAuth';
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
-  const { auth, dispatch } = useAuth();
+  const { auth } = useAuth();
   const { user } = auth;
 
   const menuItem = [
