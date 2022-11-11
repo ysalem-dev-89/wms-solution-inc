@@ -1,7 +1,7 @@
 import { SearchUser } from '../interfaces/SearchUserInterface';
 import User from '../models/UserModel';
 import Transaction from '../models/TransactionModel';
-import { Role, User as UserInterface } from '../interfaces/UserInterface';
+import { Role } from '../interfaces/UserInterface';
 import { Op } from 'sequelize';
 import { sequelize } from '../db/connection';
 export default class UserQuery {
