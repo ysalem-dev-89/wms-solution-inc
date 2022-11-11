@@ -1,9 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
-import { LoginControllerRequest } from '../interfaces/AuthInterface';
 import UserQuery from '../queries/UserQuery';
-import authSchema from '../validation/userValidation';
 import AuthHelper from '../helpers/AuthHelper';
-import { validator } from '../validation/validator';
 import GenericError from '../helpers/GenericError';
 import { UserRequest } from '../interfaces/UserRequest';
 import { ValidationError } from 'sequelize';
