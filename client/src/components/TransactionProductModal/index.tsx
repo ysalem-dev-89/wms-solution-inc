@@ -150,7 +150,7 @@ export default function TransactionProductModal(props: {
             <Button color="primary">
               {props.transactionProduct ? 'Edit' : 'Add'}
             </Button>{' '}
-            <Button color="secondary" onClick={toggle}>
+            <Button color="danger" className="text-white" onClick={toggle}>
               Cancel
             </Button>
           </ModalFooter>

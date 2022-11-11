@@ -18,7 +18,7 @@ const Layout = () => {
         <Spinner color="secondary" type="grow">
           Loading...
         </Spinner>
-        <Spinner color="success" type="grow">
+        <Spinner color="danger" type="grow">
           Loading...
         </Spinner>
       </div>

@@ -36,4 +36,8 @@ export default class AuthHelper {
   static checkPassword(password: string, hashedPassword: string) {
     return bcrypt.compare(password, hashedPassword);
   }
+
+  static hashPassword(password: string) {
+    return bcrypt.hash(password, 10);
+  }
 }

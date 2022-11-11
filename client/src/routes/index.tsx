@@ -4,7 +4,6 @@ import Login from '../pages/Login';
 import Categories from '../pages/Categories';
 import Products from '../pages/Products';
 import Users from '../pages/Users';
-import Profile from '../pages/Profile';
 import Transactions from '../pages/Transactions';
 import Error from '../pages/Errors';
 import ThemeLayout from '../ThemeLayout';
@@ -13,6 +12,8 @@ import About from '../pages/About';
 import { PrivateRoute } from './PrivateRoute';
 import OneTransaction from '../pages/OneTransaction';
 import Invoice from '../pages/Invoice';
+import { NeedTransAuthorization } from './NeedTransAuthorization';
+import { NeedAdminAuthorization } from './NeedAdminAuthorization';
 
 const themeRoutes = [
   {
@@ -29,22 +30,47 @@ const themeRoutes = [
         children: [
           { index: true, element: <Navigate to="/dashboard" /> },
           { path: '/dashboard', element: <Dashboard /> },
-          { path: '/users', element: <Users /> },
-          { path: '/user/:username/profile', element: <Profile /> },
+          {
+            path: '/users',
+            element: (
+              <NeedAdminAuthorization>
+                <Users />
+              </NeedAdminAuthorization>
+            )
+          },
           { path: '/products', element: <Products /> },
           { path: '/categories', element: <Categories /> },
-          { path: '/transactions', element: <Transactions /> },
+          {
+            path: '/transactions',
+            element: (
+              <NeedTransAuthorization>
+                <Transactions />
+              </NeedTransAuthorization>
+            )
+          },
           {
             path: '/transactions/edit/:id',
-            element: <OneTransaction operation={'edit'} />
+            element: (
+              <NeedTransAuthorization>
+                <OneTransaction operation={'edit'} />
+              </NeedTransAuthorization>
+            )
           },
           {
             path: '/transactions/edit/:id/invoice',
-            element: <Invoice />
+            element: (
+              <NeedTransAuthorization>
+                <Invoice />
+              </NeedTransAuthorization>
+            )
           },
           {
             path: '/transactions/add/',
-            element: <OneTransaction operation={'add'} />
+            element: (
+              <NeedTransAuthorization>
+                <OneTransaction operation={'add'} />
+              </NeedTransAuthorization>
+            )
           }
         ]
       },

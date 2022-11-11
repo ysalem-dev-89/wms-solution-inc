@@ -35,4 +35,58 @@ export default class AuthMiddleware {
       next(error);
     }
   };
+
+  static authorizeAdmin = async (
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const user = res.locals?.user;
+
+      if (user && user.role == 'admin') {
+        next();
+      } else {
+        throw new GenericError('UnAuthorized', 403);
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  static authorizeStock = async (
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const user = res.locals?.user;
+
+      if (user && (user.role == 'admin' || user.role == 'stock')) {
+        next();
+      } else {
+        throw new GenericError('UnAuthorized', 403);
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  static authorizeTransactions = async (
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const user = res.locals?.user;
+
+      if (user && (user.role == 'admin' || user.role == 'transactions')) {
+        next();
+      } else {
+        throw new GenericError('UnAuthorized', 403);
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
 }

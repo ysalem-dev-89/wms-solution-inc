@@ -108,7 +108,7 @@ const Header = () => {
                     className="dp-toggle bg-white border-0 rounded"
                   >
                     <span className="username d-flex justify-content-center align-items-center text-white bg-primary rounded-circle">
-                      AU
+                      {user?.role?.slice(0, 2).toUpperCase()}
                     </span>
                   </DropdownToggle>
                   <DropdownMenu>
@@ -116,7 +116,7 @@ const Header = () => {
                       <div className="d-flex gap-3 align-items-center">
                         <div>
                           <span className="p-4 bg-border rounded-circle text-black">
-                            AU
+                            {user?.role?.slice(0, 2).toUpperCase()}
                           </span>
                         </div>
                         <div className="flex-grow-1">
@@ -130,7 +130,9 @@ const Header = () => {
                           logout(dispatch);
                         })}
                       >
-                        <Button color="danger">Logout</Button>{' '}
+                        <Button color="danger" className="text-white">
+                          Logout
+                        </Button>{' '}
                       </form>
                     </div>
                   </DropdownMenu>

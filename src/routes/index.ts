@@ -5,14 +5,27 @@ import productRouter from './ProductRoute';
 import categoryRouter from './CategoryRoute';
 import analyticsRouter from './analyticsRoute';
 import transactionRouter from './TransactionRoute';
+import userRouter from './UsersRoute';
+import AuthMiddleware from '../middlewares/AuthMiddleware';
 
 const router = Router();
 
 router.use('/auth', authRouter);
-router.use('/products', productRouter);
-router.use('/categories', categoryRouter);
-router.use('/analytics', analyticsRouter);
-router.use('/transactions', transactionRouter);
+router.use('/products', AuthMiddleware.authUser, productRouter);
+router.use('/categories', AuthMiddleware.authUser, categoryRouter);
+router.use('/analytics', AuthMiddleware.authUser, analyticsRouter);
+router.use(
+  '/transactions',
+  AuthMiddleware.authUser,
+  AuthMiddleware.authorizeTransactions,
+  transactionRouter
+);
+router.use(
+  '/users',
+  AuthMiddleware.authUser,
+  AuthMiddleware.authorizeAdmin,
+  userRouter
+);
 
 router.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
   const exception = err as GenericError;

@@ -48,6 +48,11 @@ th{
     justify-content: center;
     align-items: center;
 }
+
+.product-page-body .spinner {
+    transform: translate(-50%, -50%);
+}
+
 ._filter-btn{
     align-self: center;
     max-height: 40px;

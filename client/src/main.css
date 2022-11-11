@@ -124,6 +124,7 @@ th, td {
   border-radius: 30px !important;
   padding: 3px 10px;
   width: 100px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -137,6 +138,9 @@ th, td {
   border: 1px solid var(--blue);
 }
 .actions-td button:nth-child(2):hover {
+  border: 1px solid var(--blue);
+}
+.actions-td button:last-child:hover {
   border: 1px solid var(--danger);
 }
 
@@ -168,3 +172,28 @@ tr:last-of-type td:last-of-type {
 }
 /* -------------- End Pagination Style  ------------------ */
 
+
+/* --------------  Start Forms Styles --------------------- */
+form .form-control {
+  margin-bottom: 0 !important;
+}
+
+form .form-input {
+  margin-bottom: 0.6rem !important;
+}
+
+form .form-input .input-error {
+  display: block;
+  margin-top: 0.2rem !important;
+}
+
+/* --------------  End Forms Styles --------------------- */
+
+/* --------------- Start Spinner Style ------------------- */
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(100%, -50%);
+}
+/* --------------- End Spinner Style ------------------- */

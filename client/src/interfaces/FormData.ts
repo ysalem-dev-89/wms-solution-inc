@@ -1,4 +1,4 @@
-import { TransactionStatus, TransactionType } from './Enums';
+import { Role, TransactionStatus, TransactionType } from './Enums';
 
 export type CategorySearch = {
   search: string;
@@ -22,4 +22,13 @@ export type TransactionProductData = {
   quantity: number;
   status: TransactionStatus;
   productId: number;
+};
+
+export type UserData = {
+  id?: number;
+  username: string;
+  password?: string;
+  confirmPassword?: string;
+  email: string;
+  role: Role;
 };

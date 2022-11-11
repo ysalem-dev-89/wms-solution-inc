@@ -16,6 +16,8 @@ import { ApiStatus, UserMessages } from '../../interfaces/Enums';
 import './style.css';
 import { FilterCanvas } from '../../components/FilterCanvas';
 import { PageContext } from '../../contexts/PageContext';
+import useAuth from '../../hooks/useAuth';
+import { GoSearch } from 'react-icons/go';
 
 const fetchData = async (
   itemsPerPage: number,
@@ -69,6 +71,9 @@ const Products = () => {
     [] as ProductInterface[]
   );
   const { setPages } = useContext(PageContext);
+
+  const { auth, dispatch } = useAuth();
+  const { user } = auth;
 
   const [{ editMode, productId }, setEditMode] = useState({
     editMode: false,
@@ -194,8 +199,14 @@ const Products = () => {
   return (
     <div className="product-page-body">
       {apiStatus === ApiStatus.Loading ? (
-        <div className="_load-products">
+        <div className="spinner d-flex gap-2">
           <Spinner color="primary" type="grow">
+            Loading...
+          </Spinner>
+          <Spinner color="secondary" type="grow">
+            Loading...
+          </Spinner>
+          <Spinner color="danger" type="grow">
             Loading...
           </Spinner>
         </div>
@@ -229,13 +240,14 @@ const Products = () => {
             setMinDiscount={setMinDiscount}
             setMaxDiscount={setMaxDiscount}
           />
-          <div className="_search-container">
-            <div className="_search-box">
-              <FaSearch className="_search-icon" />
+          <div className="form-content d-flex justify-content-between mb-3">
+            <div className="search-input">
+              <GoSearch />
               <input
                 placeholder="Looking for something?"
                 type="search"
                 value={searchQuery}
+                className="p-2 border border-border outline-none rounded"
                 onChange={event => {
                   setSearchQuery(event.target.value);
                   productSearch();
@@ -256,12 +268,16 @@ const Products = () => {
                 <tr className="head bg-blue text-white">
                   <th>#</th>
                   <th></th>
-                  <th>PRODUCT</th>
-                  <th>PRICE</th>
-                  <th>DISCOUNT</th>
-                  <th>IN STOCK</th>
-                  <th>CREATED AT</th>
-                  <th className="actions-th text-center">ACTION</th>
+                  <th>Product</th>
+                  <th>Price</th>
+                  <th>Discount</th>
+                  <th>In Stock</th>
+                  <th>Created At</th>
+                  {user?.role == 'admin' || user?.role == 'stock' ? (
+                    <th className="actions-th text-center">Action</th>
+                  ) : (
+                    <></>
+                  )}
                 </tr>
               </thead>
               <tbody>

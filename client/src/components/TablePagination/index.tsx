@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import './style.css';
 
@@ -10,6 +11,8 @@ export const TablePagination = (props: {
     (val, index) => index + 1
   );
 
+  const [start, setStart] = useState<number>(0);
+
   return (
     <Pagination
       aria-label="Page navigation example"
@@ -20,11 +23,13 @@ export const TablePagination = (props: {
           first
           onClick={_e => {
             props.setCurrentPage(1);
+            setStart(0);
           }}
         />
       </PaginationItem>
-      {pageNumbers.map(pageNumber => {
-        return (
+      {pageNumbers.map((pageNumber, index) => {
+        return (index >= start && index <= start + 10) ||
+          index > pageNumbers.length - 3 ? (
           <PaginationItem
             key={pageNumber}
             className={pageNumber == props.currentPage ? 'active' : ''}
@@ -32,11 +37,18 @@ export const TablePagination = (props: {
             <PaginationLink
               onClick={_e => {
                 props.setCurrentPage(pageNumber);
+                if (pageNumber >= start + 9) {
+                  setStart(pageNumber);
+                } else if (pageNumber <= start + 3) {
+                  setStart(pageNumber - 10);
+                }
               }}
             >
               {pageNumber}
             </PaginationLink>
           </PaginationItem>
+        ) : (
+          <></>
         );
       })}
       <PaginationItem>
@@ -44,6 +56,7 @@ export const TablePagination = (props: {
           last
           onClick={_e => {
             props.setCurrentPage(props.numOfPages);
+            setStart(pageNumbers.length - 10);
           }}
         />
       </PaginationItem>
