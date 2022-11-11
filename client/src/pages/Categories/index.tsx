@@ -16,7 +16,7 @@ const Categories = () => {
   const { register, handleSubmit } = useForm<CategorySearch>();
   const [search, setSearch] = useState<string>('');
 
-  const { auth, dispatch } = useAuth();
+  const { auth } = useAuth();
   const { user } = auth;
 
   const onSubmit = handleSubmit(data => {

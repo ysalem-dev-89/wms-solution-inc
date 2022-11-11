@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import { Button, Spinner, Table } from 'reactstrap';
 import {
@@ -72,7 +71,7 @@ const Products = () => {
   );
   const { setPages } = useContext(PageContext);
 
-  const { auth, dispatch } = useAuth();
+  const { auth } = useAuth();
   const { user } = auth;
 
   const [{ editMode, productId }, setEditMode] = useState({

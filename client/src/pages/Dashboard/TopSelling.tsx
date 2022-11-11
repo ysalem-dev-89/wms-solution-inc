@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from 'react';
 import * as analyticsApi from '../../api/analytics';
 import { AxiosError } from 'axios';
 import ErrorHandler from '../../helpers/ErrorHandler';
-import Loader from './Layout';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { LoadingContext } from '../../contexts/LoadingContext';
