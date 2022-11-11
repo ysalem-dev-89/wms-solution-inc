@@ -20,7 +20,6 @@ export const UserTable = (props: {
   search: string;
 }) => {
   const [users, setUsers] = useState<Array<UserInterface> | null>(null);
-  const [isPending, setIsPending] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);

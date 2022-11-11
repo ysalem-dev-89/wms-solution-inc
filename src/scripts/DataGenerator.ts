@@ -17,6 +17,7 @@ export default class DataGenerator {
   static transactions: Transaction[] = [];
   static transactionsProducts: TransactionProduct[] = [];
   static updatedSalePrices: any = {};
+  static saleStatus = [TransactionStatus.Closed, TransactionStatus.Reversed];
 
   static categories = [
     'Snacks',
@@ -35,6 +36,7 @@ export default class DataGenerator {
     'XBox',
     'Music'
   ];
+  static users = ['admin', 'transactions', 'stock'];
 
   static incrementDateByDay = (date: Date, days: number) => {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
@@ -48,7 +50,7 @@ export default class DataGenerator {
     return {
       id,
       type,
-      issuedBy: faker.datatype.number({ min: 1, max: 3 }),
+      issuedBy: faker.datatype.number({ min: 1, max: 2 }),
       createdAt: date,
       updatedAt: date
     };
@@ -87,16 +89,27 @@ export default class DataGenerator {
     };
   }
 
-  static generateUsers(): Omit<User, 'id'>[] {
-    return [...Array(this.USERS_COUNT)].map((_, i) => ({
-      username: faker.internet.userName(),
+  static generateUsers(): User[] {
+    return this.users.map((user, i) => ({
+      username: user,
       password: '$2a$12$R34l5gjz4FICkMyJtdlPouHVhprTio7jh8J3E7v3g/9h9D69UrPVG',
-      email: faker.internet.email(),
-      role: i < 3 ? Role.admin : Role.customer,
+      email: `${user}@gmail.com`,
+      role: i === 0 ? Role.admin : i === 1 ? Role.transactions : Role.stock,
       createdAt: new Date(),
       updatedAt: new Date()
     }));
   }
+
+  // static generateUsers(): Omit<User, 'id'>[] {
+  //   return [...Array(this.USERS_COUNT)].map((_, i) => ({
+  //     username: faker.internet.userName(),
+  //     password: '$2a$12$R34l5gjz4FICkMyJtdlPouHVhprTio7jh8J3E7v3g/9h9D69UrPVG',
+  //     email: faker.internet.email(),
+  //     role: i < 3 ? Role.admin : Role.customer,
+  //     createdAt: new Date(),
+  //     updatedAt: new Date()
+  //   }));
+  // }
 
   static generateProducts(): Omit<Product, 'id'>[] {
     return [...Array(this.PRODUCTS_COUNT)].map((_, i) => ({
@@ -269,7 +282,8 @@ export default class DataGenerator {
       );
       this.transactions.push(newSaleT);
       formattedSalesTP[id].products.forEach((tp: any) => {
-        const status = TransactionStatus.Closed;
+        const status =
+          this.saleStatus[faker.datatype.number({ min: 0, max: 1 })];
         const randomDays = faker.datatype.number({ min: 1, max: 30 });
         const saleUpdatedAt = this.incrementDateByDay(tp.createdAt, randomDays);
 

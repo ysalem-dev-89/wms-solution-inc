@@ -23,7 +23,7 @@ export const TableProductRow = ({
   });
   const price = Number(product.price).toFixed(2);
 
-  const { auth, dispatch } = useAuth();
+  const { auth } = useAuth();
   const { user } = auth;
 
   return (

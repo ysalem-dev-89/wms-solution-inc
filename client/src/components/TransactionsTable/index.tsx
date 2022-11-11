@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Table } from 'reactstrap';
 import { TfiClose } from 'react-icons/tfi';
 import { FiEdit2 } from 'react-icons/fi';
-import { TbFileInvoice } from 'react-icons/tb';
 import { AxiosError } from 'axios';
 import { TablePagination } from '../TablePagination';
 import ErrorHandler from '../../helpers/ErrorHandler';

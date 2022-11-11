@@ -27,7 +27,7 @@ export const CategoryTable = (props: {
   const [itemsPerPage] = useState<number>(10);
   const [numOfPages, setNumOfPages] = useState<number>(0);
 
-  const { auth, dispatch } = useAuth();
+  const { auth } = useAuth();
   const { user } = auth;
 
   const handleView = (id: number, name: string) => {

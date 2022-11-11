@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { useState, createContext, ReactNode, FC, useContext } from 'react';
+import { useState, createContext, ReactNode, FC } from 'react';
 
 type Props = { children: ReactNode };
 
