@@ -43,6 +43,7 @@ const Invoice = () => {
 
   useEffect(() => {
     setPages([
+      { title: 'Dashboard', link: '' },
       { title: 'Transactions', link: 'transactions' },
       transaction
         ? {

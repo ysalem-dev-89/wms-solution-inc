@@ -1,34 +1,35 @@
 import './style.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import * as analyticsApi from '../../api/analytics';
 import { AxiosError } from 'axios';
 import ErrorHandler from '../../helpers/ErrorHandler';
-import Loader from './Loader';
+import Loader from './Layout';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import { LoadingContext } from '../../contexts/LoadingContext';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const TopSelling = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [topSellingNames, setTopSellingNames] = useState<number[]>([]);
   const [topSellingNums, setTopSellingNums] = useState<number[]>([]);
+  const { setLoadingValue } = useContext(LoadingContext);
 
   const displayTopSellingPie = async () => {
+    setLoadingValue(2, true);
     try {
-      setIsLoading(true);
       const { data } = await analyticsApi.topSelling();
       if (data) {
         const { products, sales } = data;
         setTopSellingNames(products);
         setTopSellingNums(sales);
-        setIsLoading(false);
+        setLoadingValue(2, false);
       }
     } catch (error: unknown) {
       const exception = error as AxiosError;
       ErrorHandler.handleRequestError(exception, setError);
-      setIsLoading(false);
+      setLoadingValue(2, false);
     }
   };
 
@@ -63,12 +64,13 @@ const TopSelling = () => {
   };
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
+      {error ? (
         <div className="text-danger">{error}</div>
       ) : (
-        <Pie className="top-selling" width="50" height="50" data={pieData} />
+        <div>
+          <h3 className="chart-title">Top Selling Products</h3>
+          <Pie className="top-selling" data={pieData} />
+        </div>
       )}
     </>
   );

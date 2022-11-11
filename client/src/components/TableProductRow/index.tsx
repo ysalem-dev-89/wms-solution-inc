@@ -1,5 +1,6 @@
 import { HiOutlineEye } from 'react-icons/hi';
 import { TfiClose } from 'react-icons/tfi';
+import useAuth from '../../hooks/useAuth';
 import { ProductInterface } from '../../interfaces/ProductInterface';
 import './styles.css';
 
@@ -22,6 +23,9 @@ export const TableProductRow = ({
   });
   const price = Number(product.price).toFixed(2);
 
+  const { auth, dispatch } = useAuth();
+  const { user } = auth;
+
   return (
     <tr>
       <td>{product.id}</td>
@@ -33,19 +37,23 @@ export const TableProductRow = ({
       <td>{`%${(product.discount * 100).toFixed(2)}`}</td>
       <td>{product.inStock}</td>
       <td>{date}</td>
-      <td>
-        <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4 actions-container">
-          <button
-            type="button"
-            onClick={() => startEditMode(product.id?.toString())}
-          >
-            <HiOutlineEye className="text-blue" /> Edit
-          </button>
-          <button type="button" onClick={() => deleteProduct(product.id)}>
-            <TfiClose className="text-danger" /> Remove
-          </button>
-        </div>
-      </td>
+      {user?.role == 'admin' || user?.role == 'stock' ? (
+        <td>
+          <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4 actions-container">
+            <button
+              type="button"
+              onClick={() => startEditMode(product.id?.toString())}
+            >
+              <HiOutlineEye className="text-blue" /> Edit
+            </button>
+            <button type="button" onClick={() => deleteProduct(product.id)}>
+              <TfiClose className="text-danger" /> Remove
+            </button>
+          </div>
+        </td>
+      ) : (
+        <></>
+      )}
     </tr>
   );
 };

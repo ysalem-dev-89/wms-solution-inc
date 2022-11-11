@@ -1,5 +1,5 @@
 import './style.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,7 +14,7 @@ import * as analyticsApi from '../../api/analytics';
 import { AxiosError } from 'axios';
 import ErrorHandler from '../../helpers/ErrorHandler';
 import YearSelector from './YearSelector';
-import Loader from './Loader';
+import { LoadingContext } from '../../contexts/LoadingContext';
 
 ChartJS.register(
   CategoryScale,
@@ -31,27 +31,27 @@ const RevenueChart = () => {
   const YEARS_COUNT = CURRENT_YEAR - (LAUNCHED_YEAR - 1);
   const years = [...Array(YEARS_COUNT)].map((_, i) => CURRENT_YEAR - i);
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [year, setYear] = useState<number>(CURRENT_YEAR);
   const [purchases, setPurchases] = useState<number[]>([]);
   const [sales, setSales] = useState<number[]>([]);
   const [revenues, setRevenues] = useState<number[]>([]);
+  const { setLoadingValue } = useContext(LoadingContext);
 
   const displayRevenueChart = async () => {
     try {
-      setIsLoading(true);
+      // setLoadingValue(1, true);
       const { data } = await analyticsApi.monthlyRevenue(year);
       if (data) {
-        setIsLoading(false);
         setPurchases(data.purchases);
         setSales(data.sales);
         setRevenues(data.revenues);
+        // setLoadingValue(1, false);
       }
     } catch (error: unknown) {
       const exception = error as AxiosError;
       ErrorHandler.handleRequestError(exception, setError);
-      setIsLoading(false);
+      setLoadingValue(1, false);
     }
   };
 
@@ -93,31 +93,29 @@ const RevenueChart = () => {
       {
         label: 'Revenue',
         data: revenues,
-        backgroundColor: 'rgba(224, 180, 47, 0.7)'
+        backgroundColor: '#ff6384'
       },
       {
         label: 'Purchases',
         data: purchases,
-        backgroundColor: 'rgb(255, 99, 132, .7)'
+        backgroundColor: '#36a2eb'
       },
       {
         label: 'Sales',
         data: sales,
-        backgroundColor: 'rgba(53, 235, 108, 0.6)'
+        backgroundColor: '#ffce56'
       }
     ]
   };
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
+      {error ? (
         <div className="text-danger">{error}</div>
       ) : (
         <div className="chart">
           <YearSelector year={year} years={years} setYear={setYear} />
-          <Bar options={options} data={chartData} />
+          <Bar className="char-bar" options={options} data={chartData} />
         </div>
       )}
     </>

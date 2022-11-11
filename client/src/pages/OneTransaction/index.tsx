@@ -37,6 +37,7 @@ import * as TransactionProducts from '../../helpers/transactionProducts';
 import { TransactionType } from '../../interfaces/Enums';
 import { PageContext } from '../../contexts/PageContext';
 import { calculateTotalPrice } from '../../helpers/NumberHelpers';
+import useAuth from '../../hooks/useAuth';
 
 const OneTransaction = ({ operation }: { operation: string }) => {
   const { id } = useParams();
@@ -65,6 +66,9 @@ const OneTransaction = ({ operation }: { operation: string }) => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(prevState => !prevState);
+
+  const { auth } = useAuth();
+  const { user } = auth;
 
   const onSubmit = handleSubmit(async data => {
     try {
@@ -119,6 +123,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
     }
 
     setPages([
+      { title: 'Dashboard', link: '' },
       { title: 'Transactions', link: 'transactions' },
       {
         title:
@@ -146,13 +151,13 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         await Transaction.updateOneTransaction({
           id: transaction?.id || -1,
           type: transType || transaction?.type || TransactionType.Purchase,
-          issuedBy: transaction?.User?.id || 1,
+          issuedBy: transaction?.User?.id || user?.id || 1,
           transactionProducts: transactionProducts
         });
       } else {
         await Transaction.createNewTransaction({
           type: transType,
-          issuedBy: 1,
+          issuedBy: user?.id || 1,
           transactionProducts: transactionProducts
         });
       }
@@ -239,7 +244,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
                     defaultValue={
                       operation == 'edit'
                         ? transaction?.User?.username
-                        : 'admin'
+                        : user?.username
                     }
                     required={true}
                     className="form-control"

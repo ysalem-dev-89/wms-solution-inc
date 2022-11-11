@@ -12,10 +12,13 @@ import Logo from '../../assets/images/wms_logo.png';
 
 import { Nav, NavItem } from 'reactstrap';
 import { Link, NavLink } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
+  const { auth, dispatch } = useAuth();
+  const { user } = auth;
 
   const menuItem = [
     {
@@ -33,16 +36,20 @@ const Sidebar = () => {
       name: 'Categories',
       icon: <FaRegChartBar />
     },
-    {
-      path: '/transactions',
-      name: 'Transactions',
-      icon: <AiOutlineTransaction />
-    },
-    {
-      path: '/users',
-      name: 'Users',
-      icon: <FaUserAlt />
-    }
+    user?.role == 'admin' || user?.role == 'transactions'
+      ? {
+          path: '/transactions',
+          name: 'Transactions',
+          icon: <AiOutlineTransaction />
+        }
+      : null,
+    user?.role == 'admin'
+      ? {
+          path: '/users',
+          name: 'Users',
+          icon: <FaUserAlt />
+        }
+      : null
   ];
   return (
     <aside
@@ -73,19 +80,23 @@ const Sidebar = () => {
           isOpen ? 'mx-3' : 'mx-2'
         } mt-3`}
       >
-        {menuItem.map((item, index) => (
-          <NavItem key={index}>
-            <NavLink
-              to={item.path}
-              className="link text-white d-flex align-items-center px-3 gap-3 rounded mb-2"
-            >
-              <div className="icon">{item.icon}</div>
-              <div className={`link-text ${isOpen ? 'd-block' : 'd-none'}`}>
-                {item.name}
-              </div>
-            </NavLink>
-          </NavItem>
-        ))}
+        {menuItem.map((item, index) =>
+          item ? (
+            <NavItem key={index}>
+              <NavLink
+                to={item.path}
+                className="link text-white d-flex align-items-center px-3 gap-3 rounded mb-2"
+              >
+                <div className="icon">{item.icon}</div>
+                <div className={`link-text ${isOpen ? 'd-block' : 'd-none'}`}>
+                  {item.name}
+                </div>
+              </NavLink>
+            </NavItem>
+          ) : (
+            <></>
+          )
+        )}
       </Nav>
     </aside>
   );

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useEffect, useState } from 'react';
-import { Button, ButtonGroup } from 'reactstrap';
+import { Button, ButtonGroup, Spinner } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import { GoSearch } from 'react-icons/go';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,7 +16,10 @@ const Transactions = () => {
   const { setPages } = useContext(PageContext);
 
   useEffect(() => {
-    setPages([{ title: 'Transactions', link: 'transactions' }]);
+    setPages([
+      { title: 'Dashboard', link: '' },
+      { title: 'Transactions', link: 'transactions' }
+    ]);
   }, []);
 
   const { register, handleSubmit } = useForm();
@@ -25,78 +28,99 @@ const Transactions = () => {
   const [search, setSearch] = useState<string>('');
   const [setTransaction] = useState<TransactionInterface | any>(null);
   const [isSucceed, setIsSucceed] = useState<boolean>(false);
+  const [isPending, setIsPending] = useState<boolean>(true);
+
   const onSubmit = handleSubmit(data => {
     setSearch(data.search);
   });
 
   return (
-    <section className="data-table-section bg-white p-4">
-      <header>
-        <h3 className="h6 fw-bold mb-5">Transactions</h3>
-        <div className="d-flex justify-content-between mb-3 align-items-center">
-          <form onSubmit={onSubmit} className="flex-1">
-            <div className="form-content d-flex gap-3">
-              <div className="search-input">
-                <GoSearch />
-                <input
-                  type="search"
-                  {...register('search')}
-                  className="p-2 border border-border outline-none rounded"
-                  placeholder="Search for user"
-                />
+    <>
+      <div className={`spinner ${isPending ? 'd-flex gap-2' : 'd-none'}`}>
+        <Spinner color="primary" type="grow">
+          Loading...
+        </Spinner>
+        <Spinner color="secondary" type="grow">
+          Loading...
+        </Spinner>
+        <Spinner color="danger" type="grow">
+          Loading...
+        </Spinner>
+      </div>
+      <section
+        className={`data-table-section bg-white p-4 ${
+          isPending ? 'd-none' : 'd-block'
+        }`}
+      >
+        <header>
+          <h3 className="h6 fw-bold mb-5">Transactions</h3>
+          <div className="d-flex justify-content-between mb-3 align-items-center">
+            <form onSubmit={onSubmit} className="flex-1">
+              <div className="form-content d-flex gap-3">
+                <div className="search-input">
+                  <GoSearch />
+                  <input
+                    type="search"
+                    {...register('search')}
+                    className="p-2 border border-border outline-none rounded"
+                    placeholder="Search for user"
+                  />
+                </div>
+                <div className="right">
+                  <ButtonGroup>
+                    <Button
+                      color="primary"
+                      outline
+                      onClick={() => setType('all')}
+                      active={type === 'all'}
+                    >
+                      All
+                    </Button>
+                    <Button
+                      color="primary"
+                      outline
+                      onClick={() => setType('purchase')}
+                      active={type === 'purchase'}
+                    >
+                      Purchase
+                    </Button>
+                    <Button
+                      color="primary"
+                      outline
+                      onClick={() => setType('sale')}
+                      active={type === 'sale'}
+                    >
+                      Sale
+                    </Button>
+                  </ButtonGroup>
+                </div>
               </div>
-              <div className="right">
-                <ButtonGroup>
-                  <Button
-                    color="primary"
-                    outline
-                    onClick={() => setType('all')}
-                    active={type === 'all'}
-                  >
-                    All
-                  </Button>
-                  <Button
-                    color="primary"
-                    outline
-                    onClick={() => setType('purchase')}
-                    active={type === 'purchase'}
-                  >
-                    Purchase
-                  </Button>
-                  <Button
-                    color="primary"
-                    outline
-                    onClick={() => setType('sale')}
-                    active={type === 'sale'}
-                  >
-                    Sale
-                  </Button>
-                </ButtonGroup>
+            </form>
+            <div className="right">
+              <div>
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    navigate('add');
+                  }}
+                >
+                  Add Transaction
+                </Button>
               </div>
-            </div>
-          </form>
-          <div className="right">
-            <div>
-              <Button
-                color="primary"
-                onClick={() => {
-                  navigate('add');
-                }}
-              >
-                Add Transaction
-              </Button>
             </div>
           </div>
-        </div>
-      </header>
-      <TransactionsTable
-        isSucceed={isSucceed}
-        setIsSucceed={setIsSucceed}
-        setTransaction={setTransaction}
-        search={search}
-        type={type}
-      />
-    </section>
+        </header>
+        <TransactionsTable
+          isPending={isPending}
+          setIsPending={setIsPending}
+          isSucceed={isSucceed}
+          setIsSucceed={setIsSucceed}
+          setTransaction={setTransaction}
+          search={search}
+          type={type}
+        />
+      </section>
+    </>
   );
 };
 

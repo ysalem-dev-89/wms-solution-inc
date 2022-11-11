@@ -19,5 +19,7 @@ export const stockAlert = ({
   limit: number;
   offset: number;
 }) => {
-  return axios.get(`/analytics/stockalert?limit=${limit}&offset=${offset}`);
+  return axios.get(
+    `/api/v1/analytics/stockalert?limit=${limit}&offset=${offset}`
+  );
 };

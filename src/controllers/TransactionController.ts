@@ -11,10 +11,11 @@ export default class TransactionController {
     next: NextFunction
   ) => {
     try {
-      const { type, issuedBy, transactionProducts } = req.body;
+      const userId = res.locals?.user?.id;
+      const { type, transactionProducts } = req.body;
       const transaction = await TransactionQuery.createNewTransaction({
         type,
-        issuedBy,
+        issuedBy: userId || 0,
         transactionProducts
       });
 
@@ -41,12 +42,13 @@ export default class TransactionController {
     next: NextFunction
   ) => {
     try {
-      const { type, issuedBy, transactionProducts } = req.body;
+      const userId = res.locals.user.id;
+      const { type, transactionProducts } = req.body;
       const { id } = req.params;
       const transaction = await TransactionQuery.updateOneTransaction({
         id: Number(id),
         type,
-        issuedBy,
+        issuedBy: userId || 0,
         transactionProducts
       });
 

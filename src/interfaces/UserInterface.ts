@@ -1,6 +1,7 @@
 export enum Role {
   admin = 'admin',
-  customer = 'customer'
+  transactions = 'transactions',
+  stock = 'stock'
 }
 
 export interface User {

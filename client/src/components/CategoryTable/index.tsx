@@ -8,8 +8,11 @@ import * as Category from '../../api/category';
 import { TablePagination } from '../TablePagination';
 import ErrorHandler from '../../helpers/ErrorHandler';
 import './style.css';
+import useAuth from '../../hooks/useAuth';
 
 export const CategoryTable = (props: {
+  isPending: boolean;
+  setIsPending: React.Dispatch<React.SetStateAction<boolean>>;
   setCategory: React.Dispatch<React.SetStateAction<CategoryInterface | null>>;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
   isSucceed: boolean;
@@ -19,11 +22,13 @@ export const CategoryTable = (props: {
   const [categories, setCategories] = useState<Array<CategoryInterface> | null>(
     null
   );
-  const [isPending, setIsPending] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
   const [numOfPages, setNumOfPages] = useState<number>(0);
+
+  const { auth, dispatch } = useAuth();
+  const { user } = auth;
 
   const handleView = (id: number, name: string) => {
     props.setCategory({
@@ -38,22 +43,20 @@ export const CategoryTable = (props: {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setIsPending(true);
-
         const list = await Category.getCategories({
           name: props.search,
           limit: itemsPerPage,
           offset: itemsPerPage * (currentPage - 1)
         });
 
-        setIsPending(false);
+        props.setIsPending(false);
         setCategories(list.data.items);
         setNumOfPages(Math.ceil(list.data.totalCount / itemsPerPage));
       } catch (error: unknown) {
         const exception = error as AxiosError;
         ErrorHandler.handleRequestError(exception, setError);
 
-        setIsPending(false);
+        props.setIsPending(false);
       }
     };
 
@@ -84,13 +87,15 @@ export const CategoryTable = (props: {
             <th>#</th>
             <th>Category Name</th>
             <th>Product Count</th>
-            <th className="actions-th text-center">Action</th>
+            {user?.role == 'admin' || user?.role == 'stock' ? (
+              <th className="actions-th text-center">Action</th>
+            ) : (
+              <></>
+            )}
           </tr>
         </thead>
         <tbody>
-          {isPending ? (
-            <div>Loading...</div>
-          ) : error ? (
+          {error ? (
             <div className="text-danger">{error}</div>
           ) : !categories ? (
             <div>No Categories Found</div>
@@ -101,24 +106,28 @@ export const CategoryTable = (props: {
                   <td className="category-id">{category.id}</td>
                   <td className="category-name">{category.name}</td>
                   <td className="product-count">{category?.productsCount}</td>
-                  <td>
-                    <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
-                      <button
-                        onClick={_e => {
-                          handleView(category.id, category.name);
-                        }}
-                      >
-                        <FiEdit2 className="text-blue" /> Edit
-                      </button>
-                      <button
-                        onClick={_e => {
-                          handleRemove(category.id);
-                        }}
-                      >
-                        <TfiClose className="text-danger" /> Remove
-                      </button>
-                    </div>
-                  </td>
+                  {user?.role == 'admin' || user?.role == 'stock' ? (
+                    <td>
+                      <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
+                        <button
+                          onClick={_e => {
+                            handleView(category.id, category.name);
+                          }}
+                        >
+                          <FiEdit2 className="text-blue" /> Edit
+                        </button>
+                        <button
+                          onClick={_e => {
+                            handleRemove(category.id);
+                          }}
+                        >
+                          <TfiClose className="text-danger" /> Remove
+                        </button>
+                      </div>
+                    </td>
+                  ) : (
+                    <></>
+                  )}
                 </tr>
               );
             })

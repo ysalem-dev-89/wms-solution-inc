@@ -91,7 +91,7 @@ export default function CategoryModal(props: {
           </ModalBody>
           <ModalFooter>
             <Button color="primary">{props.category ? 'Edit' : 'Add'}</Button>{' '}
-            <Button color="secondary" onClick={toggle}>
+            <Button color="danger" className="text-white" onClick={toggle}>
               Cancel
             </Button>
           </ModalFooter>
