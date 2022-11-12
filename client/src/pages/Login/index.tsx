@@ -6,6 +6,7 @@ import { authApi } from '../../api';
 import { Credential } from '../../interfaces/CredentialInterface';
 import useAuth from '../../hooks/useAuth';
 import './styles.css';
+import Logo from '../../assets/images/wms_logo.png';
 
 function AuthPage() {
   const { auth, dispatch } = useAuth();
@@ -48,40 +49,45 @@ function AuthPage() {
   };
 
   return !auth?.loggedIn ? (
-    <form
-      className="form-container m-5"
-      onSubmit={handleSubmit(data => {
-        signIn(data);
-      })}
-    >
-      <div className="input-container">
-        <p className="input-label">User name:</p>
-        <input
-          className="user-name"
-          {...register('username', {
-            required: true
-          })}
-          placeholder="username"
-        />
-      </div>
-      {errors.username && <p className="error">This field is required</p>}
-      <div className="input-container">
-        <p className="input-label">Password</p>
-        <input
-          {...register('password', {
-            required: true
-          })}
-          placeholder="password"
-          className="user-name"
-          type="password"
-        />
-      </div>
-      {errors.password && <p className="error">This field is required</p>}
-      {error && <p className="error">{error}</p>}
-      <button type="submit" className="btn btn-primary px-5">
-        Sign In
-      </button>
-    </form>
+    <div className="form-container m-5 shadow">
+      <h1 className="form-title">
+        <img src={Logo} alt="logo" />
+        <span>WMS</span>
+      </h1>
+      <form
+        onSubmit={handleSubmit(data => {
+          signIn(data);
+        })}
+      >
+        <div className="input-container">
+          <p className="input-label">User name:</p>
+          <input
+            className="user-name"
+            {...register('username', {
+              required: true
+            })}
+            placeholder="username"
+          />
+        </div>
+        {errors.username && <p className="error">This field is required</p>}
+        <div className="input-container">
+          <p className="input-label">Password</p>
+          <input
+            {...register('password', {
+              required: true
+            })}
+            placeholder="password"
+            className="user-name"
+            type="password"
+          />
+        </div>
+        {errors.password && <p className="error">This field is required</p>}
+        {error && <p className="error">{error}</p>}
+        <button type="submit" className="login-btn btn btn-primary mt-2 px-5">
+          Sign In
+        </button>
+      </form>
+    </div>
   ) : (
     <Navigate to="/" />
   );

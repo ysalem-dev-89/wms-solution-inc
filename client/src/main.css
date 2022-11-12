@@ -40,9 +40,9 @@ html, body {
   --transition-1: 0.2s;
   --transition-2: 0.5s;
 }
-html {
+/* html {
   overflow-y: hidden;
-}
+} */
 body {
   font-family: 'Nunito Sans', sans-serif !important;
 }
