@@ -20,15 +20,18 @@ const About = () => {
       <div className="col-lg-6">
         <h1 className="display-5 fw-bold lh-1 mb-3">About Us</h1>
         <p className="lead">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit quod
-          nihil explicabo voluptatem provident similique molestiae, beatae eos
-          alias ullam maiores ea illum quidem quos rem libero dignissimos? In,
-          nihil!
+          It is a Billing and Warehouse Management System - Point of Sale
+          management system. It is an advanced billing software and warehouse
+          management tool, which comes with features like managing Products in
+          stock, Transactions, Categories and printing Invoices, it also has an
+          amazing visual analytics using charts and graphs. It can be used for
+          different business like mobile stores, clothing stores,..etc where you
+          want to manage the stock and to buy or sell products.
         </p>
         <div className="d-grid gap-2 d-md-flex justify-content-md-start">
           <button
             type="button"
-            className="btn btn-outline-secondary btn-lg px-4"
+            className="btn btn-outline-primary btn-lg px-4"
             onClick={() => {
               navigate('/');
             }}
