@@ -85,14 +85,29 @@ const OneTransaction = ({ operation }: { operation: string }) => {
     ProductId: number,
     product: ProductInterface
   ) => {
-    const newList = TransactionProducts.addNewTransactionProduct({
-      TransactionId: transaction?.id || -1,
-      currentTransactionProducts: transactionProducts,
-      price: product.price,
-      quantity: 1,
-      ProductId: ProductId,
-      Product: product
-    });
+    const transProduct = transactionProducts.find(
+      item => item.ProductId == ProductId
+    );
+
+    let newList = [];
+    if (transProduct) {
+      newList = TransactionProducts.updateTransactionProducts({
+        currentTransactionProducts: transactionProducts,
+        price: product.price,
+        quantity: transProduct?.quantity + 1,
+        ProductId: ProductId
+      });
+    } else {
+      newList = TransactionProducts.addNewTransactionProduct({
+        TransactionId: transaction?.id || -1,
+        currentTransactionProducts: transactionProducts,
+        price: product.price,
+        quantity: 1,
+        ProductId: ProductId,
+        Product: product
+      });
+    }
+
     setTransactionProducts(newList);
     setDropdownOpen(false);
   };
@@ -284,7 +299,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
                 placeholder="Search for product"
               />
               <DropdownMenu>
-                {products.slice(0, 4).map(product => (
+                {products.slice(0, 100).map(product => (
                   <DropdownItem text key={product.id}>
                     <ListGroupItem
                       action
@@ -295,10 +310,11 @@ const OneTransaction = ({ operation }: { operation: string }) => {
                         handleProductSelect(Number(product.id) || 0, product)
                       }
                     >
-                      <div className="d-flex justify-content-between">
+                      <div className="product-item d-flex justify-content-between">
                         <span className="ps-4">
                           {' '}
                           <GoSearch />
+                          <img src={product.icon} alt="product icon" />
                           {product.title}
                         </span>
                         <span>${product.price}</span>

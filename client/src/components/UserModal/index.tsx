@@ -76,8 +76,7 @@ export default function UserModal(props: {
       toggle();
 
       let result = null;
-      console.log(props.user);
-      console.log(data.password);
+      let message = '';
       if (props.user) {
         result = await User.udpateOneUser({
           id: Number(props.user?.id),
@@ -86,6 +85,7 @@ export default function UserModal(props: {
           password: data.password || props.user.password,
           role: data.role
         });
+        message = 'User is updated successfully';
       } else {
         result = await User.createNewUser({
           username: data.username,
@@ -93,9 +93,19 @@ export default function UserModal(props: {
           password: data.password,
           role: data.role
         });
+        message = 'User is added successfully';
       }
       if (result && result.data.message == 'Success') {
         props.setIsSucceed(true);
+        toast.success(message, {
+          position: 'bottom-right',
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
       }
     } catch (error: unknown) {
       const exception = error as AxiosError;

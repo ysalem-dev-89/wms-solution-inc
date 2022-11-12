@@ -10,6 +10,7 @@ import * as Transaction from '../../api/transaction';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 export const TransactionsTable = (props: {
   setTransaction: React.Dispatch<
@@ -64,6 +65,16 @@ export const TransactionsTable = (props: {
     try {
       await Transaction.deleteOneTransaction(id);
       props.setIsSucceed(true);
+
+      toast.warning('Transaction is deleted successfully', {
+        position: 'bottom-right',
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      });
     } catch (error: unknown) {
       const exception = error as AxiosError;
       ErrorHandler.handleRequestError(exception, setError);
@@ -101,14 +112,6 @@ export const TransactionsTable = (props: {
                   <td>${Number(transaction.totalCost).toFixed(2)}</td>
                   <td>
                     <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-1">
-                      {/* <button
-                        onClick={_e => {
-                          navigate(`edit/${transaction.id}/invoice`);
-                        }}
-                      >
-                        <TbFileInvoice className="text-blue" />
-                        Invoice
-                      </button> */}
                       <button
                         onClick={_e => {
                           navigate(`edit/${transaction.id}`);

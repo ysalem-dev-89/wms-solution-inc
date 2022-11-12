@@ -9,6 +9,7 @@ import { TablePagination } from '../TablePagination';
 import ErrorHandler from '../../helpers/ErrorHandler';
 import './style.css';
 import useAuth from '../../hooks/useAuth';
+import { toast } from 'react-toastify';
 
 export const CategoryTable = (props: {
   isPending: boolean;
@@ -71,6 +72,16 @@ export const CategoryTable = (props: {
   const handleRemove = async (id: number) => {
     try {
       await Category.deleteOneCategory(id);
+
+      toast.warn('Category is deleted successfully', {
+        position: 'bottom-right',
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      });
 
       props.setIsSucceed(true);
     } catch (error: unknown) {

@@ -9,6 +9,7 @@ import ErrorHandler from '../../helpers/ErrorHandler';
 import './style.css';
 import { UserInterface } from '../../interfaces/UserInterface';
 import { Role } from '../../interfaces/Enums';
+import { toast } from 'react-toastify';
 
 export const UserTable = (props: {
   isPending: boolean;
@@ -80,8 +81,17 @@ export const UserTable = (props: {
   const handleRemove = async (id: number) => {
     try {
       await User.deleteOneUser(id);
-
       props.setIsSucceed(true);
+
+      toast.warning('User is deleted successfully', {
+        position: 'bottom-right',
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      });
     } catch (error: unknown) {
       const exception = error as AxiosError;
       ErrorHandler.handleRequestError(exception, setError);
