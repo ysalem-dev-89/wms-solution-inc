@@ -31,16 +31,30 @@ export default function CategoryModal(props: {
       toggle();
 
       let result = null;
+      let message = '';
       if (props.category) {
         result = await Category.updateOneCategory({
           id: Number(props.category?.id),
           name: data.category
         });
+
+        message = 'Category is updated successfully';
       } else {
         result = await Category.createNewCategory(data.category);
+        message = 'Category is added successfully';
       }
       if (result && result.data.message == 'Success') {
         props.setIsSucceed(true);
+
+        toast.success(message, {
+          position: 'bottom-right',
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
       }
     } catch (error: unknown) {
       const exception = error as AxiosError;
