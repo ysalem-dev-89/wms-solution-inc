@@ -192,7 +192,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         }
       );
 
-      navigate(-1);
+      navigate(`/transactions/${transaction?.id}/`);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const exception = error as AxiosError;
@@ -221,11 +221,8 @@ const OneTransaction = ({ operation }: { operation: string }) => {
   }, [error]);
 
   return (
-    <section className="data-table-section bg-white p-4 transaction-details">
+    <section className="data-table-section bg-bg-light pt-2 transaction-details">
       <header>
-        <div className="justify-content-between d-flex gap-2  mb-5  align-items-center">
-          <h3 className="h6 fw-bold">Transaction Details</h3>
-        </div>
         <div className="transaction-inputs d-flex justify-content-between mb-3 align-items-center">
           <form onSubmit={onSubmit}>
             <Row xs="1" sm="3">
@@ -390,12 +387,12 @@ const OneTransaction = ({ operation }: { operation: string }) => {
       </Card>
 
       <div className="justify-content-between d-flex gap-2 py-3 mt-4 border-top border-border ">
-        {operation === 'edit' ? (
+        {/* {operation === 'edit' ? (
           <button
             className="px-4 py-2 btn btn-outline-primary d-flex align-items-center gap-1"
             color="primary"
             onClick={() => {
-              navigate('invoice');
+              navigate('');
             }}
           >
             <span>
@@ -405,7 +402,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
           </button>
         ) : (
           <></>
-        )}
+        )} */}
         <Button
           className="px-4 py-2 ms-auto"
           color="primary"

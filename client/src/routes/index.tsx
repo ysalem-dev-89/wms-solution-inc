@@ -49,18 +49,18 @@ const themeRoutes = [
             )
           },
           {
-            path: '/transactions/edit/:id',
+            path: '/transactions/:id/',
             element: (
               <NeedTransAuthorization>
-                <OneTransaction operation={'edit'} />
+                <Invoice />
               </NeedTransAuthorization>
             )
           },
           {
-            path: '/transactions/edit/:id/invoice',
+            path: '/transactions/:id/edit',
             element: (
               <NeedTransAuthorization>
-                <Invoice />
+                <OneTransaction operation={'edit'} />
               </NeedTransAuthorization>
             )
           },

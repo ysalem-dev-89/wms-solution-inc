@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Table } from 'reactstrap';
 import { TfiClose } from 'react-icons/tfi';
-import { FiEdit2 } from 'react-icons/fi';
+import { HiOutlineEye } from 'react-icons/hi';
 import { AxiosError } from 'axios';
 import { TablePagination } from '../TablePagination';
 import ErrorHandler from '../../helpers/ErrorHandler';
 import TransactionInterface from '../../interfaces/TransactionInterface';
 import * as Transaction from '../../api/transaction';
 import './style.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
@@ -114,10 +114,10 @@ export const TransactionsTable = (props: {
                     <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-1">
                       <button
                         onClick={_e => {
-                          navigate(`edit/${transaction.id}`);
+                          navigate(`${transaction.id}`);
                         }}
                       >
-                        <FiEdit2 className="text-blue" /> Edit
+                        <HiOutlineEye className="text-blue" /> View
                       </button>
                       <button
                         onClick={_e => {

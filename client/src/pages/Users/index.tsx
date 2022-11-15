@@ -52,13 +52,12 @@ const Users = () => {
         </Spinner>
       </div>
       <section
-        className={`data-table-section bg-white p-4 ${
+        className={`data-table-section bg-bg-light pt-2 ${
           isPending ? 'd-none' : 'd-block'
         }`}
       >
         {' '}
         <header>
-          <h3 className="h6 fw-bold mb-5">Users</h3>
           <div className="d-flex justify-content-between mb-3 align-items-center">
             <form onSubmit={onSubmit}>
               <div className="search-input">
