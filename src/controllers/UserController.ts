@@ -4,7 +4,7 @@ import AuthHelper from '../helpers/AuthHelper';
 import GenericError from '../helpers/GenericError';
 import { UserRequest } from '../interfaces/UserRequest';
 import { ValidationError } from 'sequelize';
-
+import { User as UserInterface } from '../interfaces/UserInterface';
 export default class UserController {
   static createNewUser = async (
     req: Request,
@@ -49,14 +49,16 @@ export default class UserController {
       const { id } = req.params;
       const { username, password, email, role } = req.body;
 
-      const hashedPassword = await AuthHelper.hashPassword(password);
+      const hashedPassword = password
+        ? await AuthHelper.hashPassword(password)
+        : undefined;
 
       const user = await UserQuery.updateOneUser({
         id: Number(id),
-        username,
+        username: username,
+        email: email,
         password: hashedPassword,
-        email,
-        role
+        role: role
       });
 
       if (!user) throw new GenericError('Not Found', 404);

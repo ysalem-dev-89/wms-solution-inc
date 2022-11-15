@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Table } from 'reactstrap';
 import { TfiClose } from 'react-icons/tfi';
-import { FiEdit2 } from 'react-icons/fi';
+import { HiOutlineEye } from 'react-icons/hi';
 import { AxiosError } from 'axios';
 import { TablePagination } from '../TablePagination';
 import ErrorHandler from '../../helpers/ErrorHandler';
@@ -27,14 +27,17 @@ export const TransactionsTable = (props: {
     useState<Array<TransactionInterface> | null>(null);
   const [error, setError] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(20);
+  const [itemsPerPage] = useState<number>(10);
   const [numOfPages, setNumOfPages] = useState<number>(0);
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [isPagingLoading, setIsPagingLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsPagingLoading(true);
+
       try {
-        console.log(props.isPending);
         const list = await Transaction.getTransactions({
           type: props.type,
           search: props.search,
@@ -42,13 +45,17 @@ export const TransactionsTable = (props: {
           offset: itemsPerPage * (currentPage - 1)
         });
 
+        setIsPagingLoading(false);
         props.setIsPending(false);
+
         setTransactions(list.data.items);
         setNumOfPages(Math.ceil(list.data.totalCount / itemsPerPage));
+        setTotalCount(list.data.totalCount);
       } catch (error: unknown) {
         const exception = error as AxiosError;
         ErrorHandler.handleRequestError(exception, setError);
 
+        setIsPagingLoading(false);
         props.setIsPending(false);
       }
     };
@@ -114,10 +121,10 @@ export const TransactionsTable = (props: {
                     <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-1">
                       <button
                         onClick={_e => {
-                          navigate(`edit/${transaction.id}`);
+                          navigate(`${transaction.id}`);
                         }}
                       >
-                        <FiEdit2 className="text-blue" /> Edit
+                        <HiOutlineEye className="text-blue" /> View
                       </button>
                       <button
                         onClick={_e => {
@@ -137,7 +144,10 @@ export const TransactionsTable = (props: {
       <TablePagination
         numOfPages={numOfPages}
         currentPage={currentPage}
+        totalCount={totalCount}
+        itemsPerPage={itemsPerPage}
         setCurrentPage={setCurrentPage}
+        isLoading={isPagingLoading}
       />
     </div>
   );

@@ -9,14 +9,19 @@
     position: absolute;
     right: 10px;
     top: 10px;
+
 }
 
 .chart .dropdown .dropdown-item {
     font-size: 12px !important;
+
 }
 
 .chart .dropdown button {
     font-size: 14px !important;
+    color: #fff !important;
+    background-color: var(--primary);
+    box-shadow: none;
 }
 
 .total-statistics .card-group {
@@ -80,3 +85,4 @@ canvas {
 table {
     caption-side: top;
 }
+

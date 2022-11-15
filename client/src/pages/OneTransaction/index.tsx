@@ -18,7 +18,6 @@ import {
 import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
 import { GoSearch } from 'react-icons/go';
-import { TbFileInvoice } from 'react-icons/tb';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import moment from 'moment';
@@ -38,6 +37,7 @@ import { TransactionType } from '../../interfaces/Enums';
 import { PageContext } from '../../contexts/PageContext';
 import { calculateTotalPrice } from '../../helpers/NumberHelpers';
 import useAuth from '../../hooks/useAuth';
+import { capitalizeFirstLetter } from '../../helpers/StringHelpers';
 
 const OneTransaction = ({ operation }: { operation: string }) => {
   const { id } = useParams();
@@ -144,16 +144,21 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         title:
           operation == 'edit'
             ? transaction
-              ? `${transaction?.type} #${transaction?.id}`
+              ? `${capitalizeFirstLetter(transaction?.type)} #${
+                  transaction?.id
+                }`
               : '#'
             : `New`,
         link:
           operation == 'edit'
             ? transaction
-              ? `transactions/edit/${transaction?.id}`
+              ? `transactions/${transaction?.id}`
               : 'transactions'
             : 'transaction/add'
-      }
+      },
+      operation == 'edit'
+        ? { title: 'Edit', link: 'edit' }
+        : { title: '', link: '' }
     ]);
   }, [transaction]);
 
@@ -170,11 +175,14 @@ const OneTransaction = ({ operation }: { operation: string }) => {
           transactionProducts: transactionProducts
         });
       } else {
-        await Transaction.createNewTransaction({
+        const trans = await Transaction.createNewTransaction({
           type: transType,
           issuedBy: user?.id || 1,
           transactionProducts: transactionProducts
         });
+        if (trans) {
+          setTransaction(trans.data?.transaction);
+        }
       }
 
       toast.success(
@@ -191,8 +199,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
           progress: undefined
         }
       );
-
-      navigate(-1);
+      if (operation == 'edit') navigate(`/transactions/${transaction?.id}/`);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const exception = error as AxiosError;
@@ -203,6 +210,11 @@ const OneTransaction = ({ operation }: { operation: string }) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (operation == 'add' && transaction)
+      navigate(`/transactions/${transaction?.id}/`);
+  }, [transaction]);
 
   useEffect(() => {
     if (error) {
@@ -221,11 +233,8 @@ const OneTransaction = ({ operation }: { operation: string }) => {
   }, [error]);
 
   return (
-    <section className="data-table-section bg-white p-4 transaction-details">
+    <section className="data-table-section bg-bg-light pt-2 transaction-details">
       <header>
-        <div className="justify-content-between d-flex gap-2  mb-5  align-items-center">
-          <h3 className="h6 fw-bold">Transaction Details</h3>
-        </div>
         <div className="transaction-inputs d-flex justify-content-between mb-3 align-items-center">
           <form onSubmit={onSubmit}>
             <Row xs="1" sm="3">
@@ -296,7 +305,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
                 {...register('title')}
                 name="title"
                 className="p-2 border border-border outline-none rounded form-control"
-                placeholder="Search for product"
+                placeholder="Type your product and press Enter"
               />
               <DropdownMenu>
                 {products.slice(0, 100).map(product => (
@@ -390,22 +399,6 @@ const OneTransaction = ({ operation }: { operation: string }) => {
       </Card>
 
       <div className="justify-content-between d-flex gap-2 py-3 mt-4 border-top border-border ">
-        {operation === 'edit' ? (
-          <button
-            className="px-4 py-2 btn btn-outline-primary d-flex align-items-center gap-1"
-            color="primary"
-            onClick={() => {
-              navigate('invoice');
-            }}
-          >
-            <span>
-              <TbFileInvoice />
-            </span>
-            <span>Invoice</span>
-          </button>
-        ) : (
-          <></>
-        )}
         <Button
           className="px-4 py-2 ms-auto"
           color="primary"

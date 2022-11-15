@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { AxiosError } from 'axios';
@@ -11,6 +11,8 @@ import { capitalizeFirstLetter } from '../../helpers/StringHelpers';
 import { PageContext } from '../../contexts/PageContext';
 import { calculateTotalPrice } from '../../helpers/NumberHelpers';
 import './style.css';
+import { AiFillPrinter } from 'react-icons/ai';
+import { FiEdit2 } from 'react-icons/fi';
 
 const Invoice = () => {
   const { id } = useParams();
@@ -47,23 +49,58 @@ const Invoice = () => {
       { title: 'Transactions', link: 'transactions' },
       transaction
         ? {
-            title: `${transaction?.type} #${transaction?.id}`,
-            link: `transactions/edit/${transaction?.id}`
+            title: `${capitalizeFirstLetter(transaction?.type)} #${
+              transaction?.id
+            }`,
+            link: `transactions/${transaction?.id}`
           }
         : {
             title: `#`,
             link: `transactions/`
-          },
-      { title: 'Invoice', link: `transactions/edit/${transaction?.id}/invoice` }
+          }
     ]);
   }, [transaction]);
 
   return (
-    <section className="data-table-section bg-white p-4 transaction-details">
+    <section className="data-table-section bg-bg-light pt-2 transaction-details">
       {error ? (
         <div className="text-danger text-center display">{error}</div>
       ) : (
         <div className="card-body">
+          <div className="controls container-fluid w-100 d-flex justify-content-end gap-2">
+            <Link
+              to={`edit`}
+              className="edit-btn btn btn-outline-primary me-auto"
+            >
+              <FiEdit2 className="text-blue" /> Edit
+            </Link>
+            <Link
+              to="#"
+              className="print-btn btn btn-primary"
+              onClick={() => {
+                // window.print();
+                const getFullContent = document.body.innerHTML;
+                const printsection = document.querySelector(
+                  '.data-table-section'
+                )?.innerHTML;
+                window.document.body.innerHTML = printsection || '';
+                console.log(window.document.body);
+                window.print();
+                document.body.innerHTML = getFullContent;
+              }}
+            >
+              <AiFillPrinter /> Print
+            </Link>
+            <a
+              href="#"
+              className="btn btn-danger text-white"
+              onClick={() => {
+                navigate('/transactions');
+              }}
+            >
+              Back
+            </a>
+          </div>
           <div className="container-fluid">
             <h3 className="text-center my-5">
               {capitalizeFirstLetter(transaction?.type?.toString())} Invoice
@@ -96,7 +133,7 @@ const Invoice = () => {
           <div className="container-fluid d-flex justify-content-between"></div>
           <div className="container-fluid mt-5 d-flex justify-content-center w-100">
             <div className="table-responsive w-100">
-              <table className="table">
+              <table className="table print-table ">
                 <thead>
                   <tr className="bg-dark text-white">
                     <th>#</th>
@@ -146,26 +183,6 @@ const Invoice = () => {
                 .toFixed(2)}
             </h4>
             <hr />
-          </div>
-          <div className="container-fluid w-100 d-flex justify-content-end">
-            <a
-              href="#"
-              className="btn btn-danger float-right mt-4 ms-2 text-white"
-              onClick={() => {
-                navigate(-1);
-              }}
-            >
-              <i className="ti-printer me-1"></i>Back
-            </a>
-            <a
-              href="#"
-              className="btn btn-primary float-right mt-4 ms-2"
-              onClick={() => {
-                window.print();
-              }}
-            >
-              <i className="ti-printer me-1"></i>Print
-            </a>
           </div>
         </div>
       )}

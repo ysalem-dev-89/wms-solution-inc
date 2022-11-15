@@ -45,7 +45,7 @@ const Header = () => {
     <header>
       <div className="header-content bg-white py-0 container-fluid">
         <nav
-          className={`navbar navbar-expand-lg d-flex justify-content-between p-1`}
+          className={`navbar navbar-expand-lg d-flex justify-content-between px-1 py-0`}
         >
           <Breadcrumb listClassName="mb-0 p-2">
             {!auth?.loggedIn ? (

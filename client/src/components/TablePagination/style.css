@@ -4,8 +4,20 @@
   --bs-pagination-active-border-color: var(--blue) !important;
   --bs-pagination-focus-color: var(--blue) !important;
   --bs-pagination-hover-color: var(--blue) !important;
+  margin-bottom: 0 !important;
 }
 
 .page-link.active, .active>.page-link{
   /* border:none; */
+}
+
+.pagination-section p {
+  margin: 0;
+}
+
+.pagination-spinner{
+  width: 20px !important;
+  height: 20px !important;
+  margin: 0;
+  padding: 0;
 }

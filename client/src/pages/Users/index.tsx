@@ -1,7 +1,7 @@
 import { Button, Spinner } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import { GoSearch } from 'react-icons/go';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { useContext, useEffect, useState } from 'react';
 import { CategorySearch } from '../../interfaces/FormData';
 import { UserInterface } from '../../interfaces/UserInterface';
@@ -52,13 +52,12 @@ const Users = () => {
         </Spinner>
       </div>
       <section
-        className={`data-table-section bg-white p-4 ${
+        className={`data-table-section bg-bg-light pt-2 ${
           isPending ? 'd-none' : 'd-block'
         }`}
       >
         {' '}
         <header>
-          <h3 className="h6 fw-bold mb-5">Users</h3>
           <div className="d-flex justify-content-between mb-3 align-items-center">
             <form onSubmit={onSubmit}>
               <div className="search-input">

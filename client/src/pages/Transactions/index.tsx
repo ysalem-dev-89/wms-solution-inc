@@ -48,12 +48,11 @@ const Transactions = () => {
         </Spinner>
       </div>
       <section
-        className={`data-table-section bg-white p-4 ${
+        className={`data-table-section bg-bg-light pt-2 ${
           isPending ? 'd-none' : 'd-block'
         }`}
       >
         <header>
-          <h3 className="h6 fw-bold mb-5">Transactions</h3>
           <div className="d-flex justify-content-between mb-3 align-items-center">
             <form onSubmit={onSubmit} className="flex-1">
               <div className="form-content d-flex gap-3">

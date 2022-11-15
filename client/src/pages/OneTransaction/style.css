@@ -1,9 +1,5 @@
-.data-table-section{
-  border-radius: 2rem;
-}
-
 input:disabled {
-  background-color: transparent !important;
+  background-color: #ffffff92 !important;
 }
 
 .search-input {
