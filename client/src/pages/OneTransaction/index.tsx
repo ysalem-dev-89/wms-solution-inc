@@ -306,7 +306,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
                 {...register('title')}
                 name="title"
                 className="p-2 border border-border outline-none rounded form-control"
-                placeholder="Search for product"
+                placeholder="Type your product and press Enter"
               />
               <DropdownMenu>
                 {products.slice(0, 100).map(product => (

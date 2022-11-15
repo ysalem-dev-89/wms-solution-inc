@@ -40,9 +40,16 @@ html, body {
   --transition-1: 0.2s;
   --transition-2: 0.5s;
 }
-/* html {
-  overflow-y: hidden;
-} */
+::-webkit-scrollbar{
+  background-color: white;
+  width: 10px;
+
+}
+
+::-webkit-scrollbar-thumb{
+  background-color: var(--secondary);
+}
+
 body {
   font-family: 'Nunito Sans', sans-serif !important;
 }
