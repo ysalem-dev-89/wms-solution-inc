@@ -28,6 +28,7 @@ export const CategoryTable = (props: {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
   const [numOfPages, setNumOfPages] = useState<number>(0);
+  const [isPagingLoading, setIsPagingLoading] = useState<boolean>(false);
 
   const { auth } = useAuth();
   const { user } = auth;
@@ -44,6 +45,8 @@ export const CategoryTable = (props: {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsPagingLoading(true);
+
       try {
         const list = await Category.getCategories({
           name: props.search,
@@ -51,13 +54,17 @@ export const CategoryTable = (props: {
           offset: itemsPerPage * (currentPage - 1)
         });
 
+        setIsPagingLoading(false);
         props.setIsPending(false);
+
         setCategories(list.data.items);
         setNumOfPages(Math.ceil(list.data.totalCount / itemsPerPage));
         setTotalCount(list.data.totalCount);
       } catch (error: unknown) {
         const exception = error as AxiosError;
         ErrorHandler.handleRequestError(exception, setError);
+
+        setIsPagingLoading(false);
         props.setIsPending(false);
       }
     };
@@ -152,6 +159,7 @@ export const CategoryTable = (props: {
         totalCount={totalCount}
         itemsPerPage={itemsPerPage}
         setCurrentPage={setCurrentPage}
+        isLoading={isPagingLoading}
       />
     </div>
   );

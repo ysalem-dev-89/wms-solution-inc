@@ -74,6 +74,7 @@ const StockAlertTable = () => {
         totalCount={totalItems}
         itemsPerPage={10}
         setCurrentPage={setCurrentPage}
+        isLoading={false}
       />
     </>
   );

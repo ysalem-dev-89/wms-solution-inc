@@ -27,16 +27,17 @@ export const TransactionsTable = (props: {
     useState<Array<TransactionInterface> | null>(null);
   const [error, setError] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(20);
+  const [itemsPerPage] = useState<number>(10);
   const [numOfPages, setNumOfPages] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
-
+  const [isPagingLoading, setIsPagingLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsPagingLoading(true);
+
       try {
-        console.log(props.isPending);
         const list = await Transaction.getTransactions({
           type: props.type,
           search: props.search,
@@ -44,7 +45,9 @@ export const TransactionsTable = (props: {
           offset: itemsPerPage * (currentPage - 1)
         });
 
+        setIsPagingLoading(false);
         props.setIsPending(false);
+
         setTransactions(list.data.items);
         setNumOfPages(Math.ceil(list.data.totalCount / itemsPerPage));
         setTotalCount(list.data.totalCount);
@@ -52,6 +55,7 @@ export const TransactionsTable = (props: {
         const exception = error as AxiosError;
         ErrorHandler.handleRequestError(exception, setError);
 
+        setIsPagingLoading(false);
         props.setIsPending(false);
       }
     };
@@ -143,6 +147,7 @@ export const TransactionsTable = (props: {
         totalCount={totalCount}
         itemsPerPage={itemsPerPage}
         setCurrentPage={setCurrentPage}
+        isLoading={isPagingLoading}
       />
     </div>
   );

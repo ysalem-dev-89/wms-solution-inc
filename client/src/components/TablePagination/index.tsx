@@ -1,4 +1,9 @@
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import {
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  Spinner
+} from 'reactstrap';
 import './style.css';
 
 export const TablePagination = (props: {
@@ -6,6 +11,7 @@ export const TablePagination = (props: {
   currentPage: number;
   totalCount: number;
   itemsPerPage: number;
+  isLoading: boolean;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const pageNumbers = [...Array(props.numOfPages)].map(
@@ -94,14 +100,21 @@ export const TablePagination = (props: {
   };
 
   return (
-    <div className="d-flex justify-content-between ">
+    <div className="pagination-section d-flex justify-content-between align-items-center">
       <div>
-        <p className="fw-bold text-dark">
-          Showing{' '}
-          {`${numberWithCommas(getCurrentItems())} of ${numberWithCommas(
-            props.totalCount
-          )} entries`}
-        </p>
+        {props.isLoading ? (
+          <div className="d-flex gap-1 align-items-center fw-bold text-dark">
+            <Spinner className="pagination-spinner">Loading...</Spinner>{' '}
+            <span>Loading...</span>
+          </div>
+        ) : (
+          <p className="fw-bold text-dark">
+            Showing{' '}
+            {`${numberWithCommas(getCurrentItems())} of ${numberWithCommas(
+              props.totalCount
+            )} entries`}
+          </p>
+        )}
       </div>
       <Pagination
         aria-label="Page navigation example"

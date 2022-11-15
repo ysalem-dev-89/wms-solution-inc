@@ -122,13 +122,15 @@ p {
 
 .head th {
   padding: 0.875rem 0.5rem;
+  vertical-align: middle;
   background-color: var(--blue) !important;
 }
 
-th, td {
+td {
   vertical-align: middle;
   background-color: #fff !important;
 }
+
 
 .actions-th {
   width: 20%;
