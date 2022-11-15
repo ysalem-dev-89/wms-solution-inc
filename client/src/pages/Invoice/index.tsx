@@ -49,14 +49,15 @@ const Invoice = () => {
       { title: 'Transactions', link: 'transactions' },
       transaction
         ? {
-            title: `${transaction?.type} #${transaction?.id}`,
-            link: `transactions/edit/${transaction?.id}`
+            title: `${capitalizeFirstLetter(transaction?.type)} #${
+              transaction?.id
+            }`,
+            link: `transactions/${transaction?.id}`
           }
         : {
             title: `#`,
             link: `transactions/`
-          },
-      { title: 'Invoice', link: `transactions/edit/${transaction?.id}/invoice` }
+          }
     ]);
   }, [transaction]);
 

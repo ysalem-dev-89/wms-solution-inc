@@ -38,6 +38,7 @@ import { TransactionType } from '../../interfaces/Enums';
 import { PageContext } from '../../contexts/PageContext';
 import { calculateTotalPrice } from '../../helpers/NumberHelpers';
 import useAuth from '../../hooks/useAuth';
+import { capitalizeFirstLetter } from '../../helpers/StringHelpers';
 
 const OneTransaction = ({ operation }: { operation: string }) => {
   const { id } = useParams();
@@ -144,16 +145,21 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         title:
           operation == 'edit'
             ? transaction
-              ? `${transaction?.type} #${transaction?.id}`
+              ? `${capitalizeFirstLetter(transaction?.type)} #${
+                  transaction?.id
+                }`
               : '#'
             : `New`,
         link:
           operation == 'edit'
             ? transaction
-              ? `transactions/edit/${transaction?.id}`
+              ? `transactions/${transaction?.id}`
               : 'transactions'
             : 'transaction/add'
-      }
+      },
+      operation == 'edit'
+        ? { title: 'Edit', link: 'edit' }
+        : { title: '', link: '' }
     ]);
   }, [transaction]);
 
@@ -170,11 +176,14 @@ const OneTransaction = ({ operation }: { operation: string }) => {
           transactionProducts: transactionProducts
         });
       } else {
-        await Transaction.createNewTransaction({
+        const trans = await Transaction.createNewTransaction({
           type: transType,
           issuedBy: user?.id || 1,
           transactionProducts: transactionProducts
         });
+        if (trans) {
+          setTransaction(trans.data?.transaction);
+        }
       }
 
       toast.success(
@@ -191,8 +200,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
           progress: undefined
         }
       );
-
-      navigate(`/transactions/${transaction?.id}/`);
+      if (operation == 'edit') navigate(`/transactions/${transaction?.id}/`);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const exception = error as AxiosError;
@@ -203,6 +211,11 @@ const OneTransaction = ({ operation }: { operation: string }) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (operation == 'add' && transaction)
+      navigate(`/transactions/${transaction?.id}/`);
+  }, [transaction]);
 
   useEffect(() => {
     if (error) {
@@ -387,22 +400,6 @@ const OneTransaction = ({ operation }: { operation: string }) => {
       </Card>
 
       <div className="justify-content-between d-flex gap-2 py-3 mt-4 border-top border-border ">
-        {/* {operation === 'edit' ? (
-          <button
-            className="px-4 py-2 btn btn-outline-primary d-flex align-items-center gap-1"
-            color="primary"
-            onClick={() => {
-              navigate('');
-            }}
-          >
-            <span>
-              <TbFileInvoice />
-            </span>
-            <span>Invoice</span>
-          </button>
-        ) : (
-          <></>
-        )} */}
         <Button
           className="px-4 py-2 ms-auto"
           color="primary"
