@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
   Modal,
@@ -16,8 +17,7 @@ import ErrorHandler from '../../helpers/ErrorHandler';
 import { TransactionProductInterface } from '../../interfaces/TransactionProductInterface';
 import { updateTransactionProducts } from '../../helpers/transactionProducts';
 import { TransactionStatus } from '../../interfaces/Enums';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { transactionProductSchema } from '../../validations/validation';
 
 export default function TransactionProductModal(props: {
   transactionProduct: TransactionProductInterface | null;
@@ -31,11 +31,6 @@ export default function TransactionProductModal(props: {
     React.SetStateAction<TransactionProductInterface[]>
   >;
 }) {
-  const formSchema = yup.object().shape({
-    price: yup.number().min(1).required('Price is required'),
-    quantity: yup.number().integer().min(1).required('Quantity is required')
-  });
-
   const [error, setError] = useState('');
   const {
     reset,
@@ -45,7 +40,7 @@ export default function TransactionProductModal(props: {
     formState: { errors }
   } = useForm<TransactionProductData>({
     mode: 'onTouched',
-    resolver: yupResolver(formSchema)
+    resolver: yupResolver(transactionProductSchema)
   });
 
   const toggle = () => props.setModal(!props.modal);

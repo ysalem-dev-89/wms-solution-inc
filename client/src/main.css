@@ -127,6 +127,7 @@ p {
 
 th, td {
   vertical-align: middle;
+  background-color: #fff !important;
 }
 
 .actions-th {
