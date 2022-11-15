@@ -294,6 +294,8 @@ const Products = () => {
           <TablePagination
             numOfPages={Math.ceil(totalItems / itemsPerPage)}
             currentPage={currentPage}
+            totalCount={totalItems}
+            itemsPerPage={itemsPerPage}
             setCurrentPage={setCurrentPage}
           />
           <ToastContainer />

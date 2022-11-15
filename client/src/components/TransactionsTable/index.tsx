@@ -29,6 +29,8 @@ export const TransactionsTable = (props: {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(20);
   const [numOfPages, setNumOfPages] = useState<number>(0);
+  const [totalCount, setTotalCount] = useState<number>(0);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,6 +47,7 @@ export const TransactionsTable = (props: {
         props.setIsPending(false);
         setTransactions(list.data.items);
         setNumOfPages(Math.ceil(list.data.totalCount / itemsPerPage));
+        setTotalCount(list.data.totalCount);
       } catch (error: unknown) {
         const exception = error as AxiosError;
         ErrorHandler.handleRequestError(exception, setError);
@@ -137,6 +140,8 @@ export const TransactionsTable = (props: {
       <TablePagination
         numOfPages={numOfPages}
         currentPage={currentPage}
+        totalCount={totalCount}
+        itemsPerPage={itemsPerPage}
         setCurrentPage={setCurrentPage}
       />
     </div>

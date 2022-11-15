@@ -116,13 +116,13 @@ p {
 
 /* -------------- Start Table Style  ------------------ */
 
-.table {
+/* .table {
   --bs-table-bg: #ffff;
-}
+} */
 
 .head th {
   padding: 0.875rem 0.5rem;
-  background-color: var(--blue);
+  background-color: var(--blue) !important;
 }
 
 th, td {

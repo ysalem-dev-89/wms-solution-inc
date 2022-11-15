@@ -24,6 +24,7 @@ export const CategoryTable = (props: {
     null
   );
   const [error, setError] = useState<string>('');
+  const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
   const [numOfPages, setNumOfPages] = useState<number>(0);
@@ -53,10 +54,10 @@ export const CategoryTable = (props: {
         props.setIsPending(false);
         setCategories(list.data.items);
         setNumOfPages(Math.ceil(list.data.totalCount / itemsPerPage));
+        setTotalCount(list.data.totalCount);
       } catch (error: unknown) {
         const exception = error as AxiosError;
         ErrorHandler.handleRequestError(exception, setError);
-
         props.setIsPending(false);
       }
     };
@@ -73,7 +74,7 @@ export const CategoryTable = (props: {
     try {
       await Category.deleteOneCategory(id);
 
-      toast.warn('Category is deleted successfully', {
+      toast.warning('Category is deleted successfully', {
         position: 'bottom-right',
         autoClose: 1000,
         hideProgressBar: false,
@@ -148,6 +149,8 @@ export const CategoryTable = (props: {
       <TablePagination
         numOfPages={numOfPages}
         currentPage={currentPage}
+        totalCount={totalCount}
+        itemsPerPage={itemsPerPage}
         setCurrentPage={setCurrentPage}
       />
     </div>

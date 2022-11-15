@@ -71,6 +71,8 @@ const StockAlertTable = () => {
       <TablePagination
         numOfPages={Math.ceil(totalItems / limit)}
         currentPage={currentPage}
+        totalCount={totalItems}
+        itemsPerPage={10}
         setCurrentPage={setCurrentPage}
       />
     </>

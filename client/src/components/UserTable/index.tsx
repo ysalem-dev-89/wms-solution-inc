@@ -25,6 +25,7 @@ export const UserTable = (props: {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
   const [numOfPages, setNumOfPages] = useState<number>(0);
+  const [totalCount, setTotalCount] = useState<number>(0);
 
   const handleView = ({
     id,
@@ -62,6 +63,7 @@ export const UserTable = (props: {
         props.setIsPending(false);
         setUsers(list.data.items);
         setNumOfPages(Math.ceil(list.data.totalCount / itemsPerPage));
+        setTotalCount(list.data.totalCount);
       } catch (error: unknown) {
         const exception = error as AxiosError;
         ErrorHandler.handleRequestError(exception, setError);
@@ -158,6 +160,8 @@ export const UserTable = (props: {
       <TablePagination
         numOfPages={numOfPages}
         currentPage={currentPage}
+        totalCount={totalCount}
+        itemsPerPage={itemsPerPage}
         setCurrentPage={setCurrentPage}
       />
     </div>
