@@ -39,11 +39,12 @@ export default function UserModal(props: {
       let result = null;
       let message = '';
       if (props.user) {
+        console.log(data);
         result = await User.udpateOneUser({
           id: Number(props.user?.id),
           username: data.username,
           email: data.email,
-          password: data.password || props.user.password,
+          password: data.password || undefined,
           role: data.role
         });
         message = 'User is updated successfully';

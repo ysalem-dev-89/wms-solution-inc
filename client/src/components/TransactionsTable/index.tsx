@@ -8,7 +8,7 @@ import ErrorHandler from '../../helpers/ErrorHandler';
 import TransactionInterface from '../../interfaces/TransactionInterface';
 import * as Transaction from '../../api/transaction';
 import './style.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
