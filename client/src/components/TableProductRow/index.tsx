@@ -38,7 +38,9 @@ export const TableProductRow = ({
       <td>{`%${(product.discount * 100).toFixed(2)}`}</td>
       <td>{product.inStock}</td>
       <td>{product.unit}</td>
-      {user?.role == 'admin' || user?.role == 'stock' ? (
+      {user?.role == 'superAdmin' ||
+      user?.role == 'admin' ||
+      user?.role == 'stock' ? (
         <td>
           <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-1 actions-container">
             <button
