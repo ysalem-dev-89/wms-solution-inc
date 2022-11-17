@@ -47,8 +47,6 @@ export default function TransactionProductModal(props: {
 
   const onSubmit = async (data: TransactionProductData) => {
     try {
-      toggle();
-
       if (props.transactionProduct) {
         props.setCurrentTransactionProducts(
           updateTransactionProducts({
@@ -59,6 +57,7 @@ export default function TransactionProductModal(props: {
             status: data.status
           })
         );
+        toggle();
       }
     } catch (error: unknown) {
       const exception = error as AxiosError;

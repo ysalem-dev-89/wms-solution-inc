@@ -34,8 +34,6 @@ export default function UserModal(props: {
 
   const onSubmit = async (data: UserData) => {
     try {
-      toggle();
-
       let result = null;
       let message = '';
       if (props.user) {
@@ -58,6 +56,7 @@ export default function UserModal(props: {
         message = 'User is added successfully';
       }
       if (result && result.data.message == 'Success') {
+        toggle();
         props.setIsSucceed(true);
         toast.success(message, {
           position: 'bottom-right',
@@ -176,11 +175,13 @@ export default function UserModal(props: {
                 className="mb-4 form-control"
                 defaultValue={props.user?.role || Role.admin}
               >
-                {Object.values(Role).map(role => (
-                  <option key="role" value={role}>
-                    {role}
-                  </option>
-                ))}
+                {Object.values(Role)
+                  .filter(role => role !== Role.superAdmin)
+                  .map(role => (
+                    <option key="role" value={role}>
+                      {role}
+                    </option>
+                  ))}
               </select>
               <span className="text-danger input-error">
                 {errors.role?.message}
