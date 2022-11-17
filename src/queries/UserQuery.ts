@@ -68,9 +68,18 @@ export default class UserQuery {
     offset: number;
   }) => {
     return User.findAndCountAll({
-      where: sequelize.where(sequelize.fn('lower', sequelize.col('username')), {
-        [Op.like]: `%${search.toLowerCase()}%`
-      }),
+      where: {
+        [Op.and]: [
+          {
+            role: {
+              [Op.not]: 'superAdmin'
+            }
+          },
+          sequelize.where(sequelize.fn('lower', sequelize.col('username')), {
+            [Op.like]: `%${search.toLowerCase()}%`
+          })
+        ]
+      },
       attributes: [
         'User.id',
         'username',

@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { PageContext } from '../../contexts/PageContext';
 import { UserTable } from '../../components/UserTable';
 import UserModal from '../../components/UserModal';
+import useAuth from '../../hooks/useAuth';
 
 const Users = () => {
   const { register, handleSubmit } = useForm<CategorySearch>();
@@ -25,6 +26,9 @@ const Users = () => {
 
   const { setPages } = useContext(PageContext);
   const [isPending, setIsPending] = useState<boolean>(true);
+
+  const { auth } = useAuth();
+  const userAuth = auth.user;
 
   useEffect(() => {
     setPages([
@@ -70,13 +74,17 @@ const Users = () => {
                 />
               </div>
             </form>
-            <div className="right ms-auto">
-              <div>
-                <Button color="primary" onClick={_e => handleAddClick()}>
-                  Add User
-                </Button>
+            {userAuth?.role == 'superAdmin' ? (
+              <div className="right ms-auto">
+                <div>
+                  <Button color="primary" onClick={_e => handleAddClick()}>
+                    Add User
+                  </Button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <></>
+            )}
           </div>
         </header>
         <UserTable

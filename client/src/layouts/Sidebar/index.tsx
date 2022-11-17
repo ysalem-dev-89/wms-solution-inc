@@ -36,14 +36,16 @@ const Sidebar = () => {
       name: 'Categories',
       icon: <FaRegChartBar />
     },
-    user?.role == 'admin' || user?.role == 'transactions'
+    user?.role == 'superAdmin' ||
+    user?.role == 'admin' ||
+    user?.role == 'transactions'
       ? {
           path: '/transactions',
           name: 'Transactions',
           icon: <AiOutlineTransaction />
         }
       : null,
-    user?.role == 'admin'
+    user?.role == 'superAdmin' || user?.role == 'admin'
       ? {
           path: '/users',
           name: 'Users',

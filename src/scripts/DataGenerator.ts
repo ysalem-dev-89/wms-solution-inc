@@ -36,7 +36,12 @@ export default class DataGenerator {
     'XBox',
     'Music'
   ];
-  static users = ['superuser', 'admin', 'transactions', 'stock'];
+  static users = [
+    { username: 'superAdmin', role: Role.superAdmin },
+    { username: 'admin', role: Role.admin },
+    { username: 'transactions', role: Role.transactions },
+    { username: 'stock', role: Role.stock }
+  ];
 
   static incrementDateByDay = (date: Date, days: number) => {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
@@ -96,11 +101,11 @@ export default class DataGenerator {
   }
 
   static generateUsers(): User[] {
-    return this.users.map((user, i) => ({
-      username: user,
+    return this.users.map(user => ({
+      username: user.username,
       password: '$2b$10$0TTUwKbR.PenVWzvFRgRiuuYz1cswciveBwuJXvki4vHbZPj1kiru',
-      email: `${user}@gmail.com`,
-      role: i === 0 ? Role.admin : i === 1 ? Role.transactions : Role.stock,
+      email: `${user.username}@gmail.com`,
+      role: user.role,
       createdAt: new Date(),
       updatedAt: new Date()
     }));

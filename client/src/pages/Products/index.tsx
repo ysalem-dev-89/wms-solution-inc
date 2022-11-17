@@ -280,7 +280,9 @@ const Products = () => {
                   <th>Discount</th>
                   <th>In Stock</th>
                   <th>Unit</th>
-                  {user?.role == 'admin' || user?.role == 'stock' ? (
+                  {user?.role == 'superAdmin' ||
+                  user?.role == 'admin' ||
+                  user?.role == 'stock' ? (
                     <th className="actions-th text-center">Action</th>
                   ) : (
                     <></>

@@ -106,7 +106,9 @@ export const CategoryTable = (props: {
             <th>#</th>
             <th>Category Name</th>
             <th>Product Count</th>
-            {user?.role == 'admin' || user?.role == 'stock' ? (
+            {user?.role == 'superAdmin' ||
+            user?.role == 'admin' ||
+            user?.role == 'stock' ? (
               <th className="actions-th text-center">Action</th>
             ) : (
               <></>
@@ -125,7 +127,9 @@ export const CategoryTable = (props: {
                   <td className="category-id">{category.id}</td>
                   <td className="category-name">{category.name}</td>
                   <td className="product-count">{category?.productsCount}</td>
-                  {user?.role == 'admin' || user?.role == 'stock' ? (
+                  {user?.role == 'superAdmin' ||
+                  user?.role == 'admin' ||
+                  user?.role == 'stock' ? (
                     <td>
                       <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
                         <button

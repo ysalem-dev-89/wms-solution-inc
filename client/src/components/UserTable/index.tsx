@@ -10,6 +10,7 @@ import './style.css';
 import { UserInterface } from '../../interfaces/UserInterface';
 import { Role } from '../../interfaces/Enums';
 import { toast } from 'react-toastify';
+import useAuth from '../../hooks/useAuth';
 
 export const UserTable = (props: {
   isPending: boolean;
@@ -27,6 +28,9 @@ export const UserTable = (props: {
   const [numOfPages, setNumOfPages] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [isPagingLoading, setIsPagingLoading] = useState<boolean>(false);
+
+  const { auth } = useAuth();
+  const userAuth = auth.user;
 
   const handleView = ({
     id,
@@ -160,13 +164,17 @@ export const UserTable = (props: {
                       >
                         <FiEdit2 className="text-blue" /> Edit
                       </button>
-                      <button
-                        onClick={_e => {
-                          handleRemove(user.id || -1);
-                        }}
-                      >
-                        <TfiClose className="text-danger" /> Remove
-                      </button>
+                      {userAuth?.role == 'superAdmin' ? (
+                        <button
+                          onClick={_e => {
+                            handleRemove(user.id || -1);
+                          }}
+                        >
+                          <TfiClose className="text-danger" /> Remove
+                        </button>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </td>
                 </tr>
