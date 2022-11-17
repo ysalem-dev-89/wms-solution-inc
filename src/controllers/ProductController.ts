@@ -13,15 +13,18 @@ export default class ProductController {
   ) => {
     try {
       const { id } = req.params;
-      const { title, description, icon, price, discount } = req.body;
+      const { barcode, title, description, icon, price, discount, unit } =
+        req.body;
 
       const updatedProducts = await ProductQuery.update({
         id: Number(id),
+        barcode,
         title,
         description,
         icon,
         price,
-        discount
+        discount,
+        unit
       });
 
       if (!updatedProducts) throw new GenericError('Not Found', 404);
@@ -46,10 +49,12 @@ export default class ProductController {
       const products = await sequelize.query(
         `select p.id,
                 p.price,
+                p.barcode,
                 p.title,
                 p.discount,
                 p.icon,
                 p.description,
+                p.unit,
                 coalesce(
                     (
                         (

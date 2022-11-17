@@ -76,7 +76,9 @@ const Categories = () => {
             </form>
             <div className="right ms-auto">
               <div>
-                {user?.role == 'admin' || user?.role == 'stock' ? (
+                {user?.role == 'superAdmin' ||
+                user?.role == 'admin' ||
+                user?.role == 'stock' ? (
                   <Button color="primary" onClick={_e => handleAddClick()}>
                     Add Category
                   </Button>

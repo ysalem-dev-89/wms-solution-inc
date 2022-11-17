@@ -118,7 +118,7 @@ export default class UserController {
       res.json({
         status: 200,
         message: 'Success',
-        totalCount: users.count.length,
+        totalCount: users.count.length - 1,
         items: users.rows
       });
     } catch (error) {

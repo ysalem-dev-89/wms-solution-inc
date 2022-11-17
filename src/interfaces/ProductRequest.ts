@@ -10,10 +10,12 @@ export interface ProductRequest extends Request {
   };
 
   body: {
+    barcode: string;
     title: string;
     description: string;
     icon: string;
     price: number;
     discount: number;
+    unit: string;
   };
 }

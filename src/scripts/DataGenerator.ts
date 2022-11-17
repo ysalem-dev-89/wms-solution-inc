@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { faker } from '@faker-js/faker';
 import { User, Role } from '../interfaces/UserInterface';
-import Product from '../interfaces/ProductInterface';
+import { ProductInterface, Unit } from '../interfaces/ProductInterface';
 import Category from '../interfaces/CategoryInterface';
 import {
   Transaction,
@@ -36,10 +36,21 @@ export default class DataGenerator {
     'XBox',
     'Music'
   ];
-  static users = ['admin', 'transactions', 'stock'];
+  static users = [
+    { username: 'superAdmin', role: Role.superAdmin },
+    { username: 'admin', role: Role.admin },
+    { username: 'transactions', role: Role.transactions },
+    { username: 'stock', role: Role.stock }
+  ];
 
   static incrementDateByDay = (date: Date, days: number) => {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+  };
+
+  static randomBarcode = () => {
+    const val1 = Math.floor(100000 + Math.random() * 999999);
+    const val2 = Math.floor(10000 + Math.random() * 99999);
+    return '7 ' + val1 + ' ' + val2;
   };
 
   static createTransaction(
@@ -90,11 +101,11 @@ export default class DataGenerator {
   }
 
   static generateUsers(): User[] {
-    return this.users.map((user, i) => ({
-      username: user,
-      password: '$2a$12$R34l5gjz4FICkMyJtdlPouHVhprTio7jh8J3E7v3g/9h9D69UrPVG',
-      email: `${user}@gmail.com`,
-      role: i === 0 ? Role.admin : i === 1 ? Role.transactions : Role.stock,
+    return this.users.map(user => ({
+      username: user.username,
+      password: '$2b$10$0TTUwKbR.PenVWzvFRgRiuuYz1cswciveBwuJXvki4vHbZPj1kiru',
+      email: `${user.username}@gmail.com`,
+      role: user.role,
       createdAt: new Date(),
       updatedAt: new Date()
     }));
@@ -111,8 +122,9 @@ export default class DataGenerator {
   //   }));
   // }
 
-  static generateProducts(): Omit<Product, 'id'>[] {
+  static generateProducts(): Omit<ProductInterface, 'id'>[] {
     return [...Array(this.PRODUCTS_COUNT)].map((_, i) => ({
+      barcode: this.randomBarcode(),
       title: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
       icon: faker.image.avatar(),
@@ -120,6 +132,7 @@ export default class DataGenerator {
         this.updatedSalePrices[i + 1] || Number(faker.commerce.price(50, 100)),
       discount: faker.datatype.number({ min: 3, max: 20 }) / 100, // assure we still in profit
       categoryId: faker.datatype.number({ min: 1, max: this.CATEGORIES_COUNT }),
+      unit: faker.helpers.arrayElement(Object.values(Unit)),
       createdAt: new Date(),
       updatedAt: new Date()
     }));

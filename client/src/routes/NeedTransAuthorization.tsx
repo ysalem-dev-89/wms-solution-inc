@@ -11,10 +11,12 @@ export const NeedTransAuthorization = ({ children }: Props) => {
 
   return (
     <>
-      {user?.role == 'admin' || user?.role == 'transactions' ? (
+      {user?.role == 'superAdmin' ||
+      user?.role == 'admin' ||
+      user?.role == 'transactions' ? (
         children
       ) : (
-        <Navigate to="/login" />
+        <Navigate to="/" />
       )}
     </>
   );
