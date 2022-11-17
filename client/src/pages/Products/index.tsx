@@ -275,10 +275,11 @@ const Products = () => {
                   <th>#</th>
                   <th></th>
                   <th>Product</th>
+                  <th>Barcode</th>
                   <th>Price</th>
                   <th>Discount</th>
                   <th>In Stock</th>
-                  <th>Created At</th>
+                  <th>Unit</th>
                   {user?.role == 'admin' || user?.role == 'stock' ? (
                     <th className="actions-th text-center">Action</th>
                   ) : (

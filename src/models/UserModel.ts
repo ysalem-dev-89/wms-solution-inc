@@ -14,6 +14,7 @@ export default class User extends Model {
   declare password: string;
   declare email: string;
   declare role: Role;
+  declare deleted: boolean;
   declare addTransaction: HasManyAddAssociationMixin<
     Transaction,
     Transaction['id']
@@ -45,6 +46,11 @@ User.init(
       type: DataTypes.ENUM,
       values: Object.values(Role),
       allowNull: false
+    },
+    deleted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     }
   },
   {

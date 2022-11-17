@@ -24,3 +24,7 @@ td{
     margin: 0px 8px;
 }
 
+.barcode {
+    font-size: 14px;
+    max-width: 70px;
+}

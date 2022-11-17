@@ -25,3 +25,15 @@ export enum Role {
   transactions = 'transactions',
   stock = 'stock'
 }
+
+export enum Unit {
+  kg = 'kg',
+  pocket = 'pocket',
+  bag = 'bag',
+  piece = 'piece',
+  slice = 'slice',
+  gram = 'gram',
+  dozen = 'dozen',
+  cm = 'cm',
+  meter = 'meter'
+}

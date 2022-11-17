@@ -81,11 +81,13 @@ outputData('transactionsProducts.csv', transactionsProducts, [
   'updatedAt'
 ]);
 outputData('products.csv', products, [
+  'barcode',
   'title',
   'description',
   'icon',
   'price',
   'discount',
+  'unit',
   'categoryId',
   'createdAt',
   'updatedAt'
