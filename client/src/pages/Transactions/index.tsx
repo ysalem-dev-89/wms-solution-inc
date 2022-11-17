@@ -76,7 +76,7 @@ const Transactions = () => {
                     type="text"
                     {...register('search')}
                     className="p-2 border border-border outline-none rounded"
-                    placeholder="Enter your search"
+                    placeholder="Enter Invoice ID or User"
                     title="Search for invoice id or the responsible user"
                   />
                 </div>

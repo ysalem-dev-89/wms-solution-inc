@@ -103,16 +103,16 @@ export const TablePagination = (props: {
     <div className="pagination-section d-flex justify-content-between align-items-center">
       <div>
         {props.isLoading ? (
-          <div className="d-flex gap-1 align-items-center fw-bold text-dark">
+          <div className="d-flex gap-1 align-items-center text-dark">
             <Spinner className="pagination-spinner">Loading...</Spinner>{' '}
             <span>Loading...</span>
           </div>
         ) : (
-          <p className="fw-bold text-dark">
+          <p className=" text-dark">
             Showing{' '}
             {`${numberWithCommas(getCurrentItems())} of ${numberWithCommas(
               props.totalCount
-            )} entries`}
+            )} entities`}
           </p>
         )}
       </div>
