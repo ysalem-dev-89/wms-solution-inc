@@ -299,9 +299,9 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         <div className="search-input">
           <form onSubmit={onSubmit}>
             <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-              <GoSearch />
+              <GoSearch onClick={onSubmit} role="button" />
               <input
-                type="search"
+                type="text"
                 {...register('title')}
                 name="title"
                 className="p-2 border border-border outline-none rounded form-control"

@@ -61,9 +61,9 @@ const Users = () => {
           <div className="d-flex justify-content-between mb-3 align-items-center">
             <form onSubmit={onSubmit}>
               <div className="search-input">
-                <GoSearch />
+                <GoSearch onClick={onSubmit} role="button" />
                 <input
-                  type="search"
+                  type="text"
                   {...register('search')}
                   className="p-2 border border-border outline-none rounded"
                   placeholder="Search"

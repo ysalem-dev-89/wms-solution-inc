@@ -22,6 +22,7 @@ export const TransactionsTable = (props: {
   setIsSucceed: React.Dispatch<React.SetStateAction<boolean>>;
   search: string;
   type: string;
+  id: string;
 }) => {
   const [transactions, setTransactions] =
     useState<Array<TransactionInterface> | null>(null);
@@ -39,6 +40,7 @@ export const TransactionsTable = (props: {
 
       try {
         const list = await Transaction.getTransactions({
+          id: props.id,
           type: props.type,
           search: props.search,
           limit: itemsPerPage,
@@ -62,11 +64,12 @@ export const TransactionsTable = (props: {
 
     fetchData();
     props.setIsSucceed(false);
-  }, [currentPage, props.isSucceed, props.search, props.type]);
+  }, [currentPage, props.isSucceed, props.id, props.search, props.type]);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [props.search, props.type]);
+    console.log(props);
+  }, [props.id, props.search, props.type]);
 
   const handleRemove = async (id: number) => {
     try {
