@@ -87,6 +87,11 @@ export default class UserController {
   ) => {
     try {
       const { id } = req.params;
+      const { user } = res.locals;
+
+      if (user.id == id) {
+        throw new GenericError(`User can't remove it's own account`, 400);
+      }
 
       await UserQuery.deleteOneUser(Number(id));
 

@@ -91,8 +91,15 @@ export default class TransactionController {
     next: NextFunction
   ) => {
     try {
-      const { type = '', search = '', offset = '0', limit = '20' } = req.query;
+      const {
+        id = '',
+        type = '',
+        search = '',
+        offset = '0',
+        limit = '20'
+      } = req.query;
       const transactions = await TransactionQuery.getTransactions({
+        id,
         type,
         search,
         limit: Number(limit),

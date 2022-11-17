@@ -67,23 +67,37 @@ export default class TransactionQuery {
   };
 
   static getTransactions = async ({
+    id,
     search,
     type,
     limit,
     offset
   }: {
+    id: string;
     search: string;
     type: string;
     limit: number;
     offset: number;
   }) => {
+    if (id) {
+      search = 'not found title 12345';
+    }
+
     return Transaction.findAndCountAll({
       where: {
-        [Op.and]: [
-          type == 'purchase' || type == 'sale' ? { type: type } : {},
-          sequelize.where(sequelize.fn('lower', sequelize.col('username')), {
-            [Op.like]: `%${search.toLowerCase()}%`
-          })
+        [Op.or]: [
+          { id: Number(id.trim()) },
+          {
+            [Op.and]: [
+              type == 'purchase' || type == 'sale' ? { type: type } : {},
+              sequelize.where(
+                sequelize.fn('lower', sequelize.col('username')),
+                {
+                  [Op.like]: `%${search.toLowerCase()}%`
+                }
+              )
+            ]
+          }
         ]
       },
       attributes: [

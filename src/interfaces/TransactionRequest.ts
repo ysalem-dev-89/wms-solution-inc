@@ -7,6 +7,7 @@ export interface TransactionRequest extends Request {
   };
 
   query: {
+    id: string;
     type: TransactionType;
     search: string;
     limit?: string;

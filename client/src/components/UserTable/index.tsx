@@ -102,7 +102,19 @@ export const UserTable = (props: {
       });
     } catch (error: unknown) {
       const exception = error as AxiosError;
-      ErrorHandler.handleRequestError(exception, setError);
+      const data = exception?.response?.data as {
+        statusCode: number;
+        error: string;
+      };
+      toast.error(data?.error || '', {
+        position: 'bottom-right',
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      });
     }
   };
 

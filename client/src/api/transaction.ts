@@ -44,17 +44,19 @@ export const getOneTransaction = ({ id }: { id: number }) => {
 };
 
 export const getTransactions = ({
+  id,
   type,
   search,
   limit,
   offset
 }: {
+  id: string;
   type: string;
   search: string;
   limit: number;
   offset: number;
 }) => {
   return axios.get(
-    `/api/v1/transactions?search=${search}&type=${type}&limit=${limit}&offset=${offset}`
+    `/api/v1/transactions?id=${id}&search=${search}&type=${type}&limit=${limit}&offset=${offset}`
   );
 };
