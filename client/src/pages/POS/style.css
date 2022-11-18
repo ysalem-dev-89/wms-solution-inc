@@ -1,0 +1,8 @@
+.pos-container section {
+  flex: 1;
+}
+
+.pos-products .search-input {
+  margin: 0 !important;
+  flex: 1;
+}

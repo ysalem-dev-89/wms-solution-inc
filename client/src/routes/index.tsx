@@ -14,6 +14,8 @@ import OneTransaction from '../pages/OneTransaction';
 import Invoice from '../pages/Invoice';
 import { NeedTransAuthorization } from './NeedTransAuthorization';
 import { NeedAdminAuthorization } from './NeedAdminAuthorization';
+import POS from '../pages/POS';
+import BlankPageLayout from '../blankPageLayout';
 
 const themeRoutes = [
   {
@@ -83,6 +85,10 @@ const themeRoutes = [
             element: <Login />
           }
         ]
+      },
+      {
+        element: <BlankPageLayout />,
+        children: [{ path: '/pos', element: <POS operation="add" /> }]
       }
     ]
   },

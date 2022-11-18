@@ -40,12 +40,19 @@ export default class ProductController {
   };
 
   static getProducts = async (
-    req: Request,
+    req: ProductRequest,
     res: Response,
     next: NextFunction
   ) => {
     try {
-      const { limit, offset } = req.query;
+      const { barcode = '', title = '', limit, offset } = req.query;
+      let filter = '';
+      if (barcode) {
+        filter = 'where barcode like :barcode';
+      } else if (title) {
+        filter = 'where title like :title';
+      }
+
       const products = await sequelize.query(
         `select p.id,
                 p.price,
@@ -75,9 +82,14 @@ export default class ProductController {
                     ),
                     0
                 ) as "inStock"
-            from "Products" as p LIMIT $1 OFFSET $2;`,
+            from "Products" as p ${filter} LIMIT :limit OFFSET :offset;`,
         {
-          bind: [limit, offset],
+          replacements: {
+            barcode: `%${barcode}%`,
+            title: `%${title}%`,
+            limit,
+            offset
+          },
           type: QueryTypes.SELECT
         }
       );
@@ -90,6 +102,7 @@ export default class ProductController {
       res.json({ products, totalCount });
     } catch (error) {
       next(error);
+      console.log(error);
     }
   };
 

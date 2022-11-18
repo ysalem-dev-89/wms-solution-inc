@@ -32,6 +32,13 @@
 }
 
 .quantity-input {
-  width: 4rem;
+  width: 3.4rem;
   text-align: center;
+}
+
+.pos-container .actions-td {
+  padding: 0 !important;
+}
+.pos-container .actions-td button {
+  width: 50px !important;
 }

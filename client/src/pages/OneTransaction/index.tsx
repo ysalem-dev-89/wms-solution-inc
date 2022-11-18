@@ -345,6 +345,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         operation={operation}
         transactionProducts={transactionProducts}
         setTransactionProducts={setTransactionProducts}
+        forCashier={false}
       />
       <Card
         className="my-2 ms-auto"

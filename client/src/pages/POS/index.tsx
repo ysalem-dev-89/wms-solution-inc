@@ -1,0 +1,407 @@
+import { useContext, useEffect, useState } from 'react';
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  CardText,
+  Col,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  FormGroup,
+  Label,
+  ListGroup,
+  ListGroupItem,
+  Row
+} from 'reactstrap';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { GoSearch } from 'react-icons/go';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import moment from 'moment';
+import axios, { AxiosError } from 'axios';
+import TransactionInterface from '../../interfaces/TransactionInterface';
+import './style.css';
+import { TransactionProductInterface } from '../../interfaces/TransactionProductInterface';
+import { TransactionProductsTable } from '../../components/TransactionProductsTable';
+import * as Transaction from '../../api/transaction';
+import ErrorHandler from '../../helpers/ErrorHandler';
+import TransactionProductModal from '../../components/TransactionProductModal';
+import { TransactionData } from '../../interfaces/FormData';
+import * as Product from '../../api/product';
+import { ProductInterface } from '../../interfaces/ProductInterface';
+import * as TransactionProducts from '../../helpers/transactionProducts';
+import { TransactionType } from '../../interfaces/Enums';
+import { PageContext } from '../../contexts/PageContext';
+import { calculateTotalPrice } from '../../helpers/NumberHelpers';
+import useAuth from '../../hooks/useAuth';
+import { capitalizeFirstLetter } from '../../helpers/StringHelpers';
+
+const POS = ({ operation }: { operation: string }) => {
+  const navigate = useNavigate();
+
+  const [transaction, setTransaction] = useState<TransactionInterface | null>(
+    null
+  );
+  const [transactionProduct, setTransactionProduct] =
+    useState<TransactionProductInterface | null>(null);
+
+  const { register, watch, handleSubmit, setValue } =
+    useForm<TransactionData>();
+  const [transactionProducts, setTransactionProducts] = useState<
+    TransactionProductInterface[]
+  >([]);
+
+  const [products, setProducts] = useState<ProductInterface[]>([]);
+
+  const [modal, setModal] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const toggle = () => setDropdownOpen(prevState => !prevState);
+
+  const { auth } = useAuth();
+  const { user } = auth;
+
+  const onSubmit = handleSubmit(async data => {
+    try {
+      const list = await Product.getProductsByTitle({ title: data.title });
+      setProducts(list.data.items);
+      setDropdownOpen(true);
+    } catch (error: unknown) {
+      const exception = error as AxiosError;
+      ErrorHandler.handleRequestError(exception, setError);
+    }
+  });
+
+  const handleProductSelect = (
+    ProductId: number,
+    product: ProductInterface
+  ) => {
+    const transProduct = transactionProducts.find(
+      item => item.ProductId == ProductId
+    );
+
+    let newList = [];
+    if (transProduct) {
+      newList = TransactionProducts.updateTransactionProducts({
+        currentTransactionProducts: transactionProducts,
+        price: product.price,
+        quantity: transProduct?.quantity + 1,
+        ProductId: ProductId
+      });
+    } else {
+      newList = TransactionProducts.addNewTransactionProduct({
+        TransactionId: transaction?.id || -1,
+        currentTransactionProducts: transactionProducts,
+        price: product.price,
+        quantity: 1,
+        ProductId: ProductId,
+        Product: product
+      });
+    }
+
+    setTransactionProducts(newList);
+    setDropdownOpen(false);
+  };
+
+  useEffect(() => {
+    if (operation == 'edit') {
+      const fetchData = async () => {
+        try {
+          const list = await Transaction.getOneTransaction({ id: Number(1) });
+          setTransaction(list.data.transaction.transaction);
+          setTransactionProducts(list.data?.transaction?.transactionProducts);
+        } catch (error: unknown) {
+          const exception = error as AxiosError;
+          ErrorHandler.handleRequestError(exception, setError);
+        }
+      };
+
+      fetchData();
+    }
+  }, []);
+
+  useEffect(() => {
+    setValue('type', transaction?.type || TransactionType.Sale);
+    if (operation == 'add') {
+      setValue('createdAt', new Date());
+    } else {
+      setValue('createdAt', transaction?.createdAt || new Date());
+    }
+  }, [transaction]);
+
+  const handleSave = async () => {
+    try {
+      if (!transactionProducts.length)
+        throw new Error('You need to add products');
+
+      if (operation == 'edit') {
+        await Transaction.updateOneTransaction({
+          id: transaction?.id || -1,
+          type: TransactionType.Sale,
+          issuedBy: transaction?.User?.id || user?.id || 1,
+          transactionProducts: transactionProducts
+        });
+      } else {
+        const trans = await Transaction.createNewTransaction({
+          type: TransactionType.Sale,
+          issuedBy: user?.id || 1,
+          transactionProducts: transactionProducts
+        });
+        if (trans) {
+          setTransaction(trans.data?.transaction);
+        }
+      }
+
+      toast.success(
+        `Transaction is ${
+          operation == 'edit' ? 'updated' : 'added'
+        } successfully`,
+        {
+          position: 'bottom-right',
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        }
+      );
+      if (operation == 'edit') navigate(`/transactions/${transaction?.id}/`);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        const exception = error as AxiosError;
+        ErrorHandler.handleRequestError(exception, setError);
+      } else {
+        const exception = error as Error;
+        setError(exception.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (operation == 'add' && transaction)
+      navigate(`/transactions/${transaction?.id}/`);
+  }, [transaction]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: 'bottom-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      });
+
+      setError('');
+    }
+  }, [error]);
+
+  return (
+    <div className="pos-container d-flex gap-3">
+      <section className="bg-bg-light pt-2 transaction-details p-3 rounded">
+        <header>
+          <div className="transaction-inputs d-flex justify-content-between mb-3 align-items-center">
+            <form onSubmit={onSubmit}>
+              <Row xs="1" sm="2">
+                <Col>
+                  <FormGroup>
+                    <Label for="username">Username: </Label>
+                    <input
+                      {...register('username')}
+                      type="text"
+                      name="username"
+                      id="username"
+                      defaultValue={
+                        operation == 'edit'
+                          ? transaction?.User?.username
+                          : user?.username
+                      }
+                      required={true}
+                      className="form-control"
+                      disabled={true}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="createdAt">Created Date: </Label>
+                    <input
+                      {...register('createdAt')}
+                      type="datetime-local"
+                      name="createdAt"
+                      id="createdAt"
+                      required={true}
+                      className="form-control"
+                      value={moment().format('YYYY-MM-DDTHH:mm')}
+                      disabled={true}
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+            </form>
+          </div>
+        </header>
+        <TransactionProductsTable
+          transactionProduct={transactionProduct}
+          setTransactionProduct={setTransactionProduct}
+          transactionId={Number(1)}
+          modal={modal}
+          setModal={setModal}
+          operation={operation}
+          transactionProducts={transactionProducts}
+          setTransactionProducts={setTransactionProducts}
+          forCashier={true}
+        />
+        <Card
+          className="my-2 ms-auto"
+          style={{
+            width: '18rem'
+          }}
+        >
+          <CardHeader>Total Cost</CardHeader>
+          <CardBody>
+            <CardText>
+              <ListGroup>
+                <ListGroupItem>
+                  <Row className="d-flex justify-content-between">
+                    <Col>Products Count</Col>
+                    <Col>{transactionProducts?.length}</Col>
+                  </Row>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <Row>
+                    <Col>Unit Count</Col>
+                    <Col>
+                      {transactionProducts?.reduce(
+                        (acc, item) => acc + item.quantity,
+                        0
+                      )}
+                    </Col>
+                  </Row>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <Row>
+                    <Col>Total Price:</Col>
+                    <Col>
+                      $
+                      {transactionProducts
+                        ?.reduce(
+                          (acc, item) =>
+                            acc +
+                            calculateTotalPrice({
+                              price: item?.unitPrice || 0,
+                              quantity: item?.quantity || 1,
+                              discount: item?.Product.discount || 0
+                            }),
+                          0
+                        )
+                        .toFixed(2)}
+                    </Col>
+                  </Row>
+                </ListGroupItem>
+              </ListGroup>
+            </CardText>
+          </CardBody>
+        </Card>
+
+        <div className="justify-content-between d-flex gap-2 py-3 mt-4 border-top border-border ">
+          <Button
+            className="px-4 py-2 ms-auto"
+            color="primary"
+            onClick={() => {
+              handleSave();
+            }}
+          >
+            Save
+          </Button>
+          <Button
+            className="px-4 py-2 text-white"
+            color="danger"
+            onClick={() => navigate(-1)}
+          >
+            Cancel
+          </Button>
+        </div>
+
+        <TransactionProductModal
+          transactionProduct={transactionProduct}
+          setTransactionProduct={setTransactionProduct}
+          modal={modal}
+          setModal={setModal}
+          currentTransactionProduct={transactionProducts || []}
+          setCurrentTransactionProducts={setTransactionProducts}
+        />
+      </section>
+      <section className="pos-products bg-bg-light pt-2 transaction-details p-3 rounded">
+        <div className="d-flex mb-3 gap-2">
+          <div className="search-input">
+            <form onSubmit={onSubmit}>
+              <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+                <GoSearch onClick={onSubmit} role="button" />
+                <input
+                  type="text"
+                  {...register('title')}
+                  name="title"
+                  className="p-2 border border-border outline-none rounded form-control"
+                  placeholder="Type your product and press Enter"
+                />
+                <DropdownMenu>
+                  {products.slice(0, 100).map(product => (
+                    <DropdownItem text key={product.id}>
+                      <ListGroupItem
+                        action
+                        active
+                        href="#"
+                        tag="a"
+                        onClick={() =>
+                          handleProductSelect(Number(product.id) || 0, product)
+                        }
+                      >
+                        <div className="product-item d-flex justify-content-between">
+                          <span className="ps-4">
+                            {' '}
+                            <GoSearch />
+                            <img src={product.icon} alt="product icon" />
+                            {product.title}
+                          </span>
+                          <span>${product.price}</span>
+                        </div>
+                      </ListGroupItem>
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+            </form>
+          </div>
+          <Button
+            className="px-4 "
+            color="primary"
+            onClick={() => {
+              handleSave();
+            }}
+          >
+            Calculator
+          </Button>
+          <Button
+            className="px-4"
+            color="primary"
+            onClick={() => {
+              handleSave();
+            }}
+          >
+            Dashboard
+          </Button>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default POS;
