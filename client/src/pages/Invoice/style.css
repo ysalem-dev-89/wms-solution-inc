@@ -45,7 +45,7 @@
   .sidebar, header, button, a  {
     display: none !important;
   }
-/* 
+
   tr {
     border-bottom: 1px solid var(--border);
   }
@@ -74,4 +74,3 @@
 .print-table thead th {
   background-color: var(--dark);
 }
-

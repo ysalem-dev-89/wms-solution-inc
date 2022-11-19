@@ -57,7 +57,7 @@ export const addNewTransactionProduct = ({
       TransactionId,
       quantity: Number(quantity) || 1,
       unitPrice: Number(price) || 0,
-      status: status || TransactionStatus.Pending,
+      status: status || TransactionStatus.Closed,
       ProductId: ProductId || -1,
       createdAt: createdAt || new Date(),
       updatedAt: updatedAt || new Date(),

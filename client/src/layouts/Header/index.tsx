@@ -11,13 +11,14 @@ import {
 import { NavLink, Link, redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useState, useContext } from 'react';
-import { PageContext } from '../../contexts/PageContext';
-import { authApi } from '../../api';
-import Logo from '../../assets/images/wms_logo.png';
-import useAuth from '../../hooks/useAuth';
-import { dispatch } from '../../interfaces/authprovider';
-import '../style.css';
 import { FaAngleDown } from 'react-icons/fa';
+import { MdPointOfSale } from 'react-icons/md';
+import useAuth from '../../hooks/useAuth';
+import { authApi } from '../../api';
+import { dispatch } from '../../interfaces/authprovider';
+import { PageContext } from '../../contexts/PageContext';
+import '../style.css';
+import Logo from '../../assets/images/wms_logo.png';
 
 const logout = async (dispatch?: dispatch) => {
   try {
@@ -101,8 +102,11 @@ const Header = () => {
           user?.role == 'transactions' ? (
             <Button className="dp-toggle bg-white border-0 rounded ms-auto">
               <Link to="/pos" className="text-decoration-none">
-                <span className="username d-flex justify-content-center align-items-center text-white bg-blue rounded-circle">
-                  POS
+                <span
+                  title="Point of Sale | Cashier"
+                  className="username d-flex justify-content-center align-items-center text-white bg-blue rounded-circle"
+                >
+                  <MdPointOfSale />
                 </span>
               </Link>
             </Button>

@@ -6,7 +6,7 @@ const BlankPageLayout = () => (
     className="page-body p-3"
     style={{
       backgroundColor: '#d8e4ef',
-      height: '100%'
+      minHeight: '100vh'
     }}
   >
     <Outlet />

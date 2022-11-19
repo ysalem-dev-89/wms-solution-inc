@@ -16,7 +16,6 @@ import { NeedTransAuthorization } from './NeedTransAuthorization';
 import { NeedAdminAuthorization } from './NeedAdminAuthorization';
 import POS from '../pages/POS';
 import BlankPageLayout from '../blankPageLayout';
-import { ToastContainer } from 'react-toastify';
 
 const themeRoutes = [
   {
