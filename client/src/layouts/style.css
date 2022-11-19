@@ -108,7 +108,9 @@
 
 .urgent {
   position: relative;
-  font-size: 2rem;
+  font-size: 1.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
 .urgent-number {

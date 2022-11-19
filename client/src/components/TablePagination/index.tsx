@@ -5,6 +5,7 @@ import {
   Spinner
 } from 'reactstrap';
 import './style.css';
+import { numberWithCommas } from '../../helpers/NumberHelpers';
 
 export const TablePagination = (props: {
   numOfPages: number;
@@ -22,10 +23,6 @@ export const TablePagination = (props: {
     return props.currentPage == props.numOfPages
       ? props.totalCount
       : props.currentPage * props.itemsPerPage;
-  };
-
-  const numberWithCommas = (x: number) => {
-    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
   };
 
   // If we want the page number to appear we return it, otherwise it returns undefined.
@@ -109,7 +106,7 @@ export const TablePagination = (props: {
           </div>
         ) : (
           <p className=" text-dark">
-            Showing{' '}
+            Showing numberWithCommas
             {`${numberWithCommas(getCurrentItems())} of ${numberWithCommas(
               props.totalCount
             )} entities`}

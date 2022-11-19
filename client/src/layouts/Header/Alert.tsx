@@ -7,10 +7,11 @@ import {
   DropdownItem
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { TbBellRinging } from 'react-icons/tb';
+import { FaBell } from 'react-icons/fa';
 import { Button } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
+// import * as io from 'socket.io-client';
 import { UrgentContext } from '../../contexts/UrgentContext';
 import { IStockAlert } from '../../interfaces/AnalyticsInterface';
 import '../style.css';
@@ -49,8 +50,9 @@ function Example({ ...args }) {
           caret={false}
           className="dp-toggle bg-white border-0 rounded"
         >
-          <span className="urgent d-flex justify-content-center align-items-center text-dark bg-transparent rounded-circle">
-            <TbBellRinging /> <span className="urgent-number">{len}</span>
+          <span className="urgent d-flex justify-content-center align-items-center text-dark bg-primary rounded-circle">
+            <FaBell className="text-white" />{' '}
+            <span className="urgent-number">{len}</span>
           </span>
         </DropdownToggle>
         <DropdownMenu {...args}>

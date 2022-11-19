@@ -31,43 +31,46 @@ const StockAlertTable = ({
         <div className="text-danger">{error}</div>
       ) : (
         <>
-          <ButtonGroup>
-            <Button
-              color="primary"
-              outline
-              onClick={() => setAlert('all')}
-              active={alert === 'all'}
-            >
-              All
-            </Button>
-            <Button
-              color="primary"
-              outline
-              onClick={() => setAlert('earlyAlert')}
-              active={alert === 'earlyAlert'}
-            >
-              Early Alert
-            </Button>
-            <Button
-              color="primary"
-              outline
-              onClick={() => setAlert('unhurriedAlert')}
-              active={alert === 'unhurriedAlert'}
-            >
-              Unhurried Alert
-            </Button>
-            <Button
-              color="primary"
-              outline
-              onClick={() => setAlert('urgentAlert')}
-              active={alert === 'urgentAlert'}
-            >
-              Urgent Alert
-            </Button>
-            <caption className="px-5">
+          <div className="d-flex justify-content-between align-items-center flex-row-reverse">
+            <caption>
               <h3 className="chart-title">Out of Stock Alert Table</h3>
             </caption>
-          </ButtonGroup>
+
+            <ButtonGroup>
+              <Button
+                color="primary"
+                outline
+                onClick={() => setAlert('all')}
+                active={alert === 'all'}
+              >
+                All
+              </Button>
+              <Button
+                color="primary"
+                outline
+                onClick={() => setAlert('earlyAlert')}
+                active={alert === 'earlyAlert'}
+              >
+                Early alert
+              </Button>
+              <Button
+                color="primary"
+                outline
+                onClick={() => setAlert('unhurriedAlert')}
+                active={alert === 'unhurriedAlert'}
+              >
+                Unhurried alert
+              </Button>
+              <Button
+                color="primary"
+                outline
+                onClick={() => setAlert('urgentAlert')}
+                active={alert === 'urgentAlert'}
+              >
+                Urgent alert
+              </Button>
+            </ButtonGroup>
+          </div>
 
           <Table hover className="mt-3">
             <thead>
@@ -82,12 +85,12 @@ const StockAlertTable = ({
             {outofstockData.slice(start, end).map((item, i) => (
               <tbody key={item.productid}>
                 <tr>
-                  <th scope="row">{i + 1}</th>
+                  <td scope="row">{i + 1}</td>
                   <td>{item.product}</td>
                   <td>{+item.instock}</td>
                   <td>
                     <Button
-                      className="bg-primary text-white"
+                      className="order-btn rounded-pill"
                       onClick={() => {
                         setUrgent([item]);
                         navigate(`/transactions/add`);

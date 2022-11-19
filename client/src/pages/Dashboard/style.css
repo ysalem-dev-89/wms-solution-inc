@@ -86,3 +86,45 @@ table {
     caption-side: top;
 }
 
+.order-btn {
+    background-color: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 0.3rem 1rem;
+}
+.order-btn:hover {
+    background-color: var(--primary);
+    border: 1px solid var(--primary);
+    color: #fff;
+}
+
+caption {
+    display: block;
+    padding: 0 !important;
+}
+
+caption h3 {
+    margin: 0 !important;
+}
+
+.stats-icon {
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+.total-statistics .card-body {
+   display: flex; 
+   gap: 1rem;
+   align-items: center;
+   justify-content: center;
+   height: 80px;
+   padding: 0;
+}
+
+.total-statistics .card-title {
+    font-size: 20px;
+}
+
+ .total-statistics .card-text {
+    font-size: 16px;
+}
