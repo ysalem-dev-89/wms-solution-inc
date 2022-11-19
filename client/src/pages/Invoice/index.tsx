@@ -14,7 +14,7 @@ import './style.css';
 import { AiFillPrinter } from 'react-icons/ai';
 import { FiEdit2 } from 'react-icons/fi';
 
-const Invoice = () => {
+const Invoice = (props: { forCashier: boolean }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [transaction, setTransaction] = useState<TransactionInterface | null>(
@@ -66,7 +66,7 @@ const Invoice = () => {
       {error ? (
         <div className="text-danger text-center display">{error}</div>
       ) : (
-        <div className="card-body">
+        <div className="card-body" style={{ width: '600px', margin: 'auto' }}>
           <div className="controls container-fluid w-100 d-flex justify-content-end gap-2">
             <Link
               to={`edit`}
@@ -78,15 +78,18 @@ const Invoice = () => {
               to="#"
               className="print-btn btn btn-primary"
               onClick={() => {
-                // window.print();
-                const getFullContent = document.body.innerHTML;
-                const printsection = document.querySelector(
-                  '.data-table-section'
-                )?.innerHTML;
-                window.document.body.innerHTML = printsection || '';
-                console.log(window.document.body);
-                window.print();
-                document.body.innerHTML = getFullContent;
+                if (props.forCashier) {
+                  window.print();
+                } else {
+                  const getFullContent = document.body.innerHTML;
+                  const printsection = document.querySelector(
+                    '.data-table-section'
+                  )?.innerHTML;
+                  window.document.body.innerHTML = printsection || '';
+                  console.log(window.document.body);
+                  window.print();
+                  document.body.innerHTML = getFullContent;
+                }
               }}
             >
               <AiFillPrinter /> Print
@@ -95,7 +98,7 @@ const Invoice = () => {
               href="#"
               className="btn btn-danger text-white"
               onClick={() => {
-                navigate('/transactions');
+                props.forCashier ? navigate('/pos') : navigate('/transactions');
               }}
             >
               Back
@@ -117,7 +120,7 @@ const Invoice = () => {
                 </p>
               </div>
             </div>
-            <div className="col-lg-3 pr-0">
+            <div className="col-lg-4 pr-0">
               <p className="text-right">
                 <p>
                   <b>Invoice Date: </b>

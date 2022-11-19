@@ -11,12 +11,14 @@ import {
 import { NavLink, Link, redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useState, useContext } from 'react';
-import { PageContext } from '../../contexts/PageContext';
-import { authApi } from '../../api';
-import Logo from '../../assets/images/wms_logo.png';
+import { FaAngleDown } from 'react-icons/fa';
+import { MdPointOfSale } from 'react-icons/md';
 import useAuth from '../../hooks/useAuth';
+import { authApi } from '../../api';
 import { dispatch } from '../../interfaces/authprovider';
+import { PageContext } from '../../contexts/PageContext';
 import '../style.css';
+import Logo from '../../assets/images/wms_logo.png';
 
 const logout = async (dispatch?: dispatch) => {
   try {
@@ -95,6 +97,23 @@ const Header = () => {
             )}
           </Breadcrumb>
 
+          {user?.role == 'superAdmin' ||
+          user?.role == 'admin' ||
+          user?.role == 'transactions' ? (
+            <Button className="dp-toggle bg-white border-0 rounded ms-auto">
+              <Link to="/pos" className="text-decoration-none">
+                <span
+                  title="Point of Sale | Cashier"
+                  className="username d-flex justify-content-center align-items-center text-white bg-blue rounded-circle"
+                >
+                  <MdPointOfSale />
+                </span>
+              </Link>
+            </Button>
+          ) : (
+            <></>
+          )}
+
           {auth?.loggedIn ? (
             <NavbarText className="nav-text d-flex">
               <div className="d-flex rounded">
@@ -105,11 +124,13 @@ const Header = () => {
                 >
                   <DropdownToggle
                     caret={false}
-                    className="dp-toggle bg-white border-0 rounded"
+                    className="d-flex gap-2 align-items-center  bg-white border-0 rounded"
                   >
                     <span className="username d-flex justify-content-center align-items-center text-white bg-primary rounded-circle">
                       {user?.role?.slice(0, 2).toUpperCase()}
                     </span>
+                    {user?.username}
+                    <FaAngleDown />
                   </DropdownToggle>
                   <DropdownMenu>
                     <div className="rounded px-3 py-2">

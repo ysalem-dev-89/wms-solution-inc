@@ -72,8 +72,25 @@ const OneTransaction = ({ operation }: { operation: string }) => {
 
   const onSubmit = handleSubmit(async data => {
     try {
-      const list = await Product.getProductsByTitle({ title: data.title });
-      setProducts(list.data.items);
+      let barcode = '';
+      let title = '';
+      if (data.search) {
+        barcode = data.search
+          .trim()
+          .split('')
+          .every(c => !Number.isNaN(+c) || c == ' ')
+          ? data.search
+          : '';
+        title = barcode ? '' : data.search;
+      }
+
+      const list = await Product.getProducts({
+        title: title,
+        barcode: barcode,
+        categoryId: ''
+      });
+
+      setProducts(list.data.products);
       setDropdownOpen(true);
     } catch (error: unknown) {
       const exception = error as AxiosError;
@@ -85,31 +102,48 @@ const OneTransaction = ({ operation }: { operation: string }) => {
     ProductId: number,
     product: ProductInterface
   ) => {
-    const transProduct = transactionProducts.find(
-      item => item.ProductId == ProductId
-    );
+    try {
+      const transProduct = transactionProducts.find(
+        item => item.ProductId == ProductId
+      );
 
-    let newList = [];
-    if (transProduct) {
-      newList = TransactionProducts.updateTransactionProducts({
-        currentTransactionProducts: transactionProducts,
-        price: product.price,
-        quantity: transProduct?.quantity + 1,
-        ProductId: ProductId
-      });
-    } else {
-      newList = TransactionProducts.addNewTransactionProduct({
-        TransactionId: transaction?.id || -1,
-        currentTransactionProducts: transactionProducts,
-        price: product.price,
-        quantity: 1,
-        ProductId: ProductId,
-        Product: product
-      });
+      if (
+        (product?.inStock && product?.inStock > 10) ||
+        transType == TransactionType.Purchase
+      ) {
+        let newList = [];
+        if (transProduct) {
+          newList = TransactionProducts.updateTransactionProducts({
+            currentTransactionProducts: transactionProducts,
+            price: product.price,
+            quantity: transProduct?.quantity + 1,
+            ProductId: ProductId
+          });
+        } else {
+          newList = TransactionProducts.addNewTransactionProduct({
+            TransactionId: transaction?.id || -1,
+            currentTransactionProducts: transactionProducts,
+            price: product.price,
+            quantity: 1,
+            ProductId: ProductId,
+            Product: product
+          });
+        }
+        setTransactionProducts(newList);
+        setDropdownOpen(false);
+        setValue('search', '');
+      } else {
+        throw new Error('This product is out of stock');
+      }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        const exception = error as AxiosError;
+        ErrorHandler.handleRequestError(exception, setError);
+      } else {
+        const exception = error as Error;
+        setError(exception.message);
+      }
     }
-
-    setTransactionProducts(newList);
-    setDropdownOpen(false);
   };
 
   useEffect(() => {
@@ -302,10 +336,14 @@ const OneTransaction = ({ operation }: { operation: string }) => {
               <GoSearch onClick={onSubmit} role="button" />
               <input
                 type="text"
-                {...register('title')}
-                name="title"
+                {...register('search')}
+                name="search"
                 className="p-2 border border-border outline-none rounded form-control"
                 placeholder="Type your product and press Enter"
+                onChange={e => {
+                  setValue('search', e.target.value);
+                  onSubmit(e);
+                }}
               />
               <DropdownMenu>
                 {products.slice(0, 100).map(product => (
@@ -345,6 +383,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         operation={operation}
         transactionProducts={transactionProducts}
         setTransactionProducts={setTransactionProducts}
+        forCashier={false}
       />
       <Card
         className="my-2 ms-auto"

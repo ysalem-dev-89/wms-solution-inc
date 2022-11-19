@@ -40,12 +40,27 @@ export default class ProductController {
   };
 
   static getProducts = async (
-    req: Request,
+    req: ProductRequest,
     res: Response,
     next: NextFunction
   ) => {
     try {
-      const { limit, offset } = req.query;
+      const {
+        barcode = '',
+        title = '',
+        categoryId = '',
+        limit = 1000,
+        offset = 0
+      } = req.query;
+      let filter = categoryId ? '"categoryId" = :categoryId' : '';
+      if (barcode) {
+        filter += (filter ? ' AND ' : '') + 'barcode like :barcode';
+      } else if (title) {
+        filter += (filter ? ' AND ' : '') + 'title like :title';
+      }
+
+      if (filter) filter = 'where ' + filter;
+
       const products = await sequelize.query(
         `select p.id,
                 p.price,
@@ -55,6 +70,8 @@ export default class ProductController {
                 p.icon,
                 p.description,
                 p.unit,
+                c.id as categoryId,
+                c.name as categoryName,
                 coalesce(
                     (
                         (
@@ -75,9 +92,17 @@ export default class ProductController {
                     ),
                     0
                 ) as "inStock"
-            from "Products" as p LIMIT $1 OFFSET $2;`,
+            from "Products" as p inner join "Categories" as c
+            on "categoryId" = c.id ${filter}
+            LIMIT :limit OFFSET :offset;`,
         {
-          bind: [limit, offset],
+          replacements: {
+            barcode: `%${barcode}%`,
+            title: `%${title}%`,
+            categoryId,
+            limit,
+            offset
+          },
           type: QueryTypes.SELECT
         }
       );
@@ -90,6 +115,7 @@ export default class ProductController {
       res.json({ products, totalCount });
     } catch (error) {
       next(error);
+      console.log(error);
     }
   };
 

@@ -33,4 +33,11 @@ export default class ProductQuery {
         [Op.like]: `%${title.toLowerCase()}%`
       })
     });
+
+  static getProductsByBarcode = ({ barcode }: { barcode: string }) =>
+    Product.findAll({
+      where: sequelize.where(sequelize.fn('lower', sequelize.col('barcode')), {
+        [Op.like]: `%${barcode.toLowerCase()}%`
+      })
+    });
 }
