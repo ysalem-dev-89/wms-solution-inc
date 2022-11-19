@@ -106,8 +106,8 @@ export const TablePagination = (props: {
           </div>
         ) : (
           <p className=" text-dark">
-            Showing numberWithCommas
-            {`${numberWithCommas(getCurrentItems())} of ${numberWithCommas(
+            Showing
+            {` ${numberWithCommas(getCurrentItems())} of ${numberWithCommas(
               props.totalCount
             )} entities`}
           </p>
