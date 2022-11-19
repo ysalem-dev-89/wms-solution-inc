@@ -7,6 +7,7 @@ import {
   DropdownItem
 } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { TbBellRinging } from 'react-icons/tb';
 import { Button } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
@@ -20,6 +21,7 @@ function Example({ ...args }) {
   const [notification, setNotification] = useState<string>('Alert Ali');
   const [len, setLen] = useState<number>(0);
   const { setUrgent } = useContext(UrgentContext);
+  const [urgentList, setUrgentList] = useState<IStockAlert[]>([]);
 
   useEffect(() => {
     setSocket(io('http://localhost:8080'));
@@ -29,7 +31,7 @@ function Example({ ...args }) {
     socket?.on('sendAlert', (data: { msg: string; arr: IStockAlert[] }) => {
       setLen(data.arr.length);
       setNotification(data.msg);
-      setUrgent(data.arr);
+      setUrgentList(data.arr);
     });
   };
 
@@ -47,8 +49,8 @@ function Example({ ...args }) {
           caret={false}
           className="dp-toggle bg-white border-0 rounded"
         >
-          <span className="username d-flex justify-content-center align-items-center text-white bg-primary rounded-circle">
-            {len}
+          <span className="urgent d-flex justify-content-center align-items-center text-dark bg-transparent rounded-circle">
+            <TbBellRinging /> <span className="urgent-number">{len}</span>
           </span>
         </DropdownToggle>
         <DropdownMenu {...args}>
@@ -59,6 +61,7 @@ function Example({ ...args }) {
               className="text-white"
               onClick={() => {
                 navigate(`/transactions/add`);
+                setUrgent(urgentList);
               }}
             >
               Order All

@@ -5,15 +5,10 @@ export interface ProductInterface {
   barcode: string;
   title: string;
   price: number;
-  icon: string;
+  icon?: string;
   discount: number;
   inStock?: number;
-  unit: Unit;
-  createdAt: number;
-  categoryId: number;
-  actions: {
-    open: void;
-    edit: void;
-    delete: void;
-  };
+  unit?: Unit;
+  createdAt?: number;
+  categoryId?: number;
 }

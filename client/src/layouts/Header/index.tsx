@@ -48,7 +48,7 @@ const Header = () => {
     <header>
       <div className="header-content bg-white py-0 container-fluid">
         <nav
-          className={`navbar navbar-expand-lg d-flex justify-content-between px-1 py-0`}
+          className={`navbar navbar-expand-lg d-flex justify-content-between  px-1 py-0`}
         >
           <Breadcrumb listClassName="mb-0 p-2">
             {!auth?.loggedIn ? (
@@ -116,7 +116,7 @@ const Header = () => {
           )}
 
           {auth?.loggedIn ? (
-            <NavbarText className="nav-text d-flex circles">
+            <NavbarText className="nav-text d-flex  align-items-center circles">
               <Alert />
               <div className="d-flex rounded test circle1">
                 <Dropdown

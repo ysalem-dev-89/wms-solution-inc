@@ -10,13 +10,15 @@ type IUrgentState = {
   setUrgent: (value: IStockAlert[]) => void;
 };
 
-export const UrgentContext = createContext<any>(null);
+const init = {
+  urgent: [{ productid: 0, product: '', instock: 0, price: 0, discount: 0 }],
+  setUrgent: () => {}
+};
+
+export const UrgentContext = createContext<IUrgentState>(init);
 
 export const UrgentContextProvider: FC<Props> = ({ children }) => {
-  const [urgent, setUrgent] = useState<IUrgentState>({
-    urgent: [{ productid: 0, product: '', instock: 0, price: 0, discount: 0 }],
-    setUrgent: () => {}
-  });
+  const [urgent, setUrgent] = useState<IStockAlert[]>(init.urgent);
 
   return (
     <UrgentContext.Provider value={{ urgent: urgent, setUrgent: setUrgent }}>

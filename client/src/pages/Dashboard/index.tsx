@@ -1,5 +1,5 @@
 import './style.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import TotalStatistics from './TotalStatistics';
 import RevenueChart from './RevenueChart';
 import TopSelling from './TopSelling';
@@ -15,6 +15,7 @@ import {
   stockAlert
 } from '../../api/analytics';
 import Loader from './Loader';
+import { PageContext } from '../../contexts/PageContext';
 
 const Dashboard = () => {
   const LAUNCHED_YEAR = 2018;
@@ -35,6 +36,7 @@ const Dashboard = () => {
   const [topSellingNums, setTopSellingNums] = useState<number[]>([]);
   const [outofstockData, setOutofstockData] = useState<IStockAlert[]>([]);
   const [alert, setAlert] = useState<string>('all');
+  const { setPages } = useContext(PageContext);
 
   const fetchAnalyticsData = async () => {
     try {
@@ -86,6 +88,10 @@ const Dashboard = () => {
   useEffect(() => {
     fetchAnalyticsData();
   }, [year, alert]);
+
+  useEffect(() => {
+    setPages([{ title: 'Dashboard', link: '' }]);
+  }, []);
 
   return (
     <>
