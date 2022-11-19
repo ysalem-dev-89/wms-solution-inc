@@ -1,9 +1,3 @@
-.data-table-section{
-  border-radius: 2rem;
-}
-
-
-
 .search-input {
   position: relative;
 }
@@ -37,8 +31,17 @@
   margin-bottom: 2rem;
 }
 
-
 @media print {
+  .sidebar, header, .controls {
+    display: none !important;
+  }
+
+  tr {
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+/* @media print {
   .sidebar, header, button, a  {
     display: none !important;
   }
@@ -46,4 +49,28 @@
   tr {
     border-bottom: 1px solid var(--border);
   }
+
+  .table {
+    page-break-after: auto !important;
+  }
+
+  .table tr {
+    page-break-inside: avoid !important;
+    page-break-after: auto !important;
+  }
+
+  thead {
+    display: table-header-group !important;
+  }
+  tfoot {
+    display: table-footer-group !important;
+  }  */
+  
+/* }  */
+
+.edit-btn:hover svg  {
+  color: white;
+}
+.print-table thead th {
+  background-color: var(--dark);
 }

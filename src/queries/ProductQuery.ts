@@ -1,12 +1,13 @@
 import Product from '../models/ProductModel';
-import ProductInterface from '../interfaces/ProductInterface';
+import { ProductInterface } from '../interfaces/ProductInterface';
 import { sequelize } from '../db/connection';
 import { Op } from 'sequelize';
 export default class ProductQuery {
   static update = async (product: ProductInterface) => {
-    const { id, title, description, icon, price, discount } = product;
+    const { id, barcode, title, description, icon, price, discount, unit } =
+      product;
     return Product.update(
-      { title, description, icon, price, discount },
+      { barcode, title, description, icon, price, discount, unit },
       {
         where: {
           id
@@ -30,6 +31,13 @@ export default class ProductQuery {
     Product.findAll({
       where: sequelize.where(sequelize.fn('lower', sequelize.col('title')), {
         [Op.like]: `%${title.toLowerCase()}%`
+      })
+    });
+
+  static getProductsByBarcode = ({ barcode }: { barcode: string }) =>
+    Product.findAll({
+      where: sequelize.where(sequelize.fn('lower', sequelize.col('barcode')), {
+        [Op.like]: `%${barcode.toLowerCase()}%`
       })
     });
 }

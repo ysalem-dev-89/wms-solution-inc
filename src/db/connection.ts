@@ -5,7 +5,7 @@ const dbUri = environment.database.uri;
 const ssl = environment.ssl;
 const connection = new Sequelize(`${dbUri}`, {
   dialectOptions: { ssl },
-  logging: false
+  logging: true
 });
 
 export const sequelize = connection; // connection instance (RAW queries)

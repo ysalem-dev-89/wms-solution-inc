@@ -8,5 +8,14 @@ type Props = {
 export const NeedAdminAuthorization = ({ children }: Props) => {
   const { auth } = useAuth();
   const { user } = auth;
-  return <>{user?.role == 'admin' ? children : <Navigate to="/login" />}</>;
+  console.log(user);
+  return (
+    <>
+      {user?.role == 'admin' || user?.role == 'superAdmin' ? (
+        children
+      ) : (
+        <Navigate to="/login" />
+      )}
+    </>
+  );
 };

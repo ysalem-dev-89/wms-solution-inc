@@ -10,6 +10,7 @@ import './style.css';
 import { UserInterface } from '../../interfaces/UserInterface';
 import { Role } from '../../interfaces/Enums';
 import { toast } from 'react-toastify';
+import useAuth from '../../hooks/useAuth';
 
 export const UserTable = (props: {
   isPending: boolean;
@@ -25,6 +26,11 @@ export const UserTable = (props: {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
   const [numOfPages, setNumOfPages] = useState<number>(0);
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [isPagingLoading, setIsPagingLoading] = useState<boolean>(false);
+
+  const { auth } = useAuth();
+  const userAuth = auth.user;
 
   const handleView = ({
     id,
@@ -52,6 +58,8 @@ export const UserTable = (props: {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsPagingLoading(true);
+
       try {
         const list = await User.getUsers({
           search: props.search,
@@ -59,13 +67,17 @@ export const UserTable = (props: {
           offset: itemsPerPage * (currentPage - 1)
         });
 
+        setIsPagingLoading(false);
         props.setIsPending(false);
+
         setUsers(list.data.items);
         setNumOfPages(Math.ceil(list.data.totalCount / itemsPerPage));
+        setTotalCount(list.data.totalCount);
       } catch (error: unknown) {
         const exception = error as AxiosError;
         ErrorHandler.handleRequestError(exception, setError);
 
+        setIsPagingLoading(false);
         props.setIsPending(false);
       }
     };
@@ -94,7 +106,19 @@ export const UserTable = (props: {
       });
     } catch (error: unknown) {
       const exception = error as AxiosError;
-      ErrorHandler.handleRequestError(exception, setError);
+      const data = exception?.response?.data as {
+        statusCode: number;
+        error: string;
+      };
+      toast.error(data?.error || '', {
+        position: 'bottom-right',
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      });
     }
   };
 
@@ -140,13 +164,17 @@ export const UserTable = (props: {
                       >
                         <FiEdit2 className="text-blue" /> Edit
                       </button>
-                      <button
-                        onClick={_e => {
-                          handleRemove(user.id || -1);
-                        }}
-                      >
-                        <TfiClose className="text-danger" /> Remove
-                      </button>
+                      {userAuth?.role == 'superAdmin' ? (
+                        <button
+                          onClick={_e => {
+                            handleRemove(user.id || -1);
+                          }}
+                        >
+                          <TfiClose className="text-danger" /> Remove
+                        </button>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -158,7 +186,10 @@ export const UserTable = (props: {
       <TablePagination
         numOfPages={numOfPages}
         currentPage={currentPage}
+        totalCount={totalCount}
+        itemsPerPage={itemsPerPage}
         setCurrentPage={setCurrentPage}
+        isLoading={isPagingLoading}
       />
     </div>
   );

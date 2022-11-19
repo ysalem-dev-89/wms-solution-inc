@@ -5,7 +5,7 @@ import {
   getAllProductsAPI,
   updateProductAPI,
   deleteProductAPI
-} from '../../api/products';
+} from '../../api/product';
 import { DeleteModal } from '../../components/DeleteModal';
 import { ModalEdit } from '../../components/ModalEdit';
 import { TablePagination } from '../../components/TablePagination';
@@ -24,9 +24,11 @@ const fetchData = async (
   setApiStatus: React.Dispatch<React.SetStateAction<ApiStatus>>,
   setProducts: React.Dispatch<React.SetStateAction<ProductInterface[]>>,
   setFilteredProducts: React.Dispatch<React.SetStateAction<ProductInterface[]>>,
-  setTotalItems: React.Dispatch<React.SetStateAction<number>>
+  setTotalItems: React.Dispatch<React.SetStateAction<number>>,
+  setIsPagingLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   try {
+    setIsPagingLoading(true);
     setProducts([]);
     const result = await getAllProductsAPI(
       itemsPerPage,
@@ -39,6 +41,7 @@ const fetchData = async (
     setProducts(products);
     setFilteredProducts(products);
     setTotalItems(totalCount);
+    setIsPagingLoading(false);
   } catch (error) {
     const exception = error as Error;
     toast.error(exception.message, {
@@ -51,6 +54,7 @@ const fetchData = async (
       progress: undefined
     });
     setApiStatus(ApiStatus.Failed);
+    setIsPagingLoading(false);
   }
 };
 
@@ -69,6 +73,8 @@ const Products = () => {
   const [filteredProducts, setFilteredProducts] = useState(
     [] as ProductInterface[]
   );
+  const [isPagingLoading, setIsPagingLoading] = useState<boolean>(false);
+
   const { setPages } = useContext(PageContext);
 
   const { auth } = useAuth();
@@ -184,7 +190,8 @@ const Products = () => {
       setApiStatus,
       setProducts,
       setFilteredProducts,
-      setTotalItems
+      setTotalItems,
+      setIsPagingLoading
     );
   }, [updateTable, currentPage]);
 
@@ -268,11 +275,14 @@ const Products = () => {
                   <th>#</th>
                   <th></th>
                   <th>Product</th>
+                  <th>Barcode</th>
                   <th>Price</th>
                   <th>Discount</th>
                   <th>In Stock</th>
-                  <th>Created At</th>
-                  {user?.role == 'admin' || user?.role == 'stock' ? (
+                  <th>Unit</th>
+                  {user?.role == 'superAdmin' ||
+                  user?.role == 'admin' ||
+                  user?.role == 'stock' ? (
                     <th className="actions-th text-center">Action</th>
                   ) : (
                     <></>
@@ -294,7 +304,10 @@ const Products = () => {
           <TablePagination
             numOfPages={Math.ceil(totalItems / itemsPerPage)}
             currentPage={currentPage}
+            totalCount={totalItems}
+            itemsPerPage={itemsPerPage}
             setCurrentPage={setCurrentPage}
+            isLoading={isPagingLoading}
           />
           <ToastContainer />
         </div>

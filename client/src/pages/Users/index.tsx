@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { PageContext } from '../../contexts/PageContext';
 import { UserTable } from '../../components/UserTable';
 import UserModal from '../../components/UserModal';
+import useAuth from '../../hooks/useAuth';
 
 const Users = () => {
   const { register, handleSubmit } = useForm<CategorySearch>();
@@ -25,6 +26,9 @@ const Users = () => {
 
   const { setPages } = useContext(PageContext);
   const [isPending, setIsPending] = useState<boolean>(true);
+
+  const { auth } = useAuth();
+  const userAuth = auth.user;
 
   useEffect(() => {
     setPages([
@@ -52,32 +56,35 @@ const Users = () => {
         </Spinner>
       </div>
       <section
-        className={`data-table-section bg-white p-4 ${
+        className={`data-table-section bg-bg-light pt-2 ${
           isPending ? 'd-none' : 'd-block'
         }`}
       >
         {' '}
         <header>
-          <h3 className="h6 fw-bold mb-5">Users</h3>
           <div className="d-flex justify-content-between mb-3 align-items-center">
             <form onSubmit={onSubmit}>
               <div className="search-input">
-                <GoSearch />
+                <GoSearch onClick={onSubmit} role="button" />
                 <input
-                  type="search"
+                  type="text"
                   {...register('search')}
                   className="p-2 border border-border outline-none rounded"
                   placeholder="Search"
                 />
               </div>
             </form>
-            <div className="right ms-auto">
-              <div>
-                <Button color="primary" onClick={_e => handleAddClick()}>
-                  Add User
-                </Button>
+            {userAuth?.role == 'superAdmin' ? (
+              <div className="right ms-auto">
+                <div>
+                  <Button color="primary" onClick={_e => handleAddClick()}>
+                    Add User
+                  </Button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <></>
+            )}
           </div>
         </header>
         <UserTable

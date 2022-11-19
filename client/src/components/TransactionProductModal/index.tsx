@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
   Modal,
@@ -16,6 +17,7 @@ import ErrorHandler from '../../helpers/ErrorHandler';
 import { TransactionProductInterface } from '../../interfaces/TransactionProductInterface';
 import { updateTransactionProducts } from '../../helpers/transactionProducts';
 import { TransactionStatus } from '../../interfaces/Enums';
+import { transactionProductSchema } from '../../validations/validation';
 
 export default function TransactionProductModal(props: {
   transactionProduct: TransactionProductInterface | null;
@@ -36,14 +38,15 @@ export default function TransactionProductModal(props: {
     handleSubmit,
     setValue,
     formState: { errors }
-  } = useForm<TransactionProductData>();
+  } = useForm<TransactionProductData>({
+    mode: 'onTouched',
+    resolver: yupResolver(transactionProductSchema)
+  });
 
   const toggle = () => props.setModal(!props.modal);
 
   const onSubmit = async (data: TransactionProductData) => {
     try {
-      toggle();
-
       if (props.transactionProduct) {
         props.setCurrentTransactionProducts(
           updateTransactionProducts({
@@ -54,6 +57,7 @@ export default function TransactionProductModal(props: {
             status: data.status
           })
         );
+        toggle();
       }
     } catch (error: unknown) {
       const exception = error as AxiosError;
@@ -62,11 +66,12 @@ export default function TransactionProductModal(props: {
   };
 
   const handleClose = () => {
-    setValue('price', 0);
-    setValue('discount', 0);
-    setValue('status', TransactionStatus.Pending);
-    setValue('productId', -1);
-    reset();
+    reset({
+      price: props.transactionProduct?.unitPrice,
+      discount: props.transactionProduct?.Product.discount,
+      quantity: props.transactionProduct?.quantity,
+      status: props.transactionProduct?.status
+    });
   };
 
   useEffect(() => {
@@ -103,10 +108,7 @@ export default function TransactionProductModal(props: {
             <FormGroup>
               <Label for="price">Price</Label>
               <input
-                {...register('price', {
-                  required: true,
-                  min: 1
-                })}
+                {...register('price')}
                 placeholder="Price"
                 className="mb-4 form-control"
                 name="price"
@@ -117,10 +119,7 @@ export default function TransactionProductModal(props: {
             <FormGroup>
               <Label for="quantity">Quantity</Label>
               <input
-                {...register('quantity', {
-                  required: true,
-                  min: 1
-                })}
+                {...register('quantity')}
                 placeholder="Quantity"
                 className="mb-4 form-control"
                 name="quantity"

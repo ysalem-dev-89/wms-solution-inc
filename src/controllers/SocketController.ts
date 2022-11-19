@@ -15,7 +15,7 @@ export default class SocketController {
       const getSocket = async () => {
         try {
           const inStock = await AnalyticsQuery.stockAlert(100);
-          console.log('Inside IO NEW ARR: ', inStock[0].length);
+          console.log('Inside IO: ', inStock[0].length);
 
           io?.emit('sendAlert', {
             msg: `${inStock[0].length} products are running out of stock`,

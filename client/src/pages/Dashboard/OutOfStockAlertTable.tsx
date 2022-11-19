@@ -2,7 +2,6 @@
 import './style.css';
 import { Table } from 'reactstrap';
 import { Button, ButtonGroup } from 'reactstrap';
-import { AiFillHourglass } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { IStockAlert } from '../../interfaces/AnalyticsInterface';
 import { TablePagination } from '../../components/TablePagination';
@@ -83,18 +82,18 @@ const StockAlertTable = ({
             {outofstockData.slice(start, end).map((item, i) => (
               <tbody key={item.productid}>
                 <tr>
-                  {/* <th scope="row">{item.productid}</th> */}
                   <th scope="row">{i + 1}</th>
                   <td>{item.product}</td>
                   <td>{+item.instock}</td>
                   <td>
                     <Button
+                      className="bg-primary text-white"
                       onClick={() => {
                         setUrgent([item]);
                         navigate(`/transactions/add`);
                       }}
                     >
-                      <AiFillHourglass className="text-blue" /> ORDER
+                      Order
                     </Button>
                   </td>
                 </tr>
@@ -105,8 +104,11 @@ const StockAlertTable = ({
       )}
       <TablePagination
         numOfPages={Math.ceil(outofstockData.length / 10)}
+        totalCount={outofstockData.length}
         currentPage={currentPage}
+        itemsPerPage={10}
         setCurrentPage={setCurrentPage}
+        isLoading={false}
       />
     </>
   );

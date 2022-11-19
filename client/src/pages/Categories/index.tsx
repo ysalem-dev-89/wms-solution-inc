@@ -56,19 +56,18 @@ const Categories = () => {
         </Spinner>
       </div>
       <section
-        className={`data-table-section bg-white p-4 ${
+        className={`data-table-section bg-bg-light pt-2 ${
           isPending ? 'd-none' : 'd-block'
         }`}
       >
         {' '}
         <header>
-          <h3 className="h6 fw-bold mb-5">Categories</h3>
           <div className="d-flex justify-content-between mb-3 align-items-center">
             <form onSubmit={onSubmit}>
               <div className="search-input">
-                <GoSearch />
+                <GoSearch onClick={onSubmit} role="button" />
                 <input
-                  type="search"
+                  type="text"
                   {...register('search')}
                   className="p-2 border border-border outline-none rounded"
                   placeholder="Search"
@@ -77,7 +76,9 @@ const Categories = () => {
             </form>
             <div className="right ms-auto">
               <div>
-                {user?.role == 'admin' || user?.role == 'stock' ? (
+                {user?.role == 'superAdmin' ||
+                user?.role == 'admin' ||
+                user?.role == 'stock' ? (
                   <Button color="primary" onClick={_e => handleAddClick()}>
                     Add Category
                   </Button>

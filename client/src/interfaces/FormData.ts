@@ -14,6 +14,7 @@ export type TransactionData = {
   createdAt: Date;
   title: string;
   username: string;
+  search?: string;
 };
 
 export type TransactionProductData = {

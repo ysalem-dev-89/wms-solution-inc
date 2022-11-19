@@ -44,7 +44,7 @@ const outputData = (fileName: string, data: string, fields: string[]): void => {
 
 const users = JSON.stringify(DataGenerator.generateUsers(), null, 2);
 const categories = JSON.stringify(DataGenerator.generateCategories(), null, 2);
-const transactionsObj = DataGenerator.generateTransactions(1, 0, 100) as {
+const transactionsObj = DataGenerator.generateTransactions(1, 0, 200) as {
   transactions: Transaction[];
   transactionsProducts: TransactionProduct[];
 };
@@ -81,11 +81,13 @@ outputData('transactionsProducts.csv', transactionsProducts, [
   'updatedAt'
 ]);
 outputData('products.csv', products, [
+  'barcode',
   'title',
   'description',
   'icon',
   'price',
   'discount',
+  'unit',
   'categoryId',
   'createdAt',
   'updatedAt'

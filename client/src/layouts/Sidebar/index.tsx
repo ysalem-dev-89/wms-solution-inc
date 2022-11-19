@@ -36,14 +36,16 @@ const Sidebar = () => {
       name: 'Categories',
       icon: <FaRegChartBar />
     },
-    user?.role == 'admin' || user?.role == 'transactions'
+    user?.role == 'superAdmin' ||
+    user?.role == 'admin' ||
+    user?.role == 'transactions'
       ? {
           path: '/transactions',
           name: 'Transactions',
           icon: <AiOutlineTransaction />
         }
       : null,
-    user?.role == 'admin'
+    user?.role == 'superAdmin' || user?.role == 'admin'
       ? {
           path: '/users',
           name: 'Users',
@@ -71,7 +73,7 @@ const Sidebar = () => {
             WMS
           </h1>
         </Link>
-        <div className="bars d-flex text-white">
+        <div className="bars d-flex text-white" role="button">
           <FaBars onClick={toggle} />
         </div>
       </div>

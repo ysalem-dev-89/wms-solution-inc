@@ -18,7 +18,6 @@ import {
 import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
 import { GoSearch } from 'react-icons/go';
-import { TbFileInvoice } from 'react-icons/tb';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import moment from 'moment';
@@ -39,6 +38,7 @@ import { PageContext } from '../../contexts/PageContext';
 import { calculateTotalPrice } from '../../helpers/NumberHelpers';
 import useAuth from '../../hooks/useAuth';
 import { UrgentContext } from '../../contexts/UrgentContext';
+import { capitalizeFirstLetter } from '../../helpers/StringHelpers';
 
 const OneTransaction = ({ operation }: { operation: string }) => {
   const { id } = useParams();
@@ -75,8 +75,25 @@ const OneTransaction = ({ operation }: { operation: string }) => {
 
   const onSubmit = handleSubmit(async data => {
     try {
-      const list = await Product.getProductsByTitle({ title: data.title });
-      setProducts(list.data.items);
+      let barcode = '';
+      let title = '';
+      if (data.search) {
+        barcode = data.search
+          .trim()
+          .split('')
+          .every(c => !Number.isNaN(+c) || c == ' ')
+          ? data.search
+          : '';
+        title = barcode ? '' : data.search;
+      }
+
+      const list = await Product.getProducts({
+        title: title,
+        barcode: barcode,
+        categoryId: ''
+      });
+
+      setProducts(list.data.products);
       setDropdownOpen(true);
     } catch (error: unknown) {
       const exception = error as AxiosError;
@@ -88,31 +105,48 @@ const OneTransaction = ({ operation }: { operation: string }) => {
     ProductId: number,
     product: ProductInterface
   ) => {
-    const transProduct = transactionProducts.find(
-      item => item.ProductId == ProductId
-    );
+    try {
+      const transProduct = transactionProducts.find(
+        item => item.ProductId == ProductId
+      );
 
-    let newList = [];
-    if (transProduct) {
-      newList = TransactionProducts.updateTransactionProducts({
-        currentTransactionProducts: transactionProducts,
-        price: product.price,
-        quantity: transProduct?.quantity + 1,
-        ProductId: ProductId
-      });
-    } else {
-      newList = TransactionProducts.addNewTransactionProduct({
-        TransactionId: transaction?.id || -1,
-        currentTransactionProducts: transactionProducts,
-        price: product.price,
-        quantity: 1,
-        ProductId: ProductId,
-        Product: product
-      });
+      if (
+        (product?.inStock && product?.inStock > 10) ||
+        transType == TransactionType.Purchase
+      ) {
+        let newList = [];
+        if (transProduct) {
+          newList = TransactionProducts.updateTransactionProducts({
+            currentTransactionProducts: transactionProducts,
+            price: product.price,
+            quantity: transProduct?.quantity + 1,
+            ProductId: ProductId
+          });
+        } else {
+          newList = TransactionProducts.addNewTransactionProduct({
+            TransactionId: transaction?.id || -1,
+            currentTransactionProducts: transactionProducts,
+            price: product.price,
+            quantity: 1,
+            ProductId: ProductId,
+            Product: product
+          });
+        }
+        setTransactionProducts(newList);
+        setDropdownOpen(false);
+        setValue('search', '');
+      } else {
+        throw new Error('This product is out of stock');
+      }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        const exception = error as AxiosError;
+        ErrorHandler.handleRequestError(exception, setError);
+      } else {
+        const exception = error as Error;
+        setError(exception.message);
+      }
     }
-
-    setTransactionProducts(newList);
-    setDropdownOpen(false);
   };
 
   useEffect(() => {
@@ -147,16 +181,21 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         title:
           operation == 'edit'
             ? transaction
-              ? `${transaction?.type} #${transaction?.id}`
+              ? `${capitalizeFirstLetter(transaction?.type)} #${
+                  transaction?.id
+                }`
               : '#'
             : `New`,
         link:
           operation == 'edit'
             ? transaction
-              ? `transactions/edit/${transaction?.id}`
+              ? `transactions/${transaction?.id}`
               : 'transactions'
             : 'transaction/add'
-      }
+      },
+      operation == 'edit'
+        ? { title: 'Edit', link: 'edit' }
+        : { title: '', link: '' }
     ]);
   }, [transaction]);
 
@@ -173,11 +212,14 @@ const OneTransaction = ({ operation }: { operation: string }) => {
           transactionProducts: transactionProducts
         });
       } else {
-        await Transaction.createNewTransaction({
+        const trans = await Transaction.createNewTransaction({
           type: transType,
           issuedBy: user?.id || 1,
           transactionProducts: transactionProducts
         });
+        if (trans) {
+          setTransaction(trans.data?.transaction);
+        }
       }
 
       toast.success(
@@ -194,7 +236,8 @@ const OneTransaction = ({ operation }: { operation: string }) => {
           progress: undefined
         }
       );
-      navigate('/');
+
+      if (operation == 'edit') navigate(`/transactions/${transaction?.id}/`);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const exception = error as AxiosError;
@@ -205,6 +248,11 @@ const OneTransaction = ({ operation }: { operation: string }) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (operation == 'add' && transaction)
+      navigate(`/transactions/${transaction?.id}/`);
+  }, [transaction]);
 
   useEffect(() => {
     if (error) {
@@ -223,11 +271,8 @@ const OneTransaction = ({ operation }: { operation: string }) => {
   }, [error]);
 
   return (
-    <section className="data-table-section bg-white p-4 transaction-details">
+    <section className="data-table-section bg-bg-light pt-2 transaction-details">
       <header>
-        <div className="justify-content-between d-flex gap-2  mb-5  align-items-center">
-          <h3 className="h6 fw-bold">Transaction Details</h3>
-        </div>
         <div className="transaction-inputs d-flex justify-content-between mb-3 align-items-center">
           <form onSubmit={onSubmit}>
             <Row xs="1" sm="3">
@@ -292,13 +337,17 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         <div className="search-input">
           <form onSubmit={onSubmit}>
             <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-              <GoSearch />
+              <GoSearch onClick={onSubmit} role="button" />
               <input
-                type="search"
-                {...register('title')}
-                name="title"
+                type="text"
+                {...register('search')}
+                name="search"
                 className="p-2 border border-border outline-none rounded form-control"
-                placeholder="Search for product"
+                placeholder="Type your product and press Enter"
+                onChange={e => {
+                  setValue('search', e.target.value);
+                  onSubmit(e);
+                }}
               />
               <DropdownMenu>
                 {products.slice(0, 100).map(product => (
@@ -338,6 +387,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         operation={operation}
         transactionProducts={transactionProducts}
         setTransactionProducts={setTransactionProducts}
+        forCashier={false}
       />
       <Card
         className="my-2 ms-auto"
@@ -392,22 +442,6 @@ const OneTransaction = ({ operation }: { operation: string }) => {
       </Card>
 
       <div className="justify-content-between d-flex gap-2 py-3 mt-4 border-top border-border ">
-        {operation === 'edit' ? (
-          <button
-            className="px-4 py-2 btn btn-outline-primary d-flex align-items-center gap-1"
-            color="primary"
-            onClick={() => {
-              navigate('invoice');
-            }}
-          >
-            <span>
-              <TbFileInvoice />
-            </span>
-            <span>Invoice</span>
-          </button>
-        ) : (
-          <></>
-        )}
         <Button
           className="px-4 py-2 ms-auto"
           color="primary"

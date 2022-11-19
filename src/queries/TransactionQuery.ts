@@ -67,25 +67,31 @@ export default class TransactionQuery {
   };
 
   static getTransactions = async ({
+    id,
     search,
     type,
     limit,
     offset
   }: {
+    id: string;
     search: string;
     type: string;
     limit: number;
     offset: number;
   }) => {
+    const filter = id
+      ? { id: Number(id.trim()) }
+      : {
+          [Op.and]: [
+            type == 'purchase' || type == 'sale' ? { type: type } : {},
+            sequelize.where(sequelize.fn('lower', sequelize.col('username')), {
+              [Op.like]: `%${search.toLowerCase()}%`
+            })
+          ]
+        };
+
     return Transaction.findAndCountAll({
-      where: {
-        [Op.and]: [
-          type == 'purchase' || type == 'sale' ? { type: type } : {},
-          sequelize.where(sequelize.fn('lower', sequelize.col('username')), {
-            [Op.like]: `%${search.toLowerCase()}%`
-          })
-        ]
-      },
+      where: filter,
       attributes: [
         'Transaction.id',
         'type',

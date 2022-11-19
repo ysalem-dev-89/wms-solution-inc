@@ -24,9 +24,11 @@ export const CategoryTable = (props: {
     null
   );
   const [error, setError] = useState<string>('');
+  const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
   const [numOfPages, setNumOfPages] = useState<number>(0);
+  const [isPagingLoading, setIsPagingLoading] = useState<boolean>(false);
 
   const { auth } = useAuth();
   const { user } = auth;
@@ -43,6 +45,8 @@ export const CategoryTable = (props: {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsPagingLoading(true);
+
       try {
         const list = await Category.getCategories({
           name: props.search,
@@ -50,13 +54,17 @@ export const CategoryTable = (props: {
           offset: itemsPerPage * (currentPage - 1)
         });
 
+        setIsPagingLoading(false);
         props.setIsPending(false);
+
         setCategories(list.data.items);
         setNumOfPages(Math.ceil(list.data.totalCount / itemsPerPage));
+        setTotalCount(list.data.totalCount);
       } catch (error: unknown) {
         const exception = error as AxiosError;
         ErrorHandler.handleRequestError(exception, setError);
 
+        setIsPagingLoading(false);
         props.setIsPending(false);
       }
     };
@@ -73,7 +81,7 @@ export const CategoryTable = (props: {
     try {
       await Category.deleteOneCategory(id);
 
-      toast.warn('Category is deleted successfully', {
+      toast.warning('Category is deleted successfully', {
         position: 'bottom-right',
         autoClose: 1000,
         hideProgressBar: false,
@@ -98,7 +106,9 @@ export const CategoryTable = (props: {
             <th>#</th>
             <th>Category Name</th>
             <th>Product Count</th>
-            {user?.role == 'admin' || user?.role == 'stock' ? (
+            {user?.role == 'superAdmin' ||
+            user?.role == 'admin' ||
+            user?.role == 'stock' ? (
               <th className="actions-th text-center">Action</th>
             ) : (
               <></>
@@ -117,7 +127,9 @@ export const CategoryTable = (props: {
                   <td className="category-id">{category.id}</td>
                   <td className="category-name">{category.name}</td>
                   <td className="product-count">{category?.productsCount}</td>
-                  {user?.role == 'admin' || user?.role == 'stock' ? (
+                  {user?.role == 'superAdmin' ||
+                  user?.role == 'admin' ||
+                  user?.role == 'stock' ? (
                     <td>
                       <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
                         <button
@@ -148,7 +160,10 @@ export const CategoryTable = (props: {
       <TablePagination
         numOfPages={numOfPages}
         currentPage={currentPage}
+        totalCount={totalCount}
+        itemsPerPage={itemsPerPage}
         setCurrentPage={setCurrentPage}
+        isLoading={isPagingLoading}
       />
     </div>
   );

@@ -1,4 +1,5 @@
 export enum Role {
+  superAdmin = 'superAdmin',
   admin = 'admin',
   transactions = 'transactions',
   stock = 'stock'
@@ -7,9 +8,9 @@ export enum Role {
 export interface User {
   id?: number;
   username: string;
-  password: string;
+  password?: string;
   email: string;
   role: Role;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

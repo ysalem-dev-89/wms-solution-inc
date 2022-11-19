@@ -28,8 +28,6 @@ export default function CategoryModal(props: {
 
   const onSubmit = async (data: CategoryData) => {
     try {
-      toggle();
-
       let result = null;
       let message = '';
       if (props.category) {
@@ -38,6 +36,7 @@ export default function CategoryModal(props: {
           name: data.category
         });
 
+        toggle();
         message = 'Category is updated successfully';
       } else {
         result = await Category.createNewCategory(data.category);

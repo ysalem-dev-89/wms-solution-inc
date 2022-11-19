@@ -3,7 +3,6 @@ import { Link, Outlet } from 'react-router-dom';
 const BlankLayout = () => (
   <div className="d-flex">
     <div className="container-fluid px-0">
-      {/* <Header /> */}
       <main
         className="login-container d-flex flex-column justify-content-center align-items-center"
         style={{

@@ -14,6 +14,8 @@ import OneTransaction from '../pages/OneTransaction';
 import Invoice from '../pages/Invoice';
 import { NeedTransAuthorization } from './NeedTransAuthorization';
 import { NeedAdminAuthorization } from './NeedAdminAuthorization';
+import POS from '../pages/POS';
+import BlankPageLayout from '../blankPageLayout';
 
 const themeRoutes = [
   {
@@ -49,18 +51,18 @@ const themeRoutes = [
             )
           },
           {
-            path: '/transactions/edit/:id',
+            path: '/transactions/:id/',
             element: (
               <NeedTransAuthorization>
-                <OneTransaction operation={'edit'} />
+                <Invoice forCashier={false} />
               </NeedTransAuthorization>
             )
           },
           {
-            path: '/transactions/edit/:id/invoice',
+            path: '/transactions/:id/edit',
             element: (
               <NeedTransAuthorization>
-                <Invoice />
+                <OneTransaction operation={'edit'} />
               </NeedTransAuthorization>
             )
           },
@@ -82,6 +84,18 @@ const themeRoutes = [
             path: '/login',
             element: <Login />
           }
+        ]
+      },
+      {
+        element: (
+          <NeedTransAuthorization>
+            <BlankPageLayout />
+          </NeedTransAuthorization>
+        ),
+        children: [
+          { path: '/pos', element: <POS operation="add" /> },
+          { path: '/pos/:id', element: <Invoice forCashier={true} /> },
+          { path: '/pos/:id/edit', element: <POS operation="edit" /> }
         ]
       }
     ]

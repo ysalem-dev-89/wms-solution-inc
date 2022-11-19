@@ -13,6 +13,7 @@ import {
   ModalHeader,
   Row
 } from 'reactstrap';
+import { Unit } from '../../interfaces/Enums';
 import { ProductInterface } from '../../interfaces/ProductInterface';
 import './styles.css';
 
@@ -102,13 +103,47 @@ export const ModalEdit = ({
             </Col>
             <Col>
               <FormGroup>
-                <Label for="productInStock">In stock</Label>
+                <Label for="barcode">Barcode</Label>
                 <Controller
                   render={({ field }) => (
-                    <Input {...field} type="number" min={0} required />
+                    <Input {...field} type="text" required />
                   )}
-                  defaultValue={product ? product.inStock : 0}
-                  name="inStock"
+                  defaultValue={product ? product.barcode : ''}
+                  name="barcode"
+                  control={control}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <FormGroup>
+                <Label for="unit">Unit</Label>
+                <Controller
+                  render={({ field }) => (
+                    <Input {...field} name="select" type="select">
+                      {Object.values(Unit).map(unit => (
+                        <option key={unit} value={unit}>
+                          {unit}
+                        </option>
+                      ))}
+                    </Input>
+                  )}
+                  defaultValue={product ? product.unit : Unit.piece}
+                  name="unit"
+                  control={control}
+                />
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label for="category">Category</Label>
+                <Controller
+                  render={({ field }) => (
+                    <Input {...field} type="text" required />
+                  )}
+                  defaultValue={product ? product.title : ''}
+                  name="title"
                   control={control}
                 />
               </FormGroup>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
@@ -7,9 +8,8 @@ import { UserInterface } from '../../interfaces/UserInterface';
 import * as User from '../../api/user';
 import { UserData } from '../../interfaces/FormData';
 import ErrorHandler from '../../helpers/ErrorHandler';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { Role } from '../../interfaces/Enums';
+import { newUserSchema, editUserSchema } from '../../validations/validation';
 
 export default function UserModal(props: {
   user: UserInterface | null;
@@ -18,45 +18,6 @@ export default function UserModal(props: {
   isSucceed: boolean;
   setIsSucceed: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const formSchema = yup.object().shape({
-    username: yup
-      .string()
-      .required('Username is required')
-      .min(4, 'Username length should be at least 3 characters'),
-    email: yup
-      .string()
-      .required('Email is required')
-      .email('Should enter valid email'),
-    password: !props.user
-      ? yup
-          .string()
-          .required('Password is required')
-          .min(4, 'Password length should be at least 4 characters')
-          .max(12, 'Password cannot exceed more than 12 characters')
-      : yup
-          .string()
-          .notRequired()
-          .min(4, 'Password length should be at least 4 characters')
-          .max(12, 'Password cannot exceed more than 12 characters')
-          .nullable()
-          .transform(value => (!!value ? value : null)),
-    confirmPassword: !props.user
-      ? yup
-          .string()
-          .required('Confirm Password is required')
-          .min(4, 'Password length should be at least 4 characters')
-          .max(12, 'Password cannot exceed more than 12 characters')
-          .oneOf([yup.ref('password')], 'Passwords do not match')
-      : yup
-          .string()
-          .notRequired()
-          .min(4, 'Password length should be at least 4 characters')
-          .max(12, 'Password cannot exceed more than 12 characters')
-          .oneOf([yup.ref('password')], 'Passwords do not match')
-          .nullable()
-          .transform(value => (!!value ? value : null))
-  });
-
   const [error, setError] = useState('');
   const {
     reset,
@@ -66,23 +27,22 @@ export default function UserModal(props: {
     formState: { errors }
   } = useForm<UserData>({
     mode: 'onTouched',
-    resolver: yupResolver(formSchema)
+    resolver: yupResolver(props.user ? editUserSchema : newUserSchema)
   });
 
   const toggle = () => props.setModal(!props.modal);
 
   const onSubmit = async (data: UserData) => {
     try {
-      toggle();
-
       let result = null;
       let message = '';
       if (props.user) {
+        console.log(data);
         result = await User.udpateOneUser({
           id: Number(props.user?.id),
           username: data.username,
           email: data.email,
-          password: data.password || props.user.password,
+          password: data.password || undefined,
           role: data.role
         });
         message = 'User is updated successfully';
@@ -96,6 +56,7 @@ export default function UserModal(props: {
         message = 'User is added successfully';
       }
       if (result && result.data.message == 'Success') {
+        toggle();
         props.setIsSucceed(true);
         toast.success(message, {
           position: 'bottom-right',
@@ -214,11 +175,13 @@ export default function UserModal(props: {
                 className="mb-4 form-control"
                 defaultValue={props.user?.role || Role.admin}
               >
-                {Object.values(Role).map(role => (
-                  <option key="role" value={role}>
-                    {role}
-                  </option>
-                ))}
+                {Object.values(Role)
+                  .filter(role => role !== Role.superAdmin)
+                  .map(role => (
+                    <option key="role" value={role}>
+                      {role}
+                    </option>
+                  ))}
               </select>
               <span className="text-danger input-error">
                 {errors.role?.message}

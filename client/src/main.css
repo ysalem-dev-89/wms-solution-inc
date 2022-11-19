@@ -40,9 +40,16 @@ html, body {
   --transition-1: 0.2s;
   --transition-2: 0.5s;
 }
-/* html {
-  overflow-y: hidden;
-} */
+::-webkit-scrollbar{
+  background-color: white;
+  width: 5px;
+
+}
+
+::-webkit-scrollbar-thumb{
+  background-color: var(--border);
+}
+
 body {
   font-family: 'Nunito Sans', sans-serif !important;
 }
@@ -108,13 +115,22 @@ p {
 }
 
 /* -------------- Start Table Style  ------------------ */
+
+/* .table {
+  --bs-table-bg: #ffff;
+} */
+
 .head th {
   padding: 0.875rem 0.5rem;
+  vertical-align: middle;
+  background-color: var(--blue) !important;
 }
 
-th, td {
+td {
   vertical-align: middle;
+  background-color: #fff !important;
 }
+
 
 .actions-th {
   width: 20%;

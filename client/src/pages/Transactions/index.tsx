@@ -24,14 +24,28 @@ const Transactions = () => {
 
   const { register, handleSubmit } = useForm();
   const [type, setType] = useState<string>('all');
-
+  const [id, setId] = useState<string>('');
   const [search, setSearch] = useState<string>('');
+
   const [setTransaction] = useState<TransactionInterface | any>(null);
   const [isSucceed, setIsSucceed] = useState<boolean>(false);
   const [isPending, setIsPending] = useState<boolean>(true);
 
   const onSubmit = handleSubmit(data => {
-    setSearch(data.search);
+    if (
+      data.search
+        .toString()
+        .split('')
+        .every((char: string) => !Number.isNaN(+char))
+    ) {
+      setId(data.search);
+      setSearch('');
+      console.log('number search', data.search);
+    } else {
+      setSearch(data.search);
+      setId('');
+      console.log('string search', data.search);
+    }
   });
 
   return (
@@ -48,22 +62,22 @@ const Transactions = () => {
         </Spinner>
       </div>
       <section
-        className={`data-table-section bg-white p-4 ${
+        className={`data-table-section bg-bg-light pt-2 ${
           isPending ? 'd-none' : 'd-block'
         }`}
       >
         <header>
-          <h3 className="h6 fw-bold mb-5">Transactions</h3>
           <div className="d-flex justify-content-between mb-3 align-items-center">
             <form onSubmit={onSubmit} className="flex-1">
               <div className="form-content d-flex gap-3">
                 <div className="search-input">
-                  <GoSearch />
+                  <GoSearch onClick={onSubmit} role="button" />
                   <input
-                    type="search"
+                    type="text"
                     {...register('search')}
                     className="p-2 border border-border outline-none rounded"
-                    placeholder="Search for user"
+                    placeholder="Enter Invoice ID or User"
+                    title="Search for invoice id or the responsible user"
                   />
                 </div>
                 <div className="right">
@@ -118,6 +132,7 @@ const Transactions = () => {
           setTransaction={setTransaction}
           search={search}
           type={type}
+          id={id}
         />
       </section>
     </>

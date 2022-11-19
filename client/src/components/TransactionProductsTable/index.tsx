@@ -24,6 +24,7 @@ export const TransactionProductsTable = (props: {
   >;
   modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
+  forCashier: boolean;
 }) => {
   const [error] = useState<string>('');
   const { register } = useForm();
@@ -57,17 +58,17 @@ export const TransactionProductsTable = (props: {
   };
 
   return (
-    <div className="data-table">
+    <div className="data-table transactionProducts-table">
       <Table responsive primary rounded>
         <thead>
           <tr className="head bg-blue text-white">
-            <th>#</th>
+            {props.forCashier ? <></> : <th>#</th>}
             <th>Product title</th>
-            <th>Status</th>
-            <th>Unit Price</th>
+            {props.forCashier ? <></> : <th>Status</th>}
+            <th>Price</th>
             <th>Quantity</th>
-            <th>Discount</th>
-            <th>Total Price</th>
+            {props.forCashier ? <></> : <th>Discount</th>}
+            <th>SubTotal</th>
             <th className="actions-th text-center">Action</th>
           </tr>
         </thead>
@@ -82,9 +83,13 @@ export const TransactionProductsTable = (props: {
             props.transactionProducts?.map(transactionProduct => {
               return (
                 <tr key={transactionProduct.ProductId}>
-                  <td>{transactionProduct.id}</td>
+                  {props.forCashier ? <></> : <td>{transactionProduct.id}</td>}
                   <td>{transactionProduct.Product.title}</td>
-                  <td>{transactionProduct.status}</td>
+                  {props.forCashier ? (
+                    <></>
+                  ) : (
+                    <td>{transactionProduct.status}</td>
+                  )}
                   <td>${transactionProduct.unitPrice}</td>
                   <td>
                     <div className="quantity-content d-flex justify-content-center align-items-center">
@@ -129,9 +134,14 @@ export const TransactionProductsTable = (props: {
                       </Button>
                     </div>
                   </td>
-                  <td>
-                    {(transactionProduct.Product.discount * 100.0).toFixed(2)}%
-                  </td>
+                  {props.forCashier ? (
+                    <></>
+                  ) : (
+                    <td>
+                      {(transactionProduct.Product.discount * 100.0).toFixed(2)}
+                      %
+                    </td>
+                  )}
                   <td>
                     $
                     {calculateTotalPrice({
@@ -143,14 +153,16 @@ export const TransactionProductsTable = (props: {
                   <td>
                     <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
                       <button onClick={_e => handleEdit(transactionProduct)}>
-                        <FiEdit2 className="text-blue" /> Edit
+                        <FiEdit2 className="text-blue" />
+                        {props.forCashier ? '' : 'Edit'}
                       </button>
                       <button
                         onClick={_e => {
                           handleRemove(transactionProduct);
                         }}
                       >
-                        <TfiClose className="text-danger" /> Remove
+                        <TfiClose className="text-danger" />
+                        {props.forCashier ? '' : 'Remove'}
                       </button>
                     </div>
                   </td>

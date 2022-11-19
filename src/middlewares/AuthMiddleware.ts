@@ -44,7 +44,25 @@ export default class AuthMiddleware {
     try {
       const user = res.locals?.user;
 
-      if (user && user.role == 'admin') {
+      if (user && (user.role == 'superAdmin' || user.role == 'admin')) {
+        next();
+      } else {
+        throw new GenericError('UnAuthorized', 403);
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  static authorizeSuperAdmin = async (
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const user = res.locals?.user;
+
+      if (user && user.role == 'superAdmin') {
         next();
       } else {
         throw new GenericError('UnAuthorized', 403);
@@ -62,7 +80,12 @@ export default class AuthMiddleware {
     try {
       const user = res.locals?.user;
 
-      if (user && (user.role == 'admin' || user.role == 'stock')) {
+      if (
+        user &&
+        (user.role == 'superAdmin' ||
+          user.role == 'admin' ||
+          user.role == 'stock')
+      ) {
         next();
       } else {
         throw new GenericError('UnAuthorized', 403);
@@ -80,7 +103,12 @@ export default class AuthMiddleware {
     try {
       const user = res.locals?.user;
 
-      if (user && (user.role == 'admin' || user.role == 'transactions')) {
+      if (
+        user &&
+        (user.role == 'superAdmin' ||
+          user.role == 'admin' ||
+          user.role == 'transactions')
+      ) {
         next();
       } else {
         throw new GenericError('UnAuthorized', 403);
