@@ -103,5 +103,26 @@
     justify-content: center;
     align-items: start !important;
     padding: 0 !important;
-    margin-right: 8px;
+    margin: 0 8px;
+}
+
+.urgent {
+  position: relative;
+  font-size: 1.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.urgent-number {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  background-color: var(--danger);
+  border-radius: 50%;
+  font-size: 0.875rem;
+  color: white;
+  text-align: center;
 }

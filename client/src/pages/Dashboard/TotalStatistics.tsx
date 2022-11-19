@@ -1,4 +1,7 @@
 import { CardGroup, Card, CardBody, CardTitle, CardText } from 'reactstrap';
+import { BiPurchaseTagAlt } from 'react-icons/bi';
+import { MdPointOfSale } from 'react-icons/md';
+import { numberWithCommas } from '../../helpers/NumberHelpers';
 import './style.css';
 
 const TotalStatistics = ({
@@ -21,20 +24,35 @@ const TotalStatistics = ({
           <CardGroup>
             <Card className="total-purchases bg-primary">
               <CardBody>
-                <CardTitle tag="h5">Total Purchases</CardTitle>
-                <CardText>{totalPurchases}$</CardText>
+                <div>
+                  <BiPurchaseTagAlt className="stats-icon" />
+                </div>
+                <div>
+                  <CardTitle tag="h5">Total Purchases</CardTitle>
+                  <CardText>{numberWithCommas(totalPurchases)}$</CardText>
+                </div>
               </CardBody>
             </Card>
             <Card className="total-sales bg-danger">
               <CardBody>
-                <CardTitle tag="h5">Total Sales</CardTitle>
-                <CardText>{totalSales}$</CardText>
+                <div>
+                  <MdPointOfSale className="stats-icon" />
+                </div>
+                <div>
+                  <CardTitle tag="h5">Total Sales</CardTitle>
+                  <CardText>{numberWithCommas(totalSales)}$</CardText>
+                </div>
               </CardBody>
             </Card>
             <Card className="total-revenues bg-blue">
               <CardBody>
-                <CardTitle tag="h5">Total Revenues</CardTitle>
-                <CardText>{totalRevenues}$</CardText>
+                <div>
+                  <BiPurchaseTagAlt className="stats-icon" />
+                </div>
+                <div>
+                  <CardTitle tag="h5">Total Revenues</CardTitle>
+                  <CardText>{numberWithCommas(totalRevenues)}$</CardText>
+                </div>
               </CardBody>
             </Card>
           </CardGroup>
