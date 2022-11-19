@@ -17,6 +17,7 @@ import Logo from '../../assets/images/wms_logo.png';
 import useAuth from '../../hooks/useAuth';
 import { dispatch } from '../../interfaces/authprovider';
 import '../style.css';
+import { FaAngleDown } from 'react-icons/fa';
 
 const logout = async (dispatch?: dispatch) => {
   try {
@@ -95,6 +96,20 @@ const Header = () => {
             )}
           </Breadcrumb>
 
+          {user?.role == 'superAdmin' ||
+          user?.role == 'admin' ||
+          user?.role == 'transactions' ? (
+            <Button className="dp-toggle bg-white border-0 rounded ms-auto">
+              <Link to="/pos" className="text-decoration-none">
+                <span className="username d-flex justify-content-center align-items-center text-white bg-blue rounded-circle">
+                  POS
+                </span>
+              </Link>
+            </Button>
+          ) : (
+            <></>
+          )}
+
           {auth?.loggedIn ? (
             <NavbarText className="nav-text d-flex">
               <div className="d-flex rounded">
@@ -105,11 +120,13 @@ const Header = () => {
                 >
                   <DropdownToggle
                     caret={false}
-                    className="dp-toggle bg-white border-0 rounded"
+                    className="d-flex gap-2 align-items-center  bg-white border-0 rounded"
                   >
                     <span className="username d-flex justify-content-center align-items-center text-white bg-primary rounded-circle">
                       {user?.role?.slice(0, 2).toUpperCase()}
                     </span>
+                    {user?.username}
+                    <FaAngleDown />
                   </DropdownToggle>
                   <DropdownMenu>
                     <div className="rounded px-3 py-2">

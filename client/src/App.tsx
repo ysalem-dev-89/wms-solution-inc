@@ -6,6 +6,7 @@ import useAuth from './hooks/useAuth';
 import './main.css';
 import Routes from './routes';
 import { Spinner } from 'reactstrap';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const { auth, dispatch } = useAuth();
@@ -29,14 +30,19 @@ function App() {
     })();
   }, []);
 
-  return auth.checkedToken ? (
-    <RouterProvider router={routing} />
-  ) : (
-    <div className={`loading-center d-flex gap-2`}>
-      <Spinner color="primary" type="grow">
-        Loading...
-      </Spinner>
-    </div>
+  return (
+    <>
+      {auth.checkedToken ? (
+        <RouterProvider router={routing} />
+      ) : (
+        <div className={`loading-center d-flex gap-2`}>
+          <Spinner color="primary" type="grow">
+            Loading...
+          </Spinner>
+        </div>
+      )}
+      <ToastContainer />
+    </>
   );
 }
 

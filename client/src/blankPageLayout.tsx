@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 
 const BlankPageLayout = () => (
   <main
@@ -10,7 +10,6 @@ const BlankPageLayout = () => (
     }}
   >
     <Outlet />
-    {/* <ToastContainer /> */}
   </main>
 );
 

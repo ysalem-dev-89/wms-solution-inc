@@ -20,8 +20,9 @@ import {
   Row
 } from 'reactstrap';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { GoSearch } from 'react-icons/go';
+import { BsFillCalculatorFill } from 'react-icons/bs';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import moment from 'moment';
@@ -78,6 +79,8 @@ const POS = ({ operation }: { operation: string }) => {
 
   const { auth } = useAuth();
   const { user } = auth;
+
+  const { id } = useParams();
 
   const onSubmit = handleSubmit(async data => {
     try {
@@ -136,6 +139,23 @@ const POS = ({ operation }: { operation: string }) => {
     setTransactionProducts(newList);
     setDropdownOpen(false);
   };
+
+  useEffect(() => {
+    if (operation == 'edit') {
+      const fetchData = async () => {
+        try {
+          const list = await Transaction.getOneTransaction({ id: Number(id) });
+          setTransaction(list.data.transaction.transaction);
+          setTransactionProducts(list.data?.transaction?.transactionProducts);
+        } catch (error: unknown) {
+          const exception = error as AxiosError;
+          ErrorHandler.handleRequestError(exception, setError);
+        }
+      };
+
+      fetchData();
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -376,7 +396,12 @@ const POS = ({ operation }: { operation: string }) => {
           <Button
             className="px-5 py-2 text-white"
             color="danger"
-            onClick={() => setTransactionProducts([])}
+            onClick={() => {
+              if (id) {
+                setTransactionProducts([]);
+                navigate('/pos/');
+              } else setTransactionProducts([]);
+            }}
           >
             Reset
           </Button>
@@ -443,16 +468,16 @@ const POS = ({ operation }: { operation: string }) => {
             className="px-4 "
             color="primary"
             onClick={() => {
-              handleSave();
+              navigate('.');
             }}
           >
-            Calculator
+            <BsFillCalculatorFill />
           </Button>
           <Button
             className="px-4"
             color="primary"
             onClick={() => {
-              handleSave();
+              navigate('/');
             }}
           >
             <FaTh />

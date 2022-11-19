@@ -55,7 +55,7 @@ const themeRoutes = [
             path: '/transactions/:id/',
             element: (
               <NeedTransAuthorization>
-                <Invoice />
+                <Invoice forCashier={false} />
               </NeedTransAuthorization>
             )
           },
@@ -88,10 +88,15 @@ const themeRoutes = [
         ]
       },
       {
-        element: <BlankPageLayout />,
+        element: (
+          <NeedTransAuthorization>
+            <BlankPageLayout />
+          </NeedTransAuthorization>
+        ),
         children: [
           { path: '/pos', element: <POS operation="add" /> },
-          { path: '/pos/:id', element: <Invoice /> }
+          { path: '/pos/:id', element: <Invoice forCashier={true} /> },
+          { path: '/pos/:id/edit', element: <POS operation="edit" /> }
         ]
       }
     ]

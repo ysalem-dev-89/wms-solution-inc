@@ -14,7 +14,7 @@ import './style.css';
 import { AiFillPrinter } from 'react-icons/ai';
 import { FiEdit2 } from 'react-icons/fi';
 
-const Invoice = () => {
+const Invoice = (props: { forCashier: boolean }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [transaction, setTransaction] = useState<TransactionInterface | null>(

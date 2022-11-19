@@ -12,7 +12,7 @@ const ThemeLayout = () => (
         <Header />
         <main className="page-body bg-bg-light overflow-auto">
           <Outlet />
-          <ToastContainer />
+          {/* <ToastContainer /> */}
         </main>
       </PageContextProvider>
     </div>
