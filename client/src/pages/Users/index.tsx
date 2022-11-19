@@ -1,7 +1,7 @@
 import { Button, Spinner } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import { GoSearch } from 'react-icons/go';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { useContext, useEffect, useState } from 'react';
 import { CategorySearch } from '../../interfaces/FormData';
 import { UserInterface } from '../../interfaces/UserInterface';

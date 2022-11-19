@@ -91,3 +91,17 @@
   overflow-y: auto;
 } 
 
+/* ------------- Aliiiiiiiiiiiii --------------- */
+
+.circle1{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+  }
+.circle2{
+    display: block;
+    justify-content: center;
+    align-items: start !important;
+    padding: 0 !important;
+    margin-right: 8px;
+}

@@ -3,7 +3,11 @@ export interface ITotalStatistics {
   totalsales: number;
   totalrevenues: number;
 }
+
 export interface IStockAlert {
+  productid: number;
   product: string;
-  instock: string;
+  instock: number;
+  price: number;
+  discount: number;
 }

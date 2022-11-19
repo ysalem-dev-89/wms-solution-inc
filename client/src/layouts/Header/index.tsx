@@ -17,6 +17,7 @@ import Logo from '../../assets/images/wms_logo.png';
 import useAuth from '../../hooks/useAuth';
 import { dispatch } from '../../interfaces/authprovider';
 import '../style.css';
+import Alert from './Alert';
 
 const logout = async (dispatch?: dispatch) => {
   try {
@@ -96,8 +97,9 @@ const Header = () => {
           </Breadcrumb>
 
           {auth?.loggedIn ? (
-            <NavbarText className="nav-text d-flex">
-              <div className="d-flex rounded">
+            <NavbarText className="nav-text d-flex circles">
+              <Alert />
+              <div className="d-flex rounded test circle1">
                 <Dropdown
                   isOpen={dropdownOpen}
                   toggle={toggle}

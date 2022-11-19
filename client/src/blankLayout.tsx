@@ -1,5 +1,4 @@
 import { Link, Outlet } from 'react-router-dom';
-import Header from './layouts/Header';
 
 const BlankLayout = () => (
   <div className="d-flex">

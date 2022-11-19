@@ -11,7 +11,6 @@ import {
 import { TransactionProduct } from '../interfaces/TransactionProductInterface';
 
 export default class DataGenerator {
-  static USERS_COUNT = 10;
   static PRODUCTS_COUNT = 100;
   static CATEGORIES_COUNT = 15;
   static transactions: Transaction[] = [];
@@ -100,29 +99,25 @@ export default class DataGenerator {
     }));
   }
 
-  // static generateUsers(): Omit<User, 'id'>[] {
-  //   return [...Array(this.USERS_COUNT)].map((_, i) => ({
-  //     username: faker.internet.userName(),
-  //     password: '$2a$12$R34l5gjz4FICkMyJtdlPouHVhprTio7jh8J3E7v3g/9h9D69UrPVG',
-  //     email: faker.internet.email(),
-  //     role: i < 3 ? Role.admin : Role.customer,
-  //     createdAt: new Date(),
-  //     updatedAt: new Date()
-  //   }));
-  // }
-
   static generateProducts(): Omit<Product, 'id'>[] {
-    return [...Array(this.PRODUCTS_COUNT)].map((_, i) => ({
-      title: faker.commerce.productName(),
-      description: faker.commerce.productDescription(),
-      icon: faker.image.avatar(),
-      price:
-        this.updatedSalePrices[i + 1] || Number(faker.commerce.price(50, 100)),
-      discount: faker.datatype.number({ min: 3, max: 20 }) / 100, // assure we still in profit
-      categoryId: faker.datatype.number({ min: 1, max: this.CATEGORIES_COUNT }),
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }));
+    return [...Array(this.PRODUCTS_COUNT)].map((_, i) => {
+      const title = faker.commerce.productName();
+      return {
+        title,
+        description: faker.commerce.productDescription(),
+        icon: `https://source.unsplash.com/50x50/?Refined%20Soft%20${title}`,
+        price:
+          this.updatedSalePrices[i + 1] ||
+          Number(faker.commerce.price(50, 100)),
+        discount: faker.datatype.number({ min: 3, max: 20 }) / 100, // assure we still in profit
+        categoryId: faker.datatype.number({
+          min: 1,
+          max: this.CATEGORIES_COUNT
+        }),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+    });
   }
 
   static generateCategories(): Omit<Category, 'id'>[] {

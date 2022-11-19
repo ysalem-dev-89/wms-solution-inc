@@ -38,10 +38,13 @@ import { TransactionType } from '../../interfaces/Enums';
 import { PageContext } from '../../contexts/PageContext';
 import { calculateTotalPrice } from '../../helpers/NumberHelpers';
 import useAuth from '../../hooks/useAuth';
+import { UrgentContext } from '../../contexts/UrgentContext';
 
 const OneTransaction = ({ operation }: { operation: string }) => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { urgent } = useContext(UrgentContext);
+  console.log('Urgent in OneTransaction: ', urgent);
 
   const [transaction, setTransaction] = useState<TransactionInterface | null>(
     null
@@ -191,8 +194,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
           progress: undefined
         }
       );
-
-      navigate(-1);
+      navigate('/');
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const exception = error as AxiosError;
