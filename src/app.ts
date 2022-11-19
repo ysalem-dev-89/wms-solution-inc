@@ -5,15 +5,24 @@ import cookieParser from 'cookie-parser';
 import environment from './config/environment';
 import router from './routes';
 import { join } from 'path';
+// import { createServer } from 'http';
+// import { Server as WebSocket } from 'socket.io';
 
 class App {
   public app: express.Application;
   public env: string;
+  // public io: any;
+  // public httpServer: any;
 
   constructor() {
     this.app = express();
+    // this.httpServer = createServer(this.app);
+    // this.io = new WebSocket(this.httpServer, {});
     this.env = environment.nodeEnv;
     this.initializeMiddlewares();
+    // this.io.on('connection', () => {
+    //   console.log('SOCKET ESTABLISHED');
+    // });
   }
 
   private initializeMiddlewares() {

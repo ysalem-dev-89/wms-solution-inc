@@ -4,3 +4,9 @@ export interface IMonthlyData {
   purchases: string;
   sales: string;
 }
+
+export interface IStockAlert {
+  productid: number;
+  product: string;
+  instock: number;
+}

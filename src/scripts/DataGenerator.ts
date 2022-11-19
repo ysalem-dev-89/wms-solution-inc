@@ -11,14 +11,18 @@ import {
 import { TransactionProduct } from '../interfaces/TransactionProductInterface';
 
 export default class DataGenerator {
-  static USERS_COUNT = 10;
   static PRODUCTS_COUNT = 100;
   static CATEGORIES_COUNT = 15;
   static transactions: Transaction[] = [];
   static transactionsProducts: TransactionProduct[] = [];
   static updatedSalePrices: any = {};
   static saleStatus = [TransactionStatus.Closed, TransactionStatus.Reversed];
-
+  static users = [
+    { username: 'superAdmin', role: Role.superAdmin },
+    { username: 'admin', role: Role.admin },
+    { username: 'transactions', role: Role.transactions },
+    { username: 'stock', role: Role.stock }
+  ];
   static categories = [
     'Snacks',
     'Meats',
@@ -36,18 +40,12 @@ export default class DataGenerator {
     'XBox',
     'Music'
   ];
-  static users = [
-    { username: 'superAdmin', role: Role.superAdmin },
-    { username: 'admin', role: Role.admin },
-    { username: 'transactions', role: Role.transactions },
-    { username: 'stock', role: Role.stock }
-  ];
 
   static incrementDateByDay = (date: Date, days: number) => {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
   };
 
-  static randomBarcode = () => {
+  static generateBarcode = () => {
     const val1 = Math.floor(100000 + Math.random() * 999999);
     const val2 = Math.floor(10000 + Math.random() * 99999);
     return '7 ' + val1 + ' ' + val2;
@@ -103,7 +101,7 @@ export default class DataGenerator {
   static generateUsers(): User[] {
     return this.users.map(user => ({
       username: user.username,
-      password: '$2b$10$0TTUwKbR.PenVWzvFRgRiuuYz1cswciveBwuJXvki4vHbZPj1kiru',
+      password: '$2a$12$R34l5gjz4FICkMyJtdlPouHVhprTio7jh8J3E7v3g/9h9D69UrPVG',
       email: `${user.username}@gmail.com`,
       role: user.role,
       createdAt: new Date(),
@@ -111,31 +109,27 @@ export default class DataGenerator {
     }));
   }
 
-  // static generateUsers(): Omit<User, 'id'>[] {
-  //   return [...Array(this.USERS_COUNT)].map((_, i) => ({
-  //     username: faker.internet.userName(),
-  //     password: '$2a$12$R34l5gjz4FICkMyJtdlPouHVhprTio7jh8J3E7v3g/9h9D69UrPVG',
-  //     email: faker.internet.email(),
-  //     role: i < 3 ? Role.admin : Role.customer,
-  //     createdAt: new Date(),
-  //     updatedAt: new Date()
-  //   }));
-  // }
-
   static generateProducts(): Omit<ProductInterface, 'id'>[] {
-    return [...Array(this.PRODUCTS_COUNT)].map((_, i) => ({
-      barcode: this.randomBarcode(),
-      title: faker.commerce.productName(),
-      description: faker.commerce.productDescription(),
-      icon: faker.image.avatar(),
-      price:
-        this.updatedSalePrices[i + 1] || Number(faker.commerce.price(50, 100)),
-      discount: faker.datatype.number({ min: 3, max: 20 }) / 100, // assure we still in profit
-      categoryId: faker.datatype.number({ min: 1, max: this.CATEGORIES_COUNT }),
-      unit: faker.helpers.arrayElement(Object.values(Unit)),
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }));
+    return [...Array(this.PRODUCTS_COUNT)].map((_, i) => {
+      const title = faker.commerce.productName();
+      return {
+        barcode: this.generateBarcode(),
+        title,
+        description: faker.commerce.productDescription(),
+        icon: `https://source.unsplash.com/50x50/?Refined%20Soft%20${title}`,
+        price:
+          this.updatedSalePrices[i + 1] ||
+          Number(faker.commerce.price(50, 100)),
+        discount: faker.datatype.number({ min: 3, max: 20 }) / 100, // assure we still in profit
+        categoryId: faker.datatype.number({
+          min: 1,
+          max: this.CATEGORIES_COUNT
+        }),
+        unit: faker.helpers.arrayElement(Object.values(Unit)),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+    });
   }
 
   static generateCategories(): Omit<Category, 'id'>[] {

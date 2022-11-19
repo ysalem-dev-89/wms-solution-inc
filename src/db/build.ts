@@ -27,6 +27,6 @@ const getPath = (fileName: string) => {
         .then(json => TransactionProduct.bulkCreate(json));
     });
   } catch (error: unknown) {
-    console.log('Build Database Failed', error);
+    console.log('FAILED TO BUILD DATABASE: ', error);
   }
 })();
