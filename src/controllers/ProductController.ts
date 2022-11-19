@@ -45,13 +45,21 @@ export default class ProductController {
     next: NextFunction
   ) => {
     try {
-      const { barcode = '', title = '', limit, offset } = req.query;
-      let filter = '';
+      const {
+        barcode = '',
+        title = '',
+        categoryId = '',
+        limit = 1000,
+        offset = 0
+      } = req.query;
+      let filter = categoryId ? '"categoryId" = :categoryId' : '';
       if (barcode) {
-        filter = 'where barcode like :barcode';
+        filter += (filter ? ' AND ' : '') + 'barcode like :barcode';
       } else if (title) {
-        filter = 'where title like :title';
+        filter += (filter ? ' AND ' : '') + 'title like :title';
       }
+
+      if (filter) filter = 'where ' + filter;
 
       const products = await sequelize.query(
         `select p.id,
@@ -62,6 +70,8 @@ export default class ProductController {
                 p.icon,
                 p.description,
                 p.unit,
+                c.id as categoryId,
+                c.name as categoryName,
                 coalesce(
                     (
                         (
@@ -82,11 +92,14 @@ export default class ProductController {
                     ),
                     0
                 ) as "inStock"
-            from "Products" as p ${filter} LIMIT :limit OFFSET :offset;`,
+            from "Products" as p inner join "Categories" as c
+            on "categoryId" = c.id ${filter}
+            LIMIT :limit OFFSET :offset;`,
         {
           replacements: {
             barcode: `%${barcode}%`,
             title: `%${title}%`,
+            categoryId,
             limit,
             offset
           },

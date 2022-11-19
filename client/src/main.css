@@ -42,12 +42,12 @@ html, body {
 }
 ::-webkit-scrollbar{
   background-color: white;
-  width: 10px;
+  width: 5px;
 
 }
 
 ::-webkit-scrollbar-thumb{
-  background-color: var(--secondary);
+  background-color: var(--border);
 }
 
 body {

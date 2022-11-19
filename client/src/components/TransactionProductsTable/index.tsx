@@ -58,7 +58,7 @@ export const TransactionProductsTable = (props: {
   };
 
   return (
-    <div className="data-table">
+    <div className="data-table transactionProducts-table">
       <Table responsive primary rounded>
         <thead>
           <tr className="head bg-blue text-white">

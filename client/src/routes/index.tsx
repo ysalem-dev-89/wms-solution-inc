@@ -16,6 +16,7 @@ import { NeedTransAuthorization } from './NeedTransAuthorization';
 import { NeedAdminAuthorization } from './NeedAdminAuthorization';
 import POS from '../pages/POS';
 import BlankPageLayout from '../blankPageLayout';
+import { ToastContainer } from 'react-toastify';
 
 const themeRoutes = [
   {
@@ -88,7 +89,10 @@ const themeRoutes = [
       },
       {
         element: <BlankPageLayout />,
-        children: [{ path: '/pos', element: <POS operation="add" /> }]
+        children: [
+          { path: '/pos', element: <POS operation="add" /> },
+          { path: '/pos/:id', element: <Invoice /> }
+        ]
       }
     ]
   },

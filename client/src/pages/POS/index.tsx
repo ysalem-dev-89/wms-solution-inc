@@ -1,10 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
 import {
   Button,
+  ButtonGroup,
   Card,
   CardBody,
   CardHeader,
+  CardLink,
+  CardSubtitle,
   CardText,
+  CardTitle,
   Col,
   Dropdown,
   DropdownItem,
@@ -19,7 +23,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { GoSearch } from 'react-icons/go';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import moment from 'moment';
 import axios, { AxiosError } from 'axios';
 import TransactionInterface from '../../interfaces/TransactionInterface';
@@ -27,6 +31,7 @@ import './style.css';
 import { TransactionProductInterface } from '../../interfaces/TransactionProductInterface';
 import { TransactionProductsTable } from '../../components/TransactionProductsTable';
 import * as Transaction from '../../api/transaction';
+import * as Category from '../../api/category';
 import ErrorHandler from '../../helpers/ErrorHandler';
 import TransactionProductModal from '../../components/TransactionProductModal';
 import { TransactionData } from '../../interfaces/FormData';
@@ -38,6 +43,12 @@ import { PageContext } from '../../contexts/PageContext';
 import { calculateTotalPrice } from '../../helpers/NumberHelpers';
 import useAuth from '../../hooks/useAuth';
 import { capitalizeFirstLetter } from '../../helpers/StringHelpers';
+import CategoryInterface from '../../interfaces/CategoryInterface';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import { FaTh } from 'react-icons/fa';
 
 const POS = ({ operation }: { operation: string }) => {
   const navigate = useNavigate();
@@ -55,6 +66,9 @@ const POS = ({ operation }: { operation: string }) => {
   >([]);
 
   const [products, setProducts] = useState<ProductInterface[]>([]);
+  const [productsMenu, setProductsMenu] = useState<ProductInterface[]>([]);
+  const [categories, setCategories] = useState<CategoryInterface[]>([]);
+  const [category, setCategory] = useState<CategoryInterface | null>(null);
 
   const [modal, setModal] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
@@ -67,9 +81,25 @@ const POS = ({ operation }: { operation: string }) => {
 
   const onSubmit = handleSubmit(async data => {
     try {
-      const list = await Product.getProductsByTitle({ title: data.title });
-      setProducts(list.data.items);
-      setDropdownOpen(true);
+      if (data.search) {
+        const barcode = data.search
+          .trim()
+          .split('')
+          .every(c => !Number.isNaN(+c) || c == ' ')
+          ? data.search
+          : '';
+        const title = barcode ? '' : data.search;
+        const categoryId = barcode ? '' : `${category?.id || ''}`;
+
+        const list = await Product.getProducts({
+          title: title || '',
+          barcode: barcode || '',
+          categoryId: categoryId
+        });
+        setProducts(list.data.products);
+
+        if (list.data.products.length > 1) setDropdownOpen(true);
+      }
     } catch (error: unknown) {
       const exception = error as AxiosError;
       ErrorHandler.handleRequestError(exception, setError);
@@ -108,30 +138,46 @@ const POS = ({ operation }: { operation: string }) => {
   };
 
   useEffect(() => {
-    if (operation == 'edit') {
-      const fetchData = async () => {
-        try {
-          const list = await Transaction.getOneTransaction({ id: Number(1) });
-          setTransaction(list.data.transaction.transaction);
-          setTransactionProducts(list.data?.transaction?.transactionProducts);
-        } catch (error: unknown) {
-          const exception = error as AxiosError;
-          ErrorHandler.handleRequestError(exception, setError);
-        }
-      };
+    const fetchData = async () => {
+      try {
+        const list = await Category.getCategories({
+          name: '',
+          limit: 50,
+          offset: 0
+        });
+        setCategories(list.data?.items);
+      } catch (error: unknown) {
+        const exception = error as AxiosError;
+        ErrorHandler.handleRequestError(exception, setError);
+      }
+    };
 
-      fetchData();
-    }
+    fetchData();
   }, []);
 
   useEffect(() => {
-    setValue('type', transaction?.type || TransactionType.Sale);
-    if (operation == 'add') {
-      setValue('createdAt', new Date());
-    } else {
-      setValue('createdAt', transaction?.createdAt || new Date());
+    const fetchData = async () => {
+      try {
+        const list = await Product.getProducts({
+          title: '',
+          barcode: '',
+          categoryId: category ? `${category.id}` : ''
+        });
+        setProductsMenu(list.data?.products);
+      } catch (error: unknown) {
+        const exception = error as AxiosError;
+        ErrorHandler.handleRequestError(exception, setError);
+      }
+    };
+
+    fetchData();
+  }, [category]);
+
+  useEffect(() => {
+    if (products.length == 1) {
+      handleProductSelect(products[0].id || -1, products[0]);
     }
-  }, [transaction]);
+  }, [products]);
 
   const handleSave = async () => {
     try {
@@ -170,7 +216,7 @@ const POS = ({ operation }: { operation: string }) => {
           progress: undefined
         }
       );
-      if (operation == 'edit') navigate(`/transactions/${transaction?.id}/`);
+      if (operation == 'edit') navigate(`/pos/${transaction?.id}/`);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const exception = error as AxiosError;
@@ -183,8 +229,7 @@ const POS = ({ operation }: { operation: string }) => {
   };
 
   useEffect(() => {
-    if (operation == 'add' && transaction)
-      navigate(`/transactions/${transaction?.id}/`);
+    if (operation == 'add' && transaction) navigate(`/pos/${transaction?.id}/`);
   }, [transaction]);
 
   useEffect(() => {
@@ -203,9 +248,16 @@ const POS = ({ operation }: { operation: string }) => {
     }
   }, [error]);
 
+  const isAddedToCart = (
+    id: number,
+    transactionProductList: TransactionProductInterface[]
+  ): boolean => {
+    return transactionProductList.some(prodItem => prodItem.Product.id === id);
+  };
+
   return (
     <div className="pos-container d-flex gap-3">
-      <section className="bg-bg-light pt-2 transaction-details p-3 rounded">
+      <section className="bg-bg-light pt-2 cart-products p-3 rounded">
         <header>
           <div className="transaction-inputs d-flex justify-content-between mb-3 align-items-center">
             <form onSubmit={onSubmit}>
@@ -239,7 +291,7 @@ const POS = ({ operation }: { operation: string }) => {
                       id="createdAt"
                       required={true}
                       className="form-control"
-                      value={moment().format('YYYY-MM-DDTHH:mm')}
+                      defaultValue={moment().format('YYYY-MM-DDTHH:mm')}
                       disabled={true}
                     />
                   </FormGroup>
@@ -313,20 +365,20 @@ const POS = ({ operation }: { operation: string }) => {
 
         <div className="justify-content-between d-flex gap-2 py-3 mt-4 border-top border-border ">
           <Button
-            className="px-4 py-2 ms-auto"
-            color="primary"
+            className="px-5 py-2 ms-auto text-white"
+            color="success"
             onClick={() => {
               handleSave();
             }}
           >
-            Save
+            Pay Now
           </Button>
           <Button
-            className="px-4 py-2 text-white"
+            className="px-5 py-2 text-white"
             color="danger"
-            onClick={() => navigate(-1)}
+            onClick={() => setTransactionProducts([])}
           >
-            Cancel
+            Reset
           </Button>
         </div>
 
@@ -347,10 +399,14 @@ const POS = ({ operation }: { operation: string }) => {
                 <GoSearch onClick={onSubmit} role="button" />
                 <input
                   type="text"
-                  {...register('title')}
-                  name="title"
+                  {...register('search')}
+                  name="search"
                   className="p-2 border border-border outline-none rounded form-control"
-                  placeholder="Type your product and press Enter"
+                  placeholder="Scan/Search Product by Barcode/Title"
+                  onChange={e => {
+                    setValue('search', e.target.value);
+                    onSubmit(e);
+                  }}
                 />
                 <DropdownMenu>
                   {products.slice(0, 100).map(product => (
@@ -365,12 +421,15 @@ const POS = ({ operation }: { operation: string }) => {
                         }
                       >
                         <div className="product-item d-flex justify-content-between">
-                          <span className="ps-4">
+                          <div className="d-flex ps-4">
                             {' '}
                             <GoSearch />
                             <img src={product.icon} alt="product icon" />
-                            {product.title}
-                          </span>
+                            <div className="d-flex flex-column">
+                              <span>{product.title}</span>
+                              <span>{product.barcode}</span>
+                            </div>
+                          </div>
                           <span>${product.price}</span>
                         </div>
                       </ListGroupItem>
@@ -396,8 +455,63 @@ const POS = ({ operation }: { operation: string }) => {
               handleSave();
             }}
           >
-            Dashboard
+            <FaTh />
           </Button>
+        </div>
+        <div className="category-items d-flex gap-2">
+          <Button onClick={() => setCategory(null)} active={!category}>
+            All Categories
+          </Button>
+          <Swiper
+            spaceBetween={7}
+            slidesPerView={8}
+            slidesOffsetAfter={500}
+            scrollbar={{ draggable: true }}
+          >
+            {categories.map(categoryItem => (
+              <SwiperSlide key={categoryItem.id}>
+                <Button
+                  onClick={() => setCategory(categoryItem)}
+                  active={category?.id === categoryItem.id}
+                >
+                  {categoryItem.name}
+                </Button>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+        <div className="product-items d-flex gap-2 mt-3">
+          {productsMenu.map(productItem => (
+            <Card
+              key={productItem.id}
+              className="p-3 rounded shadow-sm"
+              style={
+                isAddedToCart(productItem?.id || -1, transactionProducts)
+                  ? {
+                      borderColor: 'var(--primary)'
+                    }
+                  : {}
+              }
+              role="button"
+              onClick={() =>
+                handleProductSelect(productItem?.id || 0, productItem)
+              }
+            >
+              <img alt="Card cap" src={productItem.icon} width="100%" />
+              <CardBody>
+                <CardTitle tag="h5">{productItem.title}</CardTitle>
+                <CardSubtitle className="mb-2 text-muted" tag="h6">
+                  {productItem.barcode}
+                </CardSubtitle>
+                <div className="card-details">
+                  <span className="price">${productItem.price}</span>
+                  <span className="in-stock">
+                    {productItem.inStock} {productItem.unit}
+                  </span>
+                </div>
+              </CardBody>
+            </Card>
+          ))}
         </div>
       </section>
     </div>

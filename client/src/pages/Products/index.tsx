@@ -5,7 +5,7 @@ import {
   getAllProductsAPI,
   updateProductAPI,
   deleteProductAPI
-} from '../../api/products';
+} from '../../api/product';
 import { DeleteModal } from '../../components/DeleteModal';
 import { ModalEdit } from '../../components/ModalEdit';
 import { TablePagination } from '../../components/TablePagination';
