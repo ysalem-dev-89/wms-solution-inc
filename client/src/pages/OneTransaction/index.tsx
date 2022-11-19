@@ -104,24 +104,28 @@ const OneTransaction = ({ operation }: { operation: string }) => {
   // This function receives from urgent out of stock context
   useEffect(() => {
     if (urgent.length) {
+      console.log(urgent);
       let newList: TransactionProductInterface[] = [];
       let result: TransactionProductInterface[] = [];
       urgent.forEach(u => {
-        newList = TransactionProducts.addNewTransactionProduct({
-          TransactionId: -1,
-          currentTransactionProducts: result,
-          price: u.price,
-          quantity: 1000,
-          ProductId: u.productid,
-          Product: {
-            id: u.productid,
+        if (u.price != 0) {
+          newList = TransactionProducts.addNewTransactionProduct({
+            TransactionId: -1,
+            currentTransactionProducts: result,
             price: u.price,
-            discount: u.discount,
-            barcode: '',
-            title: u.product,
-            inStock: 1000
-          }
-        });
+            quantity: 1000,
+            ProductId: u.productid,
+            Product: {
+              id: u.productid,
+              price: u.price,
+              discount: u.discount,
+              barcode: '',
+              title: u.product,
+              inStock: 1000
+            }
+          });
+        }
+
         result = [...newList];
         setTransactionProducts(newList);
       });
