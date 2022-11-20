@@ -66,7 +66,7 @@ const Invoice = (props: { forCashier: boolean }) => {
       {error ? (
         <div className="text-danger text-center display">{error}</div>
       ) : (
-        <div className="card-body" style={{ width: '600px', margin: 'auto' }}>
+        <div className="card-body">
           <div className="controls container-fluid w-100 d-flex justify-content-end gap-2">
             <Link
               to={`edit`}
@@ -110,9 +110,19 @@ const Invoice = (props: { forCashier: boolean }) => {
               #&nbsp;
               {transaction?.id}
             </h3>
-            <hr />
+            <hr
+              style={{
+                width: '800px',
+                maxWidth: '100%',
+                margin: 'auto',
+                marginBottom: '20px'
+              }}
+            />
           </div>
-          <div className="container-fluid d-flex justify-content-between">
+          <div
+            className="container-fluid d-flex justify-content-between"
+            style={{ width: '800px', maxWidth: '100%', margin: 'auto' }}
+          >
             <div className="col-lg-6 ps-0">
               <div className="mb-2">
                 <p>
@@ -134,7 +144,10 @@ const Invoice = (props: { forCashier: boolean }) => {
             </div>
           </div>
           <div className="container-fluid d-flex justify-content-between"></div>
-          <div className="container-fluid mt-5 d-flex justify-content-center w-100">
+          <div
+            className="container-fluid mt-5 d-flex justify-content-center"
+            style={{ width: '800px', maxWidth: '100%', margin: 'auto' }}
+          >
             <div className="table-responsive w-100">
               <table className="table print-table ">
                 <thead>
@@ -169,7 +182,10 @@ const Invoice = (props: { forCashier: boolean }) => {
               </table>
             </div>
           </div>
-          <div className="container-fluid mt-5 w-100">
+          <div
+            className="container-fluid mt-5"
+            style={{ width: '800px', maxWidth: '100%', margin: 'auto' }}
+          >
             <h4 className="text-right mb-5 text-end">
               Total : $
               {transactionProducts

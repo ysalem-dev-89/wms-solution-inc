@@ -11,12 +11,12 @@ import {
   Label
 } from 'reactstrap';
 import { toast } from 'react-toastify';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { TransactionProductData } from '../../interfaces/FormData';
 import ErrorHandler from '../../helpers/ErrorHandler';
 import { TransactionProductInterface } from '../../interfaces/TransactionProductInterface';
 import { updateTransactionProducts } from '../../helpers/transactionProducts';
-import { TransactionStatus } from '../../interfaces/Enums';
+import { TransactionStatus, TransactionType } from '../../interfaces/Enums';
 import { transactionProductSchema } from '../../validations/validation';
 
 export default function TransactionProductModal(props: {
@@ -30,6 +30,7 @@ export default function TransactionProductModal(props: {
   setCurrentTransactionProducts: React.Dispatch<
     React.SetStateAction<TransactionProductInterface[]>
   >;
+  transactionType: TransactionType;
 }) {
   const [error, setError] = useState('');
   const {
@@ -53,15 +54,22 @@ export default function TransactionProductModal(props: {
             currentTransactionProducts: props.currentTransactionProduct,
             quantity: Number(data.quantity),
             price: Number(data.price),
+            type: props.transactionType,
             ProductId: props.transactionProduct?.Product.id || -1,
-            status: data.status
+            status: data.status,
+            Product: props.transactionProduct.Product
           })
         );
         toggle();
       }
     } catch (error: unknown) {
-      const exception = error as AxiosError;
-      ErrorHandler.handleRequestError(exception, setError);
+      if (axios.isAxiosError(error)) {
+        const exception = error as AxiosError;
+        ErrorHandler.handleRequestError(exception, setError);
+      } else {
+        const exception = error as Error;
+        setError(exception.message);
+      }
     }
   };
 

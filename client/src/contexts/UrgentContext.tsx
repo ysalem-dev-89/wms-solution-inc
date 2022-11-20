@@ -18,7 +18,7 @@ const init = {
 export const UrgentContext = createContext<IUrgentState>(init);
 
 export const UrgentContextProvider: FC<Props> = ({ children }) => {
-  const [urgent, setUrgent] = useState<IStockAlert[]>(init.urgent);
+  const [urgent, setUrgent] = useState<IStockAlert[]>([]);
 
   return (
     <UrgentContext.Provider value={{ urgent: urgent, setUrgent: setUrgent }}>

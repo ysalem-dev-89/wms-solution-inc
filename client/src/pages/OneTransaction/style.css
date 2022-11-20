@@ -65,3 +65,21 @@ input:disabled {
   height: 50px;
   margin-right: 1rem;
 }
+
+.product-item-instock {
+  width: 150px;
+}
+
+.product-item-price {
+  width: 120px;
+}
+
+.product-item-price {
+  text-align: right;
+}
+
+.product-item-instock span,
+.product-item-price span {
+  font-size: 12px;
+  padding: 5px;
+}

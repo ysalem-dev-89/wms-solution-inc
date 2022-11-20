@@ -107,6 +107,14 @@ const POS = ({ operation }: { operation: string }) => {
       if (!transactionProducts.length)
         throw new Error('You need to add products');
 
+      transactionProducts.forEach(transProduct => {
+        if (transProduct.quantity > (transProduct.Product?.inStock || 0)) {
+          throw new Error(
+            `The quantity of "${transProduct.Product.title}" product exceeded the available in stock`
+          );
+        }
+      });
+
       if (operation == 'edit') {
         await Transaction.updateOneTransaction({
           id: transaction?.id || -1,
@@ -166,8 +174,10 @@ const POS = ({ operation }: { operation: string }) => {
           newList = TransactionProducts.updateTransactionProducts({
             currentTransactionProducts: transactionProducts,
             price: product.price,
+            type: TransactionType.Sale,
             quantity: transProduct?.quantity + 1,
-            ProductId: ProductId
+            ProductId: ProductId,
+            Product: product
           });
         } else {
           newList = TransactionProducts.addNewTransactionProduct({
@@ -175,6 +185,7 @@ const POS = ({ operation }: { operation: string }) => {
             currentTransactionProducts: transactionProducts,
             price: product.price,
             quantity: 1,
+            type: TransactionType.Sale,
             ProductId: ProductId,
             Product: product
           });
@@ -339,6 +350,7 @@ const POS = ({ operation }: { operation: string }) => {
           operation={operation}
           transactionProducts={transactionProducts}
           setTransactionProducts={setTransactionProducts}
+          transactionType={TransactionType.Sale}
           forCashier={true}
         />
         <Card
@@ -442,6 +454,7 @@ const POS = ({ operation }: { operation: string }) => {
           setModal={setModal}
           currentTransactionProduct={transactionProducts || []}
           setCurrentTransactionProducts={setTransactionProducts}
+          transactionType={TransactionType.Sale}
         />
       </section>
       <section className="pos-products bg-bg-light pt-2 transaction-details p-3 rounded">
