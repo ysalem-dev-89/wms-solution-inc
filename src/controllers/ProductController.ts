@@ -45,7 +45,7 @@ export default class ProductController {
   ) => {
     try {
       const {
-        id = '',
+        id = -1,
         barcode = '',
         title = '',
         categoryId = '',
@@ -54,7 +54,7 @@ export default class ProductController {
       } = req.query;
 
       const products = await ProductQuery.getProducts({
-        id,
+        id: Number(id),
         barcode,
         title,
         categoryId,

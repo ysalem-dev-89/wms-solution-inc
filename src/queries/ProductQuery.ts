@@ -65,9 +65,9 @@ export default class ProductQuery {
         ? ''
         : (filter ? ' AND ' : '') + 'LOWER(title) like LOWER(:title)';
     }
-    console.log('id', id);
+
     if (filter) filter = 'where ' + filter;
-    console.log(filter);
+
     return sequelize.query(
       `select p.id,
                 p.price,

@@ -11,5 +11,5 @@ export interface TransactionProduct {
   createdAt?: Date;
   updatedAt?: Date;
   inStock?: number;
-  Product: Product;
+  Product?: Product;
 }

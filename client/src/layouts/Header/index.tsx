@@ -11,7 +11,6 @@ import {
 import { NavLink, Link, redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useState, useContext } from 'react';
-import { FaAngleDown } from 'react-icons/fa';
 import { MdPointOfSale } from 'react-icons/md';
 import useAuth from '../../hooks/useAuth';
 import { authApi } from '../../api';

@@ -25,7 +25,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import moment from 'moment';
 import axios, { AxiosError } from 'axios';
 import TransactionInterface from '../../interfaces/TransactionInterface';
-import { BsFillCalculatorFill } from 'react-icons/bs';
 import { GoSearch } from 'react-icons/go';
 import { FaMoneyBillWave } from 'react-icons/fa';
 import { FaTh } from 'react-icons/fa';
