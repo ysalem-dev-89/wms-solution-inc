@@ -56,7 +56,7 @@ export default class ProductController {
       if (barcode) {
         filter += (filter ? ' AND ' : '') + 'barcode like :barcode';
       } else if (title) {
-        filter += (filter ? ' AND ' : '') + 'title like :title';
+        filter += (filter ? ' AND ' : '') + 'LOWER(title) like LOWER(:title)';
       }
 
       if (filter) filter = 'where ' + filter;

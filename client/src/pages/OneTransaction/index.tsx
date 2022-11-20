@@ -43,8 +43,7 @@ import { capitalizeFirstLetter } from '../../helpers/StringHelpers';
 const OneTransaction = ({ operation }: { operation: string }) => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { urgent } = useContext(UrgentContext);
-  console.log('Urgent in OneTransaction: ', urgent);
+  const { urgent, setUrgent } = useContext(UrgentContext);
 
   const [transaction, setTransaction] = useState<TransactionInterface | null>(
     null
@@ -101,37 +100,6 @@ const OneTransaction = ({ operation }: { operation: string }) => {
     }
   });
 
-  // This function receives from urgent out of stock context
-  useEffect(() => {
-    if (urgent.length) {
-      console.log(urgent);
-      let newList: TransactionProductInterface[] = [];
-      let result: TransactionProductInterface[] = [];
-      urgent.forEach(u => {
-        if (u.price != 0) {
-          newList = TransactionProducts.addNewTransactionProduct({
-            TransactionId: -1,
-            currentTransactionProducts: result,
-            price: u.price,
-            quantity: 1000,
-            ProductId: u.productid,
-            Product: {
-              id: u.productid,
-              price: u.price,
-              discount: u.discount,
-              barcode: '',
-              title: u.product,
-              inStock: 1000
-            }
-          });
-        }
-
-        result = [...newList];
-        setTransactionProducts(newList);
-      });
-    }
-  }, [urgent]);
-
   const handleProductSelect = (
     ProductId: number,
     product: ProductInterface
@@ -151,6 +119,8 @@ const OneTransaction = ({ operation }: { operation: string }) => {
             currentTransactionProducts: transactionProducts,
             price: product.price,
             quantity: transProduct?.quantity + 1,
+            type: transType,
+            Product: product,
             ProductId: ProductId
           });
         } else {
@@ -179,6 +149,36 @@ const OneTransaction = ({ operation }: { operation: string }) => {
       }
     }
   };
+
+  // This function receives from urgent out of stock context
+  useEffect(() => {
+    if (urgent.length) {
+      console.log(urgent);
+      let newList: TransactionProductInterface[] = [];
+      let result: TransactionProductInterface[] = [];
+      urgent.forEach(u => {
+        newList = TransactionProducts.addNewTransactionProduct({
+          TransactionId: -1,
+          currentTransactionProducts: result,
+          price: u.price,
+          quantity: 1000,
+          ProductId: u.productid,
+          Product: {
+            id: u.productid,
+            price: u.price,
+            discount: u.discount,
+            barcode: '',
+            title: u.product,
+            inStock: 1000
+          }
+        });
+
+        result = [...newList];
+        setTransactionProducts(newList);
+        setUrgent([]);
+      });
+    }
+  }, [urgent]);
 
   useEffect(() => {
     if (operation == 'edit') {
@@ -239,6 +239,14 @@ const OneTransaction = ({ operation }: { operation: string }) => {
     try {
       if (!transactionProducts.length)
         throw new Error('You need to add products');
+
+      transactionProducts.forEach(transProduct => {
+        if (transProduct.quantity > (transProduct.Product?.inStock || 0)) {
+          throw new Error(
+            `The quantity of "${transProduct.Product.title}" product exceeded the available in stock`
+          );
+        }
+      });
 
       if (operation == 'edit') {
         await Transaction.updateOneTransaction({
@@ -397,14 +405,28 @@ const OneTransaction = ({ operation }: { operation: string }) => {
                         handleProductSelect(Number(product.id) || 0, product)
                       }
                     >
-                      <div className="product-item d-flex justify-content-between">
-                        <span className="ps-4">
+                      <div className="product-item d-flex justify-content-between align-items-center">
+                        <div className="ps-4">
                           {' '}
                           <GoSearch />
                           <img src={product.icon} alt="product icon" />
-                          {product.title}
-                        </span>
-                        <span>${product.price}</span>
+                        </div>
+                        <div className="d-flex flex-column me-auto">
+                          <span>{product.title}</span>
+                          <span className="small">{product.barcode}</span>
+                        </div>
+                        <div className="product-item-instock">
+                          In Stock:{' '}
+                          <span className=" rounded bg-success text-white">
+                            {product.inStock} {product.unit}
+                          </span>
+                        </div>
+                        <div className="product-item-price">
+                          Price:{' '}
+                          <span className=" product-item-instock rounded bg-blue text-white">
+                            ${product.price}
+                          </span>
+                        </div>
                       </div>
                     </ListGroupItem>
                   </DropdownItem>
@@ -423,6 +445,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         operation={operation}
         transactionProducts={transactionProducts}
         setTransactionProducts={setTransactionProducts}
+        transactionType={transType}
         forCashier={false}
       />
       <Card
@@ -503,6 +526,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         setModal={setModal}
         currentTransactionProduct={transactionProducts || []}
         setCurrentTransactionProducts={setTransactionProducts}
+        transactionType={transType}
       />
     </section>
   );

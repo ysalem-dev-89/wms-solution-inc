@@ -126,9 +126,12 @@ const Header = () => {
                 >
                   <DropdownToggle
                     caret={false}
-                    className="d-flex gap-2 align-items-center  bg-white border-0 rounded"
+                    className="dp-toggle d-flex gap-2 align-items-center  bg-white border-0 rounded"
                   >
-                    <span className="username d-flex justify-content-center align-items-center text-white bg-primary rounded-circle">
+                    <span
+                      className="username d-flex justify-content-center align-items-center text-white bg-primary rounded-circle"
+                      title={`${user?.username} | ${user?.role}`}
+                    >
                       {user?.role?.slice(0, 2).toUpperCase()}
                     </span>
                     {user?.username}

@@ -46,11 +46,11 @@ function Example({ ...args }) {
   return (
     <div className="d-flex p-5 circle2">
       <Dropdown isOpen={dropdownOpen} toggle={toggle} className="rounded">
-        <DropdownToggle
-          caret={false}
-          className="dp-toggle bg-white border-0 rounded"
-        >
-          <span className="urgent d-flex justify-content-center align-items-center text-dark bg-primary rounded-circle">
+        <DropdownToggle caret={false} className="bg-white border-0 rounded">
+          <span
+            className="dp-toggle urgent d-flex justify-content-center align-items-center text-dark bg-primary rounded-circle"
+            title={`Out of stock products`}
+          >
             <FaBell className="text-white" />{' '}
             <span className="urgent-number">{len}</span>
           </span>

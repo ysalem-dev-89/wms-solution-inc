@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Table } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import { TfiClose } from 'react-icons/tfi';
@@ -10,6 +10,11 @@ import {
 } from '../../helpers/transactionProducts';
 import './style.css';
 import { calculateTotalPrice } from '../../helpers/NumberHelpers';
+import { TransactionType } from '../../interfaces/Enums';
+import { ProductInterface } from '../../interfaces/ProductInterface';
+import ErrorHandler from '../../helpers/ErrorHandler';
+import axios, { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 export const TransactionProductsTable = (props: {
   transactionId: number;
@@ -24,23 +29,37 @@ export const TransactionProductsTable = (props: {
   >;
   modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
+  transactionType: TransactionType;
   forCashier: boolean;
 }) => {
-  const [error] = useState<string>('');
+  const [error, setError] = useState<string>('');
   const { register } = useForm();
 
   const changeQuantityValue = (
     ProductId: number,
     quantity: number,
+    Product: ProductInterface,
     transactionProducts: TransactionProductInterface[]
   ) => {
-    const updated = updateTransactionProducts({
-      currentTransactionProducts: transactionProducts,
-      ProductId: ProductId,
-      quantity: quantity
-    });
+    try {
+      const updated = updateTransactionProducts({
+        currentTransactionProducts: transactionProducts,
+        ProductId: ProductId,
+        quantity: quantity,
+        type: props.transactionType,
+        Product
+      });
 
-    props.setTransactionProducts(updated);
+      props.setTransactionProducts(updated);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        const exception = error as AxiosError;
+        ErrorHandler.handleRequestError(exception, setError);
+      } else {
+        const exception = error as Error;
+        setError(exception.message);
+      }
+    }
   };
 
   const handleEdit = (transactionProduct: TransactionProductInterface) => {
@@ -56,6 +75,22 @@ export const TransactionProductsTable = (props: {
       })
     );
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: 'bottom-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      });
+
+      setError('');
+    }
+  }, [error]);
 
   return (
     <div className="data-table transactionProducts-table">
@@ -73,9 +108,7 @@ export const TransactionProductsTable = (props: {
           </tr>
         </thead>
         <tbody>
-          {error ? (
-            <div className="text-danger">{error}</div>
-          ) : !props.transactionProducts?.length ? (
+          {!props.transactionProducts?.length ? (
             <div>
               {props.operation === 'add' ? '' : 'No Transactions Found'}
             </div>
@@ -99,6 +132,7 @@ export const TransactionProductsTable = (props: {
                           changeQuantityValue(
                             transactionProduct.Product.id || -1,
                             Number(transactionProduct.quantity) - 1,
+                            transactionProduct.Product,
                             props.transactionProducts || []
                           );
                         }}
@@ -115,6 +149,7 @@ export const TransactionProductsTable = (props: {
                           changeQuantityValue(
                             transactionProduct.Product.id || -1,
                             Number(e.target.value),
+                            transactionProduct.Product,
                             props.transactionProducts || []
                           );
                         }}
@@ -126,6 +161,7 @@ export const TransactionProductsTable = (props: {
                           changeQuantityValue(
                             transactionProduct.Product.id || -1,
                             Number(transactionProduct.quantity) + 1,
+                            transactionProduct.Product,
                             props.transactionProducts || []
                           );
                         }}
