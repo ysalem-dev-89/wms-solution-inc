@@ -13,6 +13,7 @@ import { calculateTotalPrice } from '../../helpers/NumberHelpers';
 import './style.css';
 import { AiFillPrinter } from 'react-icons/ai';
 import { FiEdit2 } from 'react-icons/fi';
+import { FaTh } from 'react-icons/fa';
 
 const Invoice = (props: { forCashier: boolean }) => {
   const { id } = useParams();
@@ -68,11 +69,15 @@ const Invoice = (props: { forCashier: boolean }) => {
       ) : (
         <div className="card-body">
           <div className="controls container-fluid w-100 d-flex justify-content-end gap-2">
-            <Link
-              to={`edit`}
-              className="edit-btn btn btn-outline-primary me-auto"
-            >
+            <Link to={`edit`} className="edit-btn btn btn-outline-primary">
               <FiEdit2 className="text-blue" /> Edit
+            </Link>
+            <Link
+              to="/"
+              className="btn btn-outline-primary me-auto px-4"
+              color="primary"
+            >
+              <FaTh />
             </Link>
             <Link
               to="#"
