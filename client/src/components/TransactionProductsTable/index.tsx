@@ -191,7 +191,7 @@ export const TransactionProductsTable = (props: {
                     }).toFixed(2)}
                   </td>
                   <td>
-                    <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
+                    <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-2">
                       <button onClick={_e => handleEdit(transactionProduct)}>
                         <FiEdit2 className="text-blue" />
                         {props.forCashier ? '' : 'Edit'}

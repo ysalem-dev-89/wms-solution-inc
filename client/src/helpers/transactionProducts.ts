@@ -22,13 +22,7 @@ export const updateTransactionProducts = ({
   const quantityValue = quantity ? Number(quantity) : 1;
   const inStockValue = Product.inStock ? Product.inStock : 1;
 
-  if (quantityValue > inStockValue && type == TransactionType.Sale) {
-    throw new Error(
-      'The product quantity exceeded the available instock value'
-    );
-  }
-
-  return (
+  const transactionProducts =
     currentTransactionProducts &&
     currentTransactionProducts.map(item => {
       if (item.Product.id == ProductId) {
@@ -42,8 +36,15 @@ export const updateTransactionProducts = ({
         return newItem;
       }
       return item;
-    })
-  );
+    });
+
+  if (quantityValue > inStockValue && type == TransactionType.Sale) {
+    throw new Error(
+      `We only have ${inStockValue} ${Product.unit} available of ${Product.title}`
+    );
+  }
+
+  return transactionProducts;
 };
 
 export const addNewTransactionProduct = ({
@@ -72,12 +73,7 @@ export const addNewTransactionProduct = ({
   const quantityValue = quantity ? Number(quantity) : 1;
   const inStockValue = Product.inStock ? Product.inStock : 1;
 
-  if (quantityValue > inStockValue && type == TransactionType.Sale) {
-    throw new Error(
-      'The product quantity exceeded the available instock value'
-    );
-  }
-  return [
+  const transactionProducts = [
     ...(currentTransactionProducts || []),
     {
       TransactionId,
@@ -93,6 +89,13 @@ export const addNewTransactionProduct = ({
       Product: Product
     }
   ];
+
+  if (quantityValue > inStockValue && type == TransactionType.Sale) {
+    throw new Error(
+      `We only have ${inStockValue} ${Product.unit} available of ${Product.title}`
+    );
+  }
+  return transactionProducts;
 };
 
 export const deleteTransactionProducts = ({

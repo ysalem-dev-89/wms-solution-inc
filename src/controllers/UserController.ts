@@ -4,7 +4,6 @@ import AuthHelper from '../helpers/AuthHelper';
 import GenericError from '../helpers/GenericError';
 import { UserRequest } from '../interfaces/UserRequest';
 import { ValidationError } from 'sequelize';
-import { User as UserInterface } from '../interfaces/UserInterface';
 export default class UserController {
   static createNewUser = async (
     req: Request,
@@ -118,7 +117,7 @@ export default class UserController {
       res.json({
         status: 200,
         message: 'Success',
-        totalCount: users.count.length - 1,
+        totalCount: users.count.length,
         items: users.rows
       });
     } catch (error) {

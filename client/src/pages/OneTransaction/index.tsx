@@ -198,12 +198,13 @@ const OneTransaction = ({ operation }: { operation: string }) => {
   }, []);
 
   useEffect(() => {
-    console.log('urgent', urgent);
     setValue(
       'type',
-      transaction?.type || urgent.length > 0
+      urgent.length > 0 && urgent[0].productid != -1
         ? TransactionType.Purchase
-        : TransactionType.Sale
+        : !transaction?.type
+        ? TransactionType.Sale
+        : transaction.type
     );
     if (operation == 'add') {
       setValue('createdAt', new Date());
