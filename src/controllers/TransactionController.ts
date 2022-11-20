@@ -4,7 +4,6 @@ import TransactionQuery from '../queries/TransactionQuery';
 import { TransactionRequest } from '../interfaces/TransactionRequest';
 import GenericError from '../helpers/GenericError';
 import ProductQuery from '../queries/ProductQuery';
-import TransactionProduct from '../models/TransactionProductModel';
 import { TransactionProduct as TransactionProductInterface } from 'interfaces/TransactionProductInterface';
 export default class TransactionController {
   static createNewTransaction = async (

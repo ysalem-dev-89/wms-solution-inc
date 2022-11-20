@@ -45,7 +45,7 @@ export default class ProductController {
   ) => {
     try {
       const {
-        id = -1,
+        id = '',
         barcode = '',
         title = '',
         categoryId = '',

@@ -88,3 +88,22 @@
 .product-items .card-details .price {
   background-color: var(--success);
 }
+
+.pos-products .product-item-instock {
+  width: 90px;
+}
+
+.pos-products .product-item-price {
+  width: 50px;
+}
+
+.pos-products .product-item-price {
+  text-align: right;
+}
+
+.pos-products .product-item-instock span,
+.pos-products .product-item-price span {
+  font-size: 10px;
+  padding: 5px;
+}
+

@@ -486,17 +486,26 @@ const POS = ({ operation }: { operation: string }) => {
                           handleProductSelect(Number(product.id) || 0, product)
                         }
                       >
-                        <div className="product-item d-flex justify-content-between">
-                          <div className="d-flex ps-4">
+                        <div className="product-item d-flex justify-content-between align-items-center">
+                          <div className="ps-4">
                             {' '}
                             <GoSearch />
                             <img src={product.icon} alt="product icon" />
-                            <div className="d-flex flex-column">
-                              <span>{product.title}</span>
-                              <span>{product.barcode}</span>
-                            </div>
                           </div>
-                          <span>${product.price}</span>
+                          <div className="d-flex flex-column me-auto">
+                            <span>{product.title}</span>
+                            <span className="small">{product.barcode}</span>
+                          </div>
+                          <div className="product-item-instock">
+                            <span className=" rounded bg-success text-white">
+                              {product.inStock} {product.unit}
+                            </span>
+                          </div>
+                          <div className="product-item-price">
+                            <span className="product-item-instock rounded bg-blue text-white">
+                              ${product.price}
+                            </span>
+                          </div>
                         </div>
                       </ListGroupItem>
                     </DropdownItem>
