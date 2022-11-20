@@ -116,7 +116,11 @@ export const TransactionProductsTable = (props: {
             props.transactionProducts?.map(transactionProduct => {
               return (
                 <tr key={transactionProduct.ProductId}>
-                  {props.forCashier ? <></> : <td>{transactionProduct.id}</td>}
+                  {props.forCashier ? (
+                    <></>
+                  ) : (
+                    <td>{transactionProduct.ProductId}</td>
+                  )}
                   <td>{transactionProduct.Product.title}</td>
                   {props.forCashier ? (
                     <></>
@@ -130,7 +134,7 @@ export const TransactionProductsTable = (props: {
                         color="primary"
                         onClick={_e => {
                           changeQuantityValue(
-                            transactionProduct.Product.id || -1,
+                            transactionProduct.ProductId || -1,
                             Number(transactionProduct.quantity) - 1,
                             transactionProduct.Product,
                             props.transactionProducts || []
@@ -183,7 +187,7 @@ export const TransactionProductsTable = (props: {
                     {calculateTotalPrice({
                       price: transactionProduct.unitPrice,
                       quantity: transactionProduct.quantity,
-                      discount: transactionProduct.Product.discount
+                      discount: transactionProduct.Product.discount || 0
                     }).toFixed(2)}
                   </td>
                   <td>

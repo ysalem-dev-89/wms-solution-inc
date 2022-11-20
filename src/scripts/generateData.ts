@@ -50,7 +50,8 @@ const transactionsObj = DataGenerator.generateTransactions(1, 0, 200) as {
 };
 const transactions = JSON.stringify(transactionsObj.transactions, null, 2);
 const transactionsProducts = JSON.stringify(
-  eliminateDuplicates(transactionsObj.transactionsProducts),
+  // eliminateDuplicates(transactionsObj.transactionsProducts),
+  transactionsObj.transactionsProducts,
   null,
   2
 );

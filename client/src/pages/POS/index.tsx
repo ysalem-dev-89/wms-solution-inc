@@ -25,7 +25,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import moment from 'moment';
 import axios, { AxiosError } from 'axios';
 import TransactionInterface from '../../interfaces/TransactionInterface';
-import { BsFillCalculatorFill } from 'react-icons/bs';
 import { GoSearch } from 'react-icons/go';
 import { FaMoneyBillWave } from 'react-icons/fa';
 import { FaTh } from 'react-icons/fa';
@@ -108,7 +107,7 @@ const POS = ({ operation }: { operation: string }) => {
         throw new Error('You need to add products');
 
       transactionProducts.forEach(transProduct => {
-        if (transProduct.quantity > (transProduct.Product?.inStock || 0)) {
+        if (transProduct.quantity > (transProduct.Product?.inStock || 10000)) {
           throw new Error(
             `The quantity of "${transProduct.Product.title}" product exceeded the available in stock`
           );
@@ -448,6 +447,7 @@ const POS = ({ operation }: { operation: string }) => {
         </div>
 
         <TransactionProductModal
+          operation={operation}
           transactionProduct={transactionProduct}
           setTransactionProduct={setTransactionProduct}
           modal={modal}

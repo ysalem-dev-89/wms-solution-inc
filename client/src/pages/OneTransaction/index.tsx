@@ -169,7 +169,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
             discount: u.discount,
             barcode: '',
             title: u.product,
-            inStock: 1000
+            inStock: u.instock
           }
         });
 
@@ -198,9 +198,10 @@ const OneTransaction = ({ operation }: { operation: string }) => {
   }, []);
 
   useEffect(() => {
+    console.log('urgent', urgent);
     setValue(
       'type',
-      transaction?.type || urgent.length
+      transaction?.type || urgent.length > 0
         ? TransactionType.Purchase
         : TransactionType.Sale
     );
@@ -241,7 +242,10 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         throw new Error('You need to add products');
 
       transactionProducts.forEach(transProduct => {
-        if (transProduct.quantity > (transProduct.Product?.inStock || 0)) {
+        if (
+          transProduct.quantity > (transProduct?.inStock || 1) &&
+          transType == TransactionType.Sale
+        ) {
           throw new Error(
             `The quantity of "${transProduct.Product.title}" product exceeded the available in stock`
           );
@@ -487,7 +491,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
                           calculateTotalPrice({
                             price: item?.unitPrice || 0,
                             quantity: item?.quantity || 1,
-                            discount: item?.Product.discount || 0
+                            discount: item?.Product.discount
                           }),
                         0
                       )
@@ -520,6 +524,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
       </div>
 
       <TransactionProductModal
+        operation={operation}
         transactionProduct={transactionProduct}
         setTransactionProduct={setTransactionProduct}
         modal={modal}

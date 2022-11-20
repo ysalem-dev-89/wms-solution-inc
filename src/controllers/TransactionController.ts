@@ -3,7 +3,9 @@ import { ValidationError } from 'sequelize';
 import TransactionQuery from '../queries/TransactionQuery';
 import { TransactionRequest } from '../interfaces/TransactionRequest';
 import GenericError from '../helpers/GenericError';
-
+import ProductQuery from '../queries/ProductQuery';
+import TransactionProduct from '../models/TransactionProductModel';
+import { TransactionProduct as TransactionProductInterface } from 'interfaces/TransactionProductInterface';
 export default class TransactionController {
   static createNewTransaction = async (
     req: TransactionRequest,
@@ -128,10 +130,41 @@ export default class TransactionController {
         id: Number(id)
       });
 
+      const getProduct = async () => {
+        const products: any[] = [];
+        result.transactionProducts.forEach(async transProduct => {
+          const product = ProductQuery.getProducts({
+            id: transProduct.dataValues['ProductId'],
+            barcode: '',
+            title: '',
+            categoryId: '',
+            limit: 1000,
+            offset: 0
+          });
+
+          products.push(product);
+        });
+
+        return Promise.all(products);
+      };
+
+      const products = (await getProduct()).flat();
+
+      const transProducts: TransactionProductInterface[] = [];
+      products.forEach(product => {
+        const transProduct = result.transactionProducts.find(
+          item => item.dataValues['ProductId'] == product.id
+        );
+        if (transProduct)
+          transProducts.push({ ...transProduct?.dataValues, Product: product });
+      });
+
       res.json({
         status: 200,
-        message: 'Success',
-        transaction: result
+        transaction: {
+          transaction: result.transaction,
+          transactionProducts: transProducts
+        }
       });
     } catch (error) {
       next(error);

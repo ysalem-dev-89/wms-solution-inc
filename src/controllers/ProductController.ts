@@ -4,7 +4,6 @@ import { sequelize } from '../db/connection';
 import GenericError from '../helpers/GenericError';
 import ProductQuery from '../queries/ProductQuery';
 import { ProductRequest } from '../interfaces/ProductRequest';
-
 export default class ProductController {
   static updateProduct = async (
     req: ProductRequest,
@@ -46,66 +45,23 @@ export default class ProductController {
   ) => {
     try {
       const {
+        id = -1,
         barcode = '',
         title = '',
         categoryId = '',
         limit = 1000,
         offset = 0
       } = req.query;
-      let filter = categoryId ? '"categoryId" = :categoryId' : '';
-      if (barcode) {
-        filter += (filter ? ' AND ' : '') + 'barcode like :barcode';
-      } else if (title) {
-        filter += (filter ? ' AND ' : '') + 'LOWER(title) like LOWER(:title)';
-      }
 
-      if (filter) filter = 'where ' + filter;
+      const products = await ProductQuery.getProducts({
+        id: Number(id),
+        barcode,
+        title,
+        categoryId,
+        limit: Number(limit),
+        offset: Number(offset)
+      });
 
-      const products = await sequelize.query(
-        `select p.id,
-                p.price,
-                p.barcode,
-                p.title,
-                p.discount,
-                p.icon,
-                p.description,
-                p.unit,
-                c.id as categoryId,
-                c.name as categoryName,
-                coalesce(
-                    (
-                        (
-                            select SUM(tp.quantity)
-                            from "TransactionProducts" as tp
-                                join "Transactions" as t on t.id = tp."TransactionId"
-                            where tp.status = 'closed'
-                                and t.type = 'purchase'
-                                and tp."ProductId" = p.id
-                        ) - (
-                            select SUM(tp.quantity)
-                            from "TransactionProducts" as tp
-                                join "Transactions" as t on t.id = tp."TransactionId"
-                            where tp.status = 'closed'
-                                and t.type = 'sale'
-                                and tp."ProductId" = p.id
-                        )
-                    ),
-                    0
-                ) as "inStock"
-            from "Products" as p inner join "Categories" as c
-            on "categoryId" = c.id ${filter}
-            LIMIT :limit OFFSET :offset;`,
-        {
-          replacements: {
-            barcode: `%${barcode}%`,
-            title: `%${title}%`,
-            categoryId,
-            limit,
-            offset
-          },
-          type: QueryTypes.SELECT
-        }
-      );
       const totalCount = await sequelize.query(
         `SELECT COUNT(*) FROM "Products"`,
         {

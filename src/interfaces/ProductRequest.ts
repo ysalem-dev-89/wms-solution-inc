@@ -6,6 +6,7 @@ export interface ProductRequest extends Request {
   };
 
   query: {
+    id?: string;
     title?: string;
     barcode?: string;
     categoryId?: string;

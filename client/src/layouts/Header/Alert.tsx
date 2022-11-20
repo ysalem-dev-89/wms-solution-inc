@@ -52,7 +52,7 @@ function Example({ ...args }) {
             title={`Out of stock products`}
           >
             <FaBell className="text-white" />{' '}
-            <span className="urgent-number">{len}</span>
+            {len ? <span className="urgent-number">{len}</span> : <></>}
           </span>
         </DropdownToggle>
         <DropdownMenu {...args}>

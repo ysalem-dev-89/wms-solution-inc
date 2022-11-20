@@ -234,7 +234,7 @@ export default class DataGenerator {
           max: tp.quantity * 0.05
         });
         // assure no sale happens before it's purchased and available in stock.
-        if (tp.updatedAt < tempSalesTP[i].saleCreatedAt) {
+        if (tp.updatedAt || new Date() < tempSalesTP[i].saleCreatedAt) {
           if (maxQuantity - randQuantity <= 0) {
             const salePrice = Number(
               (
@@ -244,10 +244,10 @@ export default class DataGenerator {
               ).toFixed(1)
             );
             // update products's last sale price (since it varies over years)
-            this.updatedSalePrices[tp.ProductId] = salePrice;
+            this.updatedSalePrices[tp.ProductId || 0] = salePrice;
 
             const newTempSale = this.createTempSale(
-              tp.ProductId,
+              tp.ProductId || 0,
               maxQuantity,
               salePrice,
               tempSalesTP[i].saleCreatedAt
@@ -260,7 +260,7 @@ export default class DataGenerator {
             }
             maxQuantity -= randQuantity;
             const newTempSale = this.createTempSale(
-              tp.ProductId,
+              tp.ProductId || 0,
               randQuantity,
               tp.unitPrice,
               tempSalesTP[i].saleCreatedAt
