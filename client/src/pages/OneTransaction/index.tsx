@@ -423,7 +423,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
                         </div>
                         <div className="product-item-price">
                           Price:{' '}
-                          <span className=" product-item-instock rounded bg-blue text-white">
+                          <span className="product-item-instock rounded bg-blue text-white">
                             ${product.price}
                           </span>
                         </div>
