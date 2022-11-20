@@ -108,7 +108,7 @@ const POS = ({ operation }: { operation: string }) => {
         throw new Error('You need to add products');
 
       transactionProducts.forEach(transProduct => {
-        if (transProduct.quantity > (transProduct.Product?.inStock || 0)) {
+        if (transProduct.quantity > (transProduct.Product?.inStock || 10000)) {
           throw new Error(
             `The quantity of "${transProduct.Product.title}" product exceeded the available in stock`
           );
@@ -448,6 +448,7 @@ const POS = ({ operation }: { operation: string }) => {
         </div>
 
         <TransactionProductModal
+          operation={operation}
           transactionProduct={transactionProduct}
           setTransactionProduct={setTransactionProduct}
           modal={modal}

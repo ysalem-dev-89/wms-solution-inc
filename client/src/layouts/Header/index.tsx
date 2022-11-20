@@ -134,8 +134,8 @@ const Header = () => {
                     >
                       {user?.role?.slice(0, 2).toUpperCase()}
                     </span>
-                    {user?.username}
-                    <FaAngleDown />
+                    {/* {user?.username}
+                    <FaAngleDown /> */}
                   </DropdownToggle>
                   <DropdownMenu>
                     <div className="rounded px-3 py-2">

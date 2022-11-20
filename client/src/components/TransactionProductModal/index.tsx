@@ -31,6 +31,7 @@ export default function TransactionProductModal(props: {
     React.SetStateAction<TransactionProductInterface[]>
   >;
   transactionType: TransactionType;
+  operation: string;
 }) {
   const [error, setError] = useState('');
   const {

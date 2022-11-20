@@ -13,6 +13,7 @@ import { calculateTotalPrice } from '../../helpers/NumberHelpers';
 import './style.css';
 import { AiFillPrinter } from 'react-icons/ai';
 import { FiEdit2 } from 'react-icons/fi';
+import { GoPlus } from 'react-icons/go';
 import { FaTh } from 'react-icons/fa';
 
 const Invoice = (props: { forCashier: boolean }) => {
@@ -83,11 +84,14 @@ const Invoice = (props: { forCashier: boolean }) => {
               <></>
             )}
 
+            <Link to={`edit`} className="edit-btn btn btn-outline-primary">
+              <FiEdit2 className="text-blue" /> Edit
+            </Link>
             <Link
-              to={`edit`}
+              to={props.forCashier ? `/pos` : `/transactions/add`}
               className="edit-btn btn btn-outline-primary me-auto"
             >
-              <FiEdit2 className="text-blue" /> Edit
+              <GoPlus className="text-blue" /> New
             </Link>
             <Link
               to="#"
