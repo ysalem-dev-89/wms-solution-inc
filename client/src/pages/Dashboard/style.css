@@ -87,15 +87,16 @@ table {
 }
 
 .order-btn {
-    background-color: transparent;
-    border: 1px solid var(--primary);
+    background-color: var(--bg-light);
+    border: 1px solid  transparent;
     color: var(--primary);
     padding: 0.3rem 1rem;
 }
 .order-btn:hover {
-    background-color: var(--primary);
+    background-color: var(--bg-light);
     border: 1px solid var(--primary);
-    color: #fff;
+    color: var(--primary);
+
 }
 
 caption {

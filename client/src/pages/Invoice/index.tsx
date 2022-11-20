@@ -69,15 +69,25 @@ const Invoice = (props: { forCashier: boolean }) => {
       ) : (
         <div className="card-body">
           <div className="controls container-fluid w-100 d-flex justify-content-end gap-2">
-            <Link to={`edit`} className="edit-btn btn btn-outline-primary">
-              <FiEdit2 className="text-blue" /> Edit
-            </Link>
+            {props.forCashier ? (
+              <Link
+                to="/"
+                className="btn btn-outline-primary px-3"
+                color="primary"
+              >
+                <span className="d-flex gap-2 align-items-center">
+                  <FaTh /> <span>Home</span>
+                </span>
+              </Link>
+            ) : (
+              <></>
+            )}
+
             <Link
-              to="/"
-              className="btn btn-outline-primary me-auto px-4"
-              color="primary"
+              to={`edit`}
+              className="edit-btn btn btn-outline-primary me-auto"
             >
-              <FaTh />
+              <FiEdit2 className="text-blue" /> Edit
             </Link>
             <Link
               to="#"

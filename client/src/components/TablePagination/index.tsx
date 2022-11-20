@@ -20,9 +20,12 @@ export const TablePagination = (props: {
   );
 
   const getCurrentItems = (): number => {
-    return props.currentPage == props.numOfPages
-      ? props.totalCount
-      : props.currentPage * props.itemsPerPage;
+    if (props.totalCount) {
+      return props.currentPage == props.numOfPages
+        ? props.totalCount
+        : props.currentPage * props.itemsPerPage;
+    }
+    return 0;
   };
 
   // If we want the page number to appear we return it, otherwise it returns undefined.

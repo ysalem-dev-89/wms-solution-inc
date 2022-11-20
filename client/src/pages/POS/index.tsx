@@ -506,22 +506,15 @@ const POS = ({ operation }: { operation: string }) => {
             </form>
           </div>
           <Button
-            className="px-4 "
-            color="primary"
-            onClick={() => {
-              navigate('.');
-            }}
-          >
-            <BsFillCalculatorFill />
-          </Button>
-          <Button
             className="px-4"
             color="primary"
             onClick={() => {
               navigate('/');
             }}
           >
-            <FaTh />
+            <span className="d-flex gap-2 align-items-center">
+              <FaTh /> <span>Home</span>
+            </span>
           </Button>
         </div>
         <div className="category-items d-flex gap-2">

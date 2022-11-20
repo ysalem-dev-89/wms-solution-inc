@@ -58,13 +58,25 @@
   border-bottom: 1px solid var(--border);
 }
 
+.dp-toggle {
+  padding: 0 !important;
+  border-radius: 50% !important;
+}
+
 .dp-toggle, .dropdown {
   transition: 0.4s;
 }
 
-.dp-toggle:hover,
-.dropdown.show .dp-toggle{
-  background-color: var(--border) !important;
+.dropdown button:hover span {
+  background-color: #363580 !important;
+}
+
+nav button:hover span {
+  background-color: #0a56c7 !important;
+}
+
+.dropdown button:hover .urgent-number{
+  background-color: var(--danger) !important;
 }
 
 .username {
@@ -116,10 +128,10 @@
 .urgent-number {
   position: absolute;
   top: -5px;
-  right: -5px;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
+  right: -10px;
+  min-width: 25px;
+  min-height: 25px;
+  line-height: 25px;
   background-color: var(--danger);
   border-radius: 50%;
   font-size: 0.875rem;
