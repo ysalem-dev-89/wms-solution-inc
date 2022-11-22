@@ -153,7 +153,6 @@ const OneTransaction = ({ operation }: { operation: string }) => {
   // This function receives from urgent out of stock context
   useEffect(() => {
     if (urgent.length) {
-      console.log(urgent);
       let newList: TransactionProductInterface[] = [];
       let result: TransactionProductInterface[] = [];
       urgent.forEach(u => {
