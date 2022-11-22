@@ -16,10 +16,11 @@ function AuthPage() {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      username: '',
-      password: ''
+      username: 'admin',
+      password: '@#12Aaerdf'
     }
   });
+  // const ref = useRef(null);
 
   const [error, setError] = useState('');
 
