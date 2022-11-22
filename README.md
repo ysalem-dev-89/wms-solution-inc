@@ -1,5 +1,6 @@
 # Warehouse Management System (WMS)
-## Live Server
+## [Live Server](https://wms-team9-final.onrender.com)
+
 ---
 ## Description:
 
