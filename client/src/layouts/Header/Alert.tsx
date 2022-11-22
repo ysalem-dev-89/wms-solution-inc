@@ -10,35 +10,35 @@ import PropTypes from 'prop-types';
 import { FaBell } from 'react-icons/fa';
 import { Button } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
-import { io } from 'socket.io-client';
-// import * as io from 'socket.io-client';
 import { UrgentContext } from '../../contexts/UrgentContext';
-import { IStockAlert } from '../../interfaces/AnalyticsInterface';
 import '../style.css';
+// import { IStockAlert } from '../../interfaces/AnalyticsInterface';
+// import { io } from 'socket.io-client';
+// import * as io from 'socket.io-client';
 
-function Example({ ...args }) {
+function Alert({ ...args }) {
   const navigate = useNavigate();
-  const [socket, setSocket] = useState<any>(null);
-  const [notification, setNotification] = useState<string>('Alert Ali');
-  const [len, setLen] = useState<number>(0);
-  const { setUrgent } = useContext(UrgentContext);
-  const [urgentList, setUrgentList] = useState<IStockAlert[]>([]);
+  const { setUrgent, urgentList } = useContext(UrgentContext);
+  const [notification, setNotification] = useState<string>('empty');
 
   useEffect(() => {
-    setSocket(io('http://localhost:8080'));
-  }, []);
+    setNotification(`${urgentList.length} products are running out of stock`);
+  }, [notification]);
 
-  const runSocket = async () => {
-    socket?.on('sendAlert', (data: { msg: string; arr: IStockAlert[] }) => {
-      setLen(data.arr.length);
-      setNotification(data.msg);
-      setUrgentList(data.arr);
-    });
-  };
+  // const [socket, setSocket] = useState<any>(null);
+  // const [len, setLen] = useState<number>(0);
 
-  useEffect(() => {
-    runSocket();
-  }, [socket, notification]);
+  // useEffect(() => {
+  //   setSocket(io('http://localhost:8080'));
+  // }, []);
+
+  // const runSocket = async () => {
+  //   socket?.on('sendAlert', (data: { msg: string; arr: IStockAlert[] }) => {
+  //     setLen(data.arr.length);
+  //     setNotification(data.msg);
+  //     setUrgentList(data.arr);
+  //   });
+  // };
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(prevState => !prevState);
@@ -52,7 +52,11 @@ function Example({ ...args }) {
             title={`Out of stock products`}
           >
             <FaBell className="text-white" />{' '}
-            {len ? <span className="urgent-number">{len}</span> : <></>}
+            {urgentList.length ? (
+              <span className="urgent-number">{urgentList.length}</span>
+            ) : (
+              <></>
+            )}
           </span>
         </DropdownToggle>
         <DropdownMenu {...args}>
@@ -75,8 +79,8 @@ function Example({ ...args }) {
   );
 }
 
-Example.propTypes = {
+Alert.propTypes = {
   direction: PropTypes.string
 };
 
-export default Example;
+export default Alert;

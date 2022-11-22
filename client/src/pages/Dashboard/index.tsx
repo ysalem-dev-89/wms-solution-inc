@@ -16,6 +16,7 @@ import {
 } from '../../api/analytics';
 import Loader from './Loader';
 import { PageContext } from '../../contexts/PageContext';
+import { UrgentContext } from '../../contexts/UrgentContext';
 
 const Dashboard = () => {
   const LAUNCHED_YEAR = 2018;
@@ -37,6 +38,7 @@ const Dashboard = () => {
   const [outofstockData, setOutofstockData] = useState<IStockAlert[]>([]);
   const [alert, setAlert] = useState<string>('all');
   const { setPages } = useContext(PageContext);
+  const { setUrgentList } = useContext(UrgentContext);
 
   const fetchAnalyticsData = async () => {
     try {
@@ -69,6 +71,7 @@ const Dashboard = () => {
       const filterByAlert = (arr: IStockAlert[], min: number, max: number) => {
         return arr.filter(obj => +obj.instock >= min && +obj.instock < max);
       };
+      setUrgentList(filterByAlert(inStock, 0, 100));
       alert === 'all'
         ? setOutofstockData(inStock)
         : alert === 'earlyAlert'
@@ -93,9 +96,10 @@ const Dashboard = () => {
     setPages([{ title: 'Dashboard', link: '' }]);
   }, []);
 
-  return (
+  return isLoading ? (
+    <Loader isLoading={isLoading} />
+  ) : (
     <>
-      <Loader isLoading={isLoading} />
       <TotalStatistics
         totalPurchases={totalPurchases}
         totalSales={totalSales}
