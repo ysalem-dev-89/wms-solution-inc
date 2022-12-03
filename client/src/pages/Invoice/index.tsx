@@ -64,7 +64,7 @@ const Invoice = (props: { forCashier: boolean }) => {
   }, [transaction]);
 
   return (
-    <section className="data-table-section bg-bg-light pt-2 transaction-details">
+    <section className="data-table-section bg-white bg-bg-light pt-2 transaction-details">
       {error ? (
         <div className="text-danger text-center display">{error}</div>
       ) : (

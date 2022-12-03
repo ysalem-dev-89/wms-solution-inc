@@ -92,7 +92,20 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         categoryId: ''
       });
 
-      setProducts(list.data.products);
+      const productList = list.data.products.map(
+        (product: ProductInterface) => {
+          if (operation == 'edit') {
+            const transactionProduct = transactionProducts.find(
+              tp => tp.ProductId == product.id
+            );
+            product.inStock = transactionProduct?.Product.inStock;
+          }
+          return product;
+        }
+      );
+
+      setProducts(productList);
+
       setDropdownOpen(true);
     } catch (error: unknown) {
       const exception = error as AxiosError;
@@ -185,7 +198,17 @@ const OneTransaction = ({ operation }: { operation: string }) => {
         try {
           const list = await Transaction.getOneTransaction({ id: Number(id) });
           setTransaction(list.data.transaction.transaction);
-          setTransactionProducts(list.data?.transaction?.transactionProducts);
+          const tansProducts = list.data?.transaction?.transactionProducts.map(
+            (transProduct: TransactionProductInterface) => {
+              const newTransProduct = transProduct;
+              newTransProduct.Product.inStock =
+                +(transProduct.Product.inStock ?? 0) +
+                +(transProduct ? transProduct.quantity : 0);
+
+              return newTransProduct;
+            }
+          );
+          setTransactionProducts(tansProducts);
         } catch (error: unknown) {
           const exception = error as AxiosError;
           ErrorHandler.handleRequestError(exception, setError);
@@ -243,7 +266,7 @@ const OneTransaction = ({ operation }: { operation: string }) => {
 
       transactionProducts.forEach(transProduct => {
         if (
-          transProduct.quantity > (transProduct?.inStock || 1) &&
+          transProduct.quantity > (transProduct?.inStock || 10000) &&
           transType == TransactionType.Sale
         ) {
           throw new Error(
