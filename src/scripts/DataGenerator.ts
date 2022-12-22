@@ -116,7 +116,7 @@ export default class DataGenerator {
         barcode: this.generateBarcode(),
         title,
         description: faker.commerce.productDescription(),
-        icon: `https://source.unsplash.com/50x50/?Refined%20Soft%20${title}`,
+        icon: `https://source.unsplash.com/100x100/?${title}`,
         price:
           this.updatedSalePrices[i + 1] ||
           Number(faker.commerce.price(50, 100)),

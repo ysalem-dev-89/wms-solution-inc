@@ -18,7 +18,7 @@ import {
   Row
 } from 'reactstrap';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -92,7 +92,22 @@ const POS = ({ operation }: { operation: string }) => {
           categoryId: ''
         });
 
-        setProducts(list.data.products);
+        const productList = list.data.products.map(
+          (product: ProductInterface) => {
+            if (operation == 'edit') {
+              const transactionProduct = transactionProducts.find(
+                tp => tp.ProductId == product.id
+              );
+
+              if (transactionProduct) {
+                product.inStock = transactionProduct?.Product.inStock;
+              }
+            }
+            return product;
+          }
+        );
+
+        setProducts(productList);
         if (list.data.products.length > 1) setDropdownOpen(true);
       }
     } catch (error: unknown) {
@@ -219,7 +234,17 @@ const POS = ({ operation }: { operation: string }) => {
         try {
           const list = await Transaction.getOneTransaction({ id: Number(id) });
           setTransaction(list.data.transaction.transaction);
-          setTransactionProducts(list.data?.transaction?.transactionProducts);
+          const tansProducts = list.data?.transaction?.transactionProducts.map(
+            (transProduct: TransactionProductInterface) => {
+              const newTransProduct = transProduct;
+              newTransProduct.Product.inStock =
+                +(transProduct.Product.inStock ?? 0) +
+                +(transProduct ? transProduct.quantity : 0);
+
+              return newTransProduct;
+            }
+          );
+          setTransactionProducts(tansProducts);
         } catch (error: unknown) {
           const exception = error as AxiosError;
           ErrorHandler.handleRequestError(exception, setError);
@@ -256,15 +281,31 @@ const POS = ({ operation }: { operation: string }) => {
           barcode: '',
           categoryId: category ? `${category.id}` : ''
         });
-        setProductsMenu(list.data?.products);
+
+        const productList = list.data.products.map(
+          (product: ProductInterface) => {
+            if (operation == 'edit') {
+              const transactionProduct = transactionProducts.find(
+                tp => tp.ProductId == product.id
+              );
+
+              if (transactionProduct) {
+                product.inStock = transactionProduct?.Product.inStock;
+              }
+            }
+            return product;
+          }
+        );
+
+        setProductsMenu(productList);
       } catch (error: unknown) {
         const exception = error as AxiosError;
         ErrorHandler.handleRequestError(exception, setError);
       }
     };
 
-    fetchData();
-  }, [category]);
+    if (transactionProducts) fetchData();
+  }, [category, transactionProducts]);
 
   useEffect(() => {
     if (products.length == 1) {
@@ -292,7 +333,7 @@ const POS = ({ operation }: { operation: string }) => {
     }
   }, [error]);
 
-  return (
+  return !id || !Number.isNaN(Number(id ?? 0)) ? (
     <div className="pos-container d-flex gap-3">
       <section className="bg-bg-light pt-2 cart-products p-3 rounded">
         <header>
@@ -582,6 +623,13 @@ const POS = ({ operation }: { operation: string }) => {
           ))}
         </div>
       </section>
+    </div>
+  ) : (
+    <div className="h4 bg-border text-center text-display text-danger p-4 text-primary">
+      Invoice is not found
+      <div className="h6 mt-2">
+        <Link to="/">Home</Link> / <Link to="/pos">POS</Link>
+      </div>
     </div>
   );
 };

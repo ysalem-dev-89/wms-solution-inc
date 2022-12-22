@@ -23,7 +23,7 @@ function Alert({ ...args }) {
 
   useEffect(() => {
     setNotification(`${urgentList.length} products are running out of stock`);
-  }, [notification]);
+  }, [urgentList]);
 
   // const [socket, setSocket] = useState<any>(null);
   // const [len, setLen] = useState<number>(0);

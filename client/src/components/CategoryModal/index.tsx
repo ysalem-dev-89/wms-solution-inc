@@ -36,7 +36,6 @@ export default function CategoryModal(props: {
           name: data.category
         });
 
-        toggle();
         message = 'Category is updated successfully';
       } else {
         result = await Category.createNewCategory(data.category);
@@ -44,7 +43,7 @@ export default function CategoryModal(props: {
       }
       if (result && result.data.message == 'Success') {
         props.setIsSucceed(true);
-
+        toggle();
         toast.success(message, {
           position: 'bottom-right',
           autoClose: 1000,
