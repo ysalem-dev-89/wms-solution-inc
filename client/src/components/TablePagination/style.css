@@ -8,7 +8,7 @@
 }
 
 .page-link.active, .active>.page-link{
-  /* border:none; */
+  border:none;
 }
 
 .pagination-section p {

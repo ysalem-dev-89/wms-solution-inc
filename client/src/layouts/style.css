@@ -71,7 +71,7 @@
   background-color: #363580 !important;
 }
 
-nav button:hover span {
+.header-content nav button:hover span {
   background-color: #0a56c7 !important;
 }
 
